@@ -65,13 +65,14 @@ img.logo {
 img.logo_word {
     margin-top: 10px;
     margin-left: 80px;
+    margin-bottom: 25px;
 }
 
 
 .nav {
     position: absolute;
     margin-top: 30px;
-    margin-left: 250px;
+    margin-left: 550px;
     font-family: helvetica;
     color: blue;
 }

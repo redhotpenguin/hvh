@@ -19,10 +19,7 @@
 				<option value="">By Region</option>
 				</select>
 				<br/>
-				<select name=property class=search_select>
-				<option value="">By Property Name</option>
-				</select>
-				<br/><br/>
+				<br/>
 				<input type=submit name=search value='Search Properties'>
 
 				</span>

@@ -2,9 +2,9 @@
 <! -- BEGIN SOLUTIONS 2ND HOME OWNER CONTENT - NOTHING ABOVE THIS LINE -->
 
 <table border=0 cellpadding=0 cellspacing=0 width="100%">
-<tr><td width=1><? include "elements/solutions.inc"; ?></td>
+<tr><td width=1><?php include "elements/solutions.inc"; ?></td>
     <td width=15><img src="img/clear.gif" width=15 height=1></td>
-    <td><? include "elements/solutions_right.inc"; ?></td>
+    <td><?php include "elements/solutions_right.inc"; ?></td>
 </tr>
 </table>
 

@@ -1,4 +1,4 @@
-				<? include "template/column_spacer.inc"; ?>
+				<?php include "template/column_spacer.inc"; ?>
                 </tr>
                 <tr><td colspan=6 height=5><img src="img/clear.gif" width=1 height=5></td></tr>
                 <!-- PHILANTHROPY BANNER-->

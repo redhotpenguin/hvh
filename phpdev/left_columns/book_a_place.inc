@@ -2,7 +2,7 @@
 <td width=398 valign=top>
 <!-- NOTHING ABOVE THIS LINE -->
 
-<? 
+<?php
 // --- HOME PAGE -- LEFT COLUMN ELEMENTS --- //
 
 include "elements/search.inc";	

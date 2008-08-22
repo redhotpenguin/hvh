@@ -1,4 +1,4 @@
-<?
+<?php
 // --- SET THIS VARIABLE FOR THE PAGE TITLE --- //
 $page_title = 'Hideaway Vacation Homes - Book a Place';
 

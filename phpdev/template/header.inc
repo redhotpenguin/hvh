@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
 <html>
 <head>
-<title><? echo "$page_title" ?></title>
+<title><?php echo "$page_title" ?></title>
 <link rel=stylesheet type="text/css" href="css/main.css">
 </head>
 <body rightmargin='0' leftmargin='0' topmargin='0' bottommargin='0' marginheight='0' marginwidth='0'>
@@ -31,4 +31,4 @@
                 <table border=0 cellpadding=0 cellspacing=0 width="100%">
                 <tr>
 
-				<? include "template/column_spacer.inc"; ?>		
+				<?php include "template/column_spacer.inc"; ?>		

@@ -2,7 +2,16 @@
                 </tr>
                 <tr><td colspan=6 height=5><img src="img/clear.gif" width=1 height=5></td></tr>
                 <!-- PHILANTHROPY BANNER-->
-                <tr><td colspan=6 align=center><a href="philanthropy.php"><img src="img/hvh_phil.gif" border=0></a></td></tr>
+                <tr><td colspan=6 align=center>
+					<table border=0 cellpadding=0 cellspacing=0>
+					<tr><td colspan=3><a href="philanthropy.php"><img src="img/phil_top.gif" border=0></a></td></tr>
+					<tr><td><a href="philanthropy.php"><img src="img/phil_left.gif" border=0></a></td>
+						<td><a href="http://www.absfoundation.org" target=_blank><img src="img/phil_middle.gif" border=0></a></td>
+						<td><a href="philanthropy.php"><img src="img/phil_right.gif" border=0></a></td>
+					</tr>
+					<tr><td colspan=3><a href="philanthropy.php"><img src="img/phil_bottom.gif" border=0></a></td></tr>
+					</table>
+				</a></td></tr>
                 </table>
 
             </td></tr>

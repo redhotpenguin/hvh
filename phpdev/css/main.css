@@ -1,0 +1,58 @@
+body {  font-family: 'Trebuchet MS', Verdana, sans-serif;
+		font-size: small;
+        color: #000000;
+        background-color: #d6cea9;
+    }
+
+td.content {  
+		font-size: 15px;
+        color: #000000;
+    }
+
+td.entry {  
+		font-size: small;
+        color: #000000;
+    }
+
+.entry_title {
+    	font-weight: bold;
+    	font-size: 1.2em;
+    	color: #2c5221;
+  		line-height: 130%;
+	}
+
+.entry_loc {
+    	font-size: small;
+    	color: #000000;
+		font-weight: bold;
+	}
+
+.entry_desc {
+    	font-size: small;
+    	color: #000000;
+	}
+
+.testimonial {
+    	font-size: small;
+    	color: #666666;
+		font-style: italic;
+	}
+
+.testimonial_tag {
+    	font-size: small;
+    	color: #0066cc;
+		font-style: italic;
+	}
+
+.solutions_box {
+    	font-size: small;
+    	color: #000000;
+		font-style: italic;
+	}
+
+.search_select {
+		font-size: small;
+		width: 70mm;
+	}
+
+

@@ -14,10 +14,73 @@ td.entry {
         color: #000000;
     }
 
+tr.list_sh {
+        background-color: #dde6f3;
+        font-size: 1.0em;
+        color: #444444;
+        font-style: italic;
+        line-height: 100%;      
+    }
+
+tr.list_si {
+        background-color: #dde6f3;
+        font-size: 1.0em;
+        color: #444444;
+        font-style: italic;
+        line-height: 100%;
+     }
+tr.list_ph { 
+        background-color: #dde6f3;
+        font-size: 1.0em;
+        color: #444444;
+        font-style: italic;
+        line-height: 100%;
+    }
+tr.list_pi {
+        background-color: #dde6f3;
+        font-size: 1.0em;
+        color: #444444;
+        font-style: italic;
+        line-height: 100%;
+    }
+td.list_sh {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+
+    }
+                        
+td.list_si {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border-top: #cccccc 1pt solid;
+        
+    }
+
+td.list_ph {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border-top: #cccccc 1pt solid;
+    }
+
+td.list_pi {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-top: #cccccc 1pt solid;
+}
+                                                                                        
+    
 .entry_title {
     	font-weight: bold;
     	font-size: 1.2em;
-    	color: #2c5221;
+    	color: #000000;
   		line-height: 130%;
 	}
 

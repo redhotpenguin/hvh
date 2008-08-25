@@ -1,3 +1,4 @@
+<?php include "util/connect.inc"; ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 TRANSITIONAL//EN">
 <html>
 <head>

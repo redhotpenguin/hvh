@@ -18,7 +18,7 @@ if ($param) {
     }
 }
 
-$props = mysql_query("select * from property where $param='$value' order by prop_cat, name  asc");
+$props = mysql_query("select * from property where $param='$value' order by prop_cat desc");
 $count_it = 0;
 
 while ($home = mysql_fetch_array($props)) {

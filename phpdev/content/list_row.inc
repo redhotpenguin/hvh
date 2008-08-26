@@ -56,7 +56,7 @@ while ($home = mysql_fetch_array($props)) {
     echo "<span class=entry_desc>$home[teaser]</span><br>";
     echo "<a href=\"listing.php?prop_id=$home[0]\" class=ulink>More Details</a>";
     echo "</td>";
-    echo "<td valign=top><a href=\"listing.php?prop_id=$home[0]\" class=home_row><img src=\"img/$home[image_name]\" border=0 vspace=4></a></td>";
+    echo "<td valign=top><a href=\"listing.php?prop_id=$home[0]&param=$param&value=$value\" class=home_row><img src=\"img/$home[image_name]\" border=0 vspace=4></a></td>";
     echo "</tr>";
     echo "</table>";
     echo "<td>";

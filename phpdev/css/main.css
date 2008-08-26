@@ -16,7 +16,7 @@ td.entry {
 
 tr.list_sh {
         background-color: #dde6f3;
-        font-size: 1.0em;
+        font-size: .9em;
         color: #444444;
         font-style: italic;
         line-height: 100%;      
@@ -24,21 +24,21 @@ tr.list_sh {
 
 tr.list_si {
         background-color: #dde6f3;
-        font-size: 1.0em;
+        font-size: .9em;
         color: #444444;
         font-style: italic;
         line-height: 100%;
      }
 tr.list_ph { 
         background-color: #dde6f3;
-        font-size: 1.0em;
+        font-size: .9em;
         color: #444444;
         font-style: italic;
         line-height: 100%;
     }
 tr.list_pi {
         background-color: #dde6f3;
-        font-size: 1.0em;
+        font-size: .9em;
         color: #444444;
         font-style: italic;
         line-height: 100%;
@@ -76,7 +76,6 @@ td.list_pi {
     border-top: #cccccc 1pt solid;
 }
                                                                                         
-    
 .entry_title {
     	font-weight: bold;
     	font-size: 1.2em;
@@ -117,5 +116,73 @@ td.list_pi {
 		font-size: small;
 		width: 70mm;
 	}
+
+
+    
+a.cat_header {
+        text-decoration: none
+    }
+a.cat_header:link { 
+        text-decoration:none;
+        color:#000000;
+    }
+a.cat_header:visited {
+        text-decoration:none;
+        color:#000000;
+    }
+a.cat_header:hover {
+        color:blue;
+        text-decoration:underline;
+    }
+a.cat_header:active {
+        text-decoration:none;
+}
+
+
+a.home_row {
+        text-decoration: none
+    }
+a.home_row:link { 
+        text-decoration:none;
+        color:#000000;
+    }
+a.home_row:visited {
+        text-decoration:none;
+        color:#000000;
+    }
+a.home_row:hover {
+        color:blue;
+        text-decoration:underline;
+    }
+a.home_row:active {
+        text-decoration:none;
+}
+
+
+a.ulink {
+        text-decoration: underline;
+    }
+a.ulink:link { 
+        text-decoration:underline;
+        color:red;
+    }
+a.ulink:visited {
+        text-decoration:underline;
+        color:red;
+    }
+a.ulink:hover {
+        color:blue;
+        text-decoration:underline;
+    }
+a.ulink:active {
+        text-decoration:underline;
+}
+
+
+
+
+
+
+
 
 

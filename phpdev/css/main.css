@@ -17,7 +17,7 @@ td.entry {
 tr.list_sh {
         background-color: #dde6f3;
         font-size: .9em;
-        color: #444444;
+        color: #000000;
         font-style: italic;
         line-height: 100%;      
     }
@@ -25,21 +25,21 @@ tr.list_sh {
 tr.list_si {
         background-color: #dde6f3;
         font-size: .9em;
-        color: #444444;
+        color: #000000;
         font-style: italic;
         line-height: 100%;
      }
 tr.list_ph { 
         background-color: #dde6f3;
         font-size: .9em;
-        color: #444444;
+        color: #000000;
         font-style: italic;
         line-height: 100%;
     }
 tr.list_pi {
         background-color: #dde6f3;
         font-size: .9em;
-        color: #444444;
+        color: #000000;
         font-style: italic;
         line-height: 100%;
     }

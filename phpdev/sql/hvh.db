@@ -1,0 +1,106 @@
+-- MySQL Administrator dump 1.4
+--
+-- ------------------------------------------------------
+-- Server version	5.0.27-standard
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+
+--
+-- Create schema hvh
+--
+
+CREATE DATABASE IF NOT EXISTS hvh;
+USE hvh;
+
+--
+-- Definition of table `hvh`.`property`
+--
+
+DROP TABLE IF EXISTS `hvh`.`property`;
+CREATE TABLE  `hvh`.`property` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(64) default NULL,
+  `location` varchar(128) default NULL,
+  `city` varchar(64) default NULL,
+  `state` varchar(6) default NULL,
+  `prop_type` varchar(32) default NULL,
+  `prop_cat` varchar(32) default NULL,
+  `region` varchar(32) default NULL,
+  `teaser` text,
+  `image_name` varchar(128) default NULL,
+  `home_pos` int(11) default NULL,
+  `detail_text` text,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `hvh`.`property`
+--
+
+/*!40000 ALTER TABLE `property` DISABLE KEYS */;
+LOCK TABLES `property` WRITE;
+INSERT INTO `hvh`.`property` VALUES  (1,'Hideaway Bay','North Shore, Kauai','North Shore - Kauai','HI',NULL,'Signature Homes','Hawaii','Luxury, comfort, style and character make this home a wonderful place to experience Kauai.','hideaway_bay.gif',1,'Luxury, comfort, style and character make this brand new 2 master bedroom vacation home a wonderful place to experience Kauai. There are breathtaking ocean views from every room in the house. Hideaway Bay has been described as: \"a gorgeous home with great character and an essence of joy.\" (We think the Feng Shui is working).\n<br><br>\n\nThis fully equipped vacation home is surrounded by lush tropical plants, a large open grass yard, and an organic citrus orchard. Inspiring ocean views expand from every room out onto conservation-land bluffs protected for nesting albatross. The location of the property is ideal, benefiting from the proximity of the North Shore while receiving a much lower average annual rainfall than either Princeville or Hanalei.\n<br><br>\n\nSituated just 2 bays east of picturesque Kilauea Lighthouse, Hideaway Bay feels very remote but is just minutes from fine dining, the Princeville Resort, and the many natural wonders of the North Shore.Hideaway Bay is an immaculate executive home with warm Hawaiian style. The home is beautifully decorated in Hawaiian, Asian, and Jungle motifs. The great room, pictured here, was designed for comfort yet feels elegant and exotic. Asian-Pacific decor and architecture invite in beauty and peace from the outdoors.\n<br><br>\n\nRelax on the two earth toned sleeper sofas and search for whales out in the ocean, or watch satellite programming on the 36\" t.v. Stay in the jungle master with king size sleigh bed, two person lavender Jacuzzi whirlpool bathtub, extra large glass shower, and large walk-in closet. The Hawaiian master bedroom and full bath feel like an outdoor suite with three walls of windows and beautiful sunrise views. Hideaway Bay is surrounded by mountain and ocean views with a big open yard yet is still secluded from the outside world. Large windows throughout the house bring in warm natural light and reveal the beauty of the landscape in every direction. On clear days (usually the case) there is also a humbling view of Mount Na-molo-kama from the fully equipped gourmet kitchen. At the end of your day\'s adventures, settle into your luxurious hot tub with stunning ocean view. Hideaway Bay will enchant, relax, and delight you. (Please see the Guest Book page to read quotes from our guest book.)'),
+ (2,'Plumeria Moon','North Shore, Kauai','North Shore - Kauai','HI',NULL,'Signature Homes','Hawaii','It has been described by guests as \"eden,\" \"heaven on earth,\" and \"truly peaceful and harmonious.\"','plumeria_moon.gif',2,NULL);
+INSERT INTO `hvh`.`property` VALUES  (3,'Table Rock Mountain','Teton Natl. Park, WY','Teton Natl. Park','WY',NULL,'Signature Homes','Wyoming','Premium quality, large home at the very door step of Teton National Park in Wyoming.','table_rock_mountain.gif',3,NULL),
+ (4,'The River Street Inn','Truckee, California','Truckee','CA',NULL,'Signature Inns','Lake Tahoe','The River Street Inn is a great starting point for a picturesque Tahoe vacation.','river_street_inn.gif',1,NULL),
+ (5,'Maui Hotel','Maui, Hawaii','Maui','HI',NULL,'Signature Inns','Hawaii','The intimate Honua Spa takes advantage of the spectacular views of Hana Bay.','maui_hotel.gif',2,NULL),
+ (6,'Post Ranch Inn','Big Sur, California','Big Sur','CA',NULL,'Signature Inns','California','Nestled on the cliffs of Big Sur, California, Post Ranch Inn provides the ultimate accommodations for a romantic getaway.','post_ranch_inn.gif',3,NULL),
+ (7,'AquaSurge','St.Thomas, Virgin Islands','St. Thomas, Virgin Islands','USVI',NULL,'Premier Homes','Virgin Islands','Perched on top the highest mountain in St. Thomas, this villa is surrounded by Lush tropical plantings and fruit trees.','aqua_surge.gif',1,NULL),
+ (8,'14 Armada','Hilton Head Island, SC','Hilton Head Island','SC',NULL,'Premier Homes','South Carolina','The discriminating guest will appreciate this luxurious oceanfront home.','14_armada.gif',2,NULL);
+INSERT INTO `hvh`.`property` VALUES  (9,'Lakeshore Blvd','Incline Village, Nevada','Incline Village','NV',NULL,'Premier Homes','Lake Tahoe','These exclusive homes are located on Lakeshore Boulevard, walking distance to Lake Tahoe Beach and Hyatt Regency Casino.','lakeshore_blvd.gif',3,NULL),
+ (10,'The River Street Inn','Truckee, California','Truckee','CA',NULL,'Premier Inns','Lake Tahoe','The River Street Inn is a great starting point for a picturesque Tahoe vacation.','river_street_inn.gif',1,NULL),
+ (11,'Mountainside Inn','Telluride, Colorado','Telluride','CO',NULL,'Premier Inns','Colorado','The Mountainside Inn is located in the town of Telluride, Colorado, set at the base of the Telluride Ski Resort, allowing ski-in access in winter, and the San Miguel River, for cool serenity in summer. . .','telluride_mountainside_inn.gif',3,NULL),
+ (12,'Orca Adventure Lodge','Cordova, Alaska','Cordova','AK',NULL,'Premier Inns','Alaska','Located on the eastern shores of Prince William Sound just two miles north of Cordova, Alaska Orca Adventure Lodge is Alaska\'s most unique adventure destination!','orca_adventure_lodge.gif',2,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `property` ENABLE KEYS */;
+
+
+--
+-- Definition of table `hvh`.`property_img`
+--
+
+DROP TABLE IF EXISTS `hvh`.`property_img`;
+CREATE TABLE  `hvh`.`property_img` (
+  `id` int(11) NOT NULL auto_increment,
+  `property_id` int(11) default NULL,
+  `image_name` varchar(128) default NULL,
+  `caption` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `hvh`.`property_img`
+--
+
+/*!40000 ALTER TABLE `property_img` DISABLE KEYS */;
+LOCK TABLES `property_img` WRITE;
+INSERT INTO `hvh`.`property_img` VALUES  (1,1,'hideaway_bay_v1.gif','Ocean views from every room...including the\njacuzzi tub in the main bath.'),
+ (2,1,'hideaway_bay_v2.gif','The front of the main house, Hideaway Bay.'),
+ (3,1,'hideaway_bay_v3.gif','The hot tub has exquisite ocean and mountain views. It is a recent addition to the house so you won\'t see it in all our pictures. Sunsets are both soothing and spectacular from this spot.'),
+ (4,1,'hideaway_bay_v4.gif','Hideaway Bay viewed from the\nbluff above Pila\'s Beach.'),
+ (5,1,'hideaway_bay_v5.gif','The living room is light and tropical...'),
+ (6,1,'hideaway_bay_v6.gif','...and faces the ocean.'),
+ (7,1,'hideaway_bay_v7.gif','Stay in the jungle master\nwith king size sleigh bed.'),
+ (8,1,'hideaway_bay_v8.gif','The main entrance to Hideaway Bay is from the back; the front of the house faces nothing but ocean. Traditional Hawaiian style design contributes to the homes elegance and warm character.');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `property_img` ENABLE KEYS */;
+
+
+
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

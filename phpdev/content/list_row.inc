@@ -47,7 +47,7 @@ while ($home = mysql_fetch_array($props)) {
     echo "<table border=0 cellpadding=0 cellspacing=0 width=\"100%\">";
     echo "<tr>";
     
-    echo "<td width=175 bgcolor=\"#f2f2f2\" valign=top>";
+    echo "<td bgcolor=\"#f2f2f2\" valign=top>";
     echo "<table border=0 cellpadding=8 cellspacing=0 width=\"100%\">";
     echo "<tr>";
     echo "<td class=entry valign=top>";

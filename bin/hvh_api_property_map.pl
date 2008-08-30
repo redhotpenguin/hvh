@@ -50,6 +50,10 @@ my $map =
 "ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw",
   );
 
+$map->v2_zoom(5);
+$map->info_window(1);
+$map->controls( 'large_map_control', 'map_type_control');
+$map->add_icon(shadow => 'http://www.hvh.com/images/pot.png', shadow_size => [50,    50], icon_anchor => [0,0], info_window_anchor => [0,0], name => 'jah', image => 'http://www.hvh.com/images/pot.png', image_size => [ 50,50] );
 my @markers;
 foreach my $row ( @{$res} ) {
     next unless defined $row->{Property_Address__c};
@@ -57,14 +61,15 @@ foreach my $row ( @{$res} ) {
 
 #    $map->center( point => $row->{Property_Address__c} );
 #    $map->add_marker( point => $row->{Property_Address__c} );
-sleep 2;
+sleep 1;
+warn("sleep");
     #next;
     my $location = $geo->geocode( location => $row->{Property_Address__c} );
     unless ($location) {
         warn("couldn't get location for " . $row->{Property_Address__c});
         next;
     }
-    $map->add_marker( point => $row->{Property_Address__c} );
+    $map->add_marker( point => $row->{Property_Address__c}, html => '<p>JAH!</p>', icon => 'jah' );
     $row->{location} = $location;
     push @markers,
       {
@@ -73,8 +78,6 @@ sleep 2;
       };
 
 }
-$map->v2_zoom(5);
-$map->controls( 'large_map_control', 'map_type_control');
 my ( $head, $map_div, $map_script ) = $map->render;
 
 open(FH, '>', './foo.html') or die $!;

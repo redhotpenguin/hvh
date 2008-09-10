@@ -12,7 +12,8 @@ my $Sf = WWW::Salesforce::Simple->new(
     username => $username,
     password => $token,
 );
-
+# perl  hvh_api_property_map.pl fred@redhotpenguin.com 
+# yomaingJN9fVMtleBighIslxY3EZxuE
 use Data::Dumper;
 
 my $tables_ref = $Sf->get_tables();

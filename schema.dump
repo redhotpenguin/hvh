@@ -1,0 +1,2270 @@
+Table Account has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'MasterRecordId',
+          'Name',
+          'LastName',
+          'FirstName',
+          'Salutation',
+          'Type',
+          'RecordTypeId',
+          'ParentId',
+          'BillingStreet',
+          'BillingCity',
+          'BillingState',
+          'BillingPostalCode',
+          'BillingCountry',
+          'ShippingStreet',
+          'ShippingCity',
+          'ShippingState',
+          'ShippingPostalCode',
+          'ShippingCountry',
+          'Phone',
+          'Fax',
+          'AccountNumber',
+          'Website',
+          'Industry',
+          'AnnualRevenue',
+          'NumberOfEmployees',
+          'TickerSymbol',
+          'Description',
+          'Rating',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'PersonContactId',
+          'IsPersonAccount',
+          'PersonMailingStreet',
+          'PersonMailingCity',
+          'PersonMailingState',
+          'PersonMailingPostalCode',
+          'PersonMailingCountry',
+          'PersonOtherStreet',
+          'PersonOtherCity',
+          'PersonOtherState',
+          'PersonOtherPostalCode',
+          'PersonOtherCountry',
+          'PersonMobilePhone',
+          'PersonHomePhone',
+          'PersonOtherPhone',
+          'PersonAssistantPhone',
+          'PersonEmail',
+          'PersonTitle',
+          'PersonDepartment',
+          'PersonAssistantName',
+          'PersonLeadSource',
+          'PersonBirthdate',
+          'PersonHasOptedOutOfEmail',
+          'PersonLastCURequestDate',
+          'PersonLastCUUpdateDate',
+          'Contact_Type__pc'
+        ];
+
+
+Table AccountContactRole has fields:
+$VAR1 = [
+          'Id',
+          'AccountId',
+          'ContactId',
+          'Role',
+          'IsPrimary',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table AccountPartner has fields:
+$VAR1 = [
+          'Id',
+          'AccountFromId',
+          'AccountToId',
+          'OpportunityId',
+          'Role',
+          'IsPrimary',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table AccountShare has fields:
+$VAR1 = [
+          'Id',
+          'AccountId',
+          'UserOrGroupId',
+          'AccountAccessLevel',
+          'OpportunityAccessLevel',
+          'CaseAccessLevel',
+          'RowCause',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'IsDeleted'
+        ];
+
+
+Table ActivityHistory has fields:
+$VAR1 = [
+          'Id',
+          'AccountId',
+          'WhoId',
+          'WhatId',
+          'Subject',
+          'IsTask',
+          'ActivityDate',
+          'OwnerId',
+          'Status',
+          'Priority',
+          'ActivityType',
+          'IsClosed',
+          'IsAllDayEvent',
+          'DurationInMinutes',
+          'Location',
+          'Description',
+          'IsDeleted',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'CallDurationInSeconds',
+          'CallType',
+          'CallDisposition',
+          'CallObject',
+          'ReminderDateTime',
+          'IsReminderSet'
+        ];
+
+
+Table AdditionalNumber has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'CallCenterId',
+          'Name',
+          'Description',
+          'Phone',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table ApexPackage has fields:
+$VAR1 = [
+          'Id',
+          'NamespacePrefix',
+          'Name',
+          'ApiVersion',
+          'IsValid',
+          'BodyCrc',
+          'Body',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table ApexTrigger has fields:
+$VAR1 = [
+          'Id',
+          'NamespacePrefix',
+          'Name',
+          'TableEnumOrId',
+          'UsageBeforeInsert',
+          'UsageAfterInsert',
+          'UsageBeforeUpdate',
+          'UsageAfterUpdate',
+          'UsageBeforeDelete',
+          'UsageAfterDelete',
+          'UsageIsBulk',
+          'UsageAfterUndelete',
+          'ApiVersion',
+          'IsValid',
+          'IsActive',
+          'BodyCrc',
+          'Body',
+          'LengthWithoutComments',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Approval has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'ParentId',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'Status',
+          'RequestComment',
+          'ApproveComment',
+          'SystemModstamp'
+        ];
+
+
+Table Asset has fields:
+$VAR1 = [
+          'Id',
+          'ContactId',
+          'AccountId',
+          'Product2Id',
+          'IsCompetitorProduct',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted',
+          'Name',
+          'SerialNumber',
+          'InstallDate',
+          'PurchaseDate',
+          'UsageEndDate',
+          'Status',
+          'Price',
+          'Quantity',
+          'Description'
+        ];
+
+
+Table AssignmentRule has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'SobjectType',
+          'Active',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table Attachment has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'ParentId',
+          'Name',
+          'IsPrivate',
+          'ContentType',
+          'BodyLength',
+          'Body',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Bank_Deposit__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Booking_1__c',
+          'Check_1_Amount__c',
+          'Check_2_Amount__c',
+          'Check_3_Amount__c',
+          'Check_4_Amount__c',
+          'Check_5_Amount__c',
+          'Deposit_Date__c',
+          'Booking_2__c',
+          'Booking_3__c',
+          'Booking_4__c',
+          'Booking_5__c',
+          'Total_Deposit_Amount__c',
+          'Bank_Deposit_Description__c',
+          'Bank_Account__c',
+          'Entered_into_Quickbooks__c',
+          'Received_in_Wells_Fargo__c'
+        ];
+
+
+Table Booking__History has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'ParentId',
+          'CreatedById',
+          'CreatedDate',
+          'Field',
+          'OldValue',
+          'NewValue'
+        ];
+
+
+Table Booking__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'Total_Booking_Amount__c',
+          'Date__c',
+          'Customer_Name__c',
+          'Payment_Method__c',
+          'Opportunity__c',
+          'First_Payment__c',
+          'Booking_Stage__c',
+          'Local_Taxes__c',
+          'Check_in_Date__c',
+          'Check_out_Date__c',
+          'Second_Payment_Due_Date__c',
+          'Deposit_Amount__c',
+          'Deposit_Due_Date__c',
+          'Deposit_Return_Date__c',
+          'Booking_Description__c',
+          'Deposit_Return_Amount__c',
+          'Property__c',
+          'Other_Payment__c',
+          'First_Payment_Received__c',
+          'Property_name__c',
+          'Contact__c',
+          'Total_Rental_Amount__c',
+          'Contact_2__c',
+          'Nightly_Rate__c',
+          'Number_of_Nights__c',
+          'Property_List_Price__c',
+          'Second_Payment_Received_Date__c',
+          'Outstanding_Balance__c',
+          'Booking_Contact_City__c',
+          'Event_Fee__c',
+          'Other_Payment_Due_Date__c',
+          'Local_Tax_Rate__c',
+          'Total_Taxes__c',
+          'Total_Rental_Amount_wTax__c',
+          'First_Payment_Amount__c',
+          'Second_Payment_Amount__c',
+          'Discount__c',
+          'Discount_Percentage__c',
+          'If_Dead_Why__c',
+          'Check_in_Time__c',
+          'Check_out_Time__c',
+          'Return_Customer__c',
+          'Cleaning_Fee__c',
+          'Booking_Contact_Country__c',
+          'Booking_Contact_Email__c',
+          'Booking_Contact_First_Name__c',
+          'Booking_Contact_Last_Name__c',
+          'Booking_Contact_Mailing_Address__c',
+          'Booking_Contact_Phone__c',
+          'Booking_Contact_State__c',
+          'Booking_Contact_Postal_Code__c'
+        ];
+
+
+Table BrandTemplate has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'IsActive',
+          'Description',
+          'Value',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Budget__History has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'ParentId',
+          'CreatedById',
+          'CreatedDate',
+          'Field',
+          'OldValue',
+          'NewValue'
+        ];
+
+
+Table Budget__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'Approved_Budget__c',
+          'Amount_Spent__c'
+        ];
+
+
+Table BusinessHours has fields:
+$VAR1 = [
+          'Id',
+          'SundayStart',
+          'SundayEnd',
+          'MondayStart',
+          'MondayEnd',
+          'TuesdayStart',
+          'TuesdayEnd',
+          'WednesdayStart',
+          'WednesdayEnd',
+          'ThursdayStart',
+          'ThursdayEnd',
+          'FridayStart',
+          'FridayEnd',
+          'SaturdayStart',
+          'SaturdayEnd',
+          'SystemModstamp',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById'
+        ];
+
+
+Table BusinessProcess has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'Description',
+          'TableEnumOrId',
+          'IsActive',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table CallCenter has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'InternalName',
+          'SystemModstamp',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById'
+        ];
+
+
+Table Campaign has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'Name',
+          'Type',
+          'Status',
+          'StartDate',
+          'EndDate',
+          'ExpectedRevenue',
+          'BudgetedCost',
+          'ActualCost',
+          'ExpectedResponse',
+          'NumberSent',
+          'IsActive',
+          'Description',
+          'NumberOfLeads',
+          'NumberOfConvertedLeads',
+          'NumberOfContacts',
+          'NumberOfResponses',
+          'NumberOfOpportunities',
+          'NumberOfWonOpportunities',
+          'AmountAllOpportunities',
+          'AmountWonOpportunities',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate'
+        ];
+
+
+Table CampaignMember has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'CampaignId',
+          'LeadId',
+          'ContactId',
+          'Status',
+          'HasResponded',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'FirstRespondedDate'
+        ];
+
+
+Table CampaignMemberStatus has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'CampaignId',
+          'Label',
+          'SortOrder',
+          'IsDefault',
+          'HasResponded',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Case has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'CaseNumber',
+          'ContactId',
+          'AccountId',
+          'SuppliedName',
+          'SuppliedEmail',
+          'SuppliedPhone',
+          'SuppliedCompany',
+          'Type',
+          'Status',
+          'Reason',
+          'Origin',
+          'Subject',
+          'Priority',
+          'Description',
+          'IsClosed',
+          'ClosedDate',
+          'IsEscalated',
+          'HasCommentsUnreadByOwner',
+          'HasSelfServiceComments',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table CaseComment has fields:
+$VAR1 = [
+          'Id',
+          'ParentId',
+          'IsPublished',
+          'CommentBody',
+          'CreatedById',
+          'CreatedDate',
+          'SystemModstamp',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'IsDeleted'
+        ];
+
+
+Table CaseContactRole has fields:
+$VAR1 = [
+          'Id',
+          'CasesId',
+          'ContactId',
+          'Role',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table CaseHistory has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'CaseId',
+          'CreatedById',
+          'CreatedDate',
+          'Field',
+          'OldValue',
+          'NewValue'
+        ];
+
+
+Table CaseShare has fields:
+$VAR1 = [
+          'Id',
+          'CaseId',
+          'UserOrGroupId',
+          'CaseAccessLevel',
+          'RowCause',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'IsDeleted'
+        ];
+
+
+Table CaseSolution has fields:
+$VAR1 = [
+          'Id',
+          'CaseId',
+          'SolutionId',
+          'CreatedById',
+          'CreatedDate',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table CaseStatus has fields:
+$VAR1 = [
+          'Id',
+          'MasterLabel',
+          'SortOrder',
+          'IsDefault',
+          'IsClosed',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table CategoryData has fields:
+$VAR1 = [
+          'Id',
+          'CategoryNodeId',
+          'RelatedSobjectId',
+          'IsDeleted',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table CategoryNode has fields:
+$VAR1 = [
+          'Id',
+          'ParentId',
+          'MasterLabel',
+          'SortOrder',
+          'SortStyle',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Competitor__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'Listings__c',
+          'Business_Management_Software__c',
+          'Small_Business_Solution__c',
+          'X2nd_Home_Market__c',
+          'Hotel_Market__c',
+          'Business_Process_Outsourcing__c',
+          'Property_Management__c'
+        ];
+
+
+Table Contact has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'MasterRecordId',
+          'AccountId',
+          'IsPersonAccount',
+          'LastName',
+          'FirstName',
+          'Salutation',
+          'Name',
+          'RecordTypeId',
+          'OtherStreet',
+          'OtherCity',
+          'OtherState',
+          'OtherPostalCode',
+          'OtherCountry',
+          'MailingStreet',
+          'MailingCity',
+          'MailingState',
+          'MailingPostalCode',
+          'MailingCountry',
+          'Phone',
+          'Fax',
+          'MobilePhone',
+          'HomePhone',
+          'OtherPhone',
+          'AssistantPhone',
+          'ReportsToId',
+          'Email',
+          'Title',
+          'Department',
+          'AssistantName',
+          'LeadSource',
+          'Birthdate',
+          'Description',
+          'OwnerId',
+          'HasOptedOutOfEmail',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'LastCURequestDate',
+          'LastCUUpdateDate',
+          'Contact_Type__c'
+        ];
+
+
+Table Contract has fields:
+$VAR1 = [
+          'Id',
+          'AccountId',
+          'OwnerExpirationNotice',
+          'StartDate',
+          'EndDate',
+          'BillingStreet',
+          'BillingCity',
+          'BillingState',
+          'BillingPostalCode',
+          'BillingCountry',
+          'ShippingStreet',
+          'ShippingCity',
+          'ShippingState',
+          'ShippingPostalCode',
+          'ShippingCountry',
+          'ContractTerm',
+          'OwnerId',
+          'Status',
+          'CompanySignedId',
+          'CompanySignedDate',
+          'CustomerSignedId',
+          'CustomerSignedTitle',
+          'CustomerSignedDate',
+          'SpecialTerms',
+          'ActivatedById',
+          'ActivatedDate',
+          'StatusCode',
+          'Description',
+          'IsDeleted',
+          'ContractNumber',
+          'LastApprovedDate',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate'
+        ];
+
+
+Table ContractContactRole has fields:
+$VAR1 = [
+          'Id',
+          'ContractId',
+          'ContactId',
+          'Role',
+          'IsPrimary',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table ContractHistory has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'ContractId',
+          'CreatedById',
+          'CreatedDate',
+          'Field',
+          'OldValue',
+          'NewValue'
+        ];
+
+
+Table ContractStatus has fields:
+$VAR1 = [
+          'Id',
+          'MasterLabel',
+          'SortOrder',
+          'IsDefault',
+          'StatusCode',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table Document has fields:
+$VAR1 = [
+          'Id',
+          'FolderId',
+          'IsDeleted',
+          'Name',
+          'ContentType',
+          'Type',
+          'IsPublic',
+          'BodyLength',
+          'Body',
+          'Url',
+          'Description',
+          'Keywords',
+          'IsInternalUseOnly',
+          'AuthorId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table DocumentAttachmentMap has fields:
+$VAR1 = [
+          'Id',
+          'ParentId',
+          'DocumentId',
+          'DocumentSequence',
+          'CreatedDate',
+          'CreatedById'
+        ];
+
+
+Table EmailStatus has fields:
+$VAR1 = [
+          'Id',
+          'TaskId',
+          'WhoId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'TimesOpened',
+          'FirstOpenDate',
+          'LastOpenDate',
+          'EmailTemplateName'
+        ];
+
+
+Table EmailTemplate has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'OwnerId',
+          'FolderId',
+          'BrandTemplateId',
+          'TemplateStyle',
+          'IsActive',
+          'TemplateType',
+          'Encoding',
+          'Description',
+          'Subject',
+          'HtmlValue',
+          'Body',
+          'TimesUsed',
+          'LastUsedDate',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Event has fields:
+$VAR1 = [
+          'Id',
+          'WhoId',
+          'WhatId',
+          'Subject',
+          'Location',
+          'IsAllDayEvent',
+          'ActivityDateTime',
+          'ActivityDate',
+          'DurationInMinutes',
+          'Description',
+          'AccountId',
+          'OwnerId',
+          'Type',
+          'IsPrivate',
+          'ShowAs',
+          'IsDeleted',
+          'IsChild',
+          'IsGroupEvent',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsArchived',
+          'RecurrenceActivityId',
+          'IsRecurrence',
+          'RecurrenceStartDateTime',
+          'RecurrenceEndDateOnly',
+          'RecurrenceTimeZoneSidKey',
+          'RecurrenceType',
+          'RecurrenceInterval',
+          'RecurrenceDayOfWeekMask',
+          'RecurrenceDayOfMonth',
+          'RecurrenceInstance',
+          'RecurrenceMonthOfYear',
+          'ReminderDateTime',
+          'IsReminderSet'
+        ];
+
+
+Table EventAttendee has fields:
+$VAR1 = [
+          'Id',
+          'EventId',
+          'AttendeeId',
+          'Status',
+          'RespondedDate',
+          'Response',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table FiscalYearSettings has fields:
+$VAR1 = [
+          'Id',
+          'PeriodId',
+          'StartDate',
+          'EndDate',
+          'Name',
+          'IsStandardYear',
+          'YearType',
+          'QuarterLabelScheme',
+          'PeriodLabelScheme',
+          'WeekLabelScheme',
+          'QuarterPrefix',
+          'PeriodPrefix',
+          'WeekStartDay',
+          'Description',
+          'SystemModstamp'
+        ];
+
+
+Table Folder has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'AccessType',
+          'IsReadonly',
+          'Type',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Group has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'RelatedId',
+          'Type',
+          'Email',
+          'OwnerId',
+          'DoesSendEmailToMembers',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table GroupMember has fields:
+$VAR1 = [
+          'Id',
+          'GroupId',
+          'UserOrGroupId',
+          'SystemModstamp'
+        ];
+
+
+Table Inquiry__History has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'ParentId',
+          'CreatedById',
+          'CreatedDate',
+          'Field',
+          'OldValue',
+          'NewValue'
+        ];
+
+
+Table Inquiry__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'Property__c',
+          'Inquiry_First_Name__c',
+          'Inquiry_Last_Name__c',
+          'Inquiry_Address_1__c',
+          'Inquiry_Zip_Code__c',
+          'Inquiry_Phone__c',
+          'Inquiry_Email__c',
+          'Number_of_Guests__c',
+          'Check_in_Date__c',
+          'Check_out_Date__c',
+          'Inquiry_Comments__c',
+          'Number_of_Nights__c',
+          'Quoted_Rate__c',
+          'Total_Rental_Amount__c',
+          'Nightly_Rate_List_Price__c',
+          'Discount__c',
+          'Inquiry_Source__c',
+          'Inquiry_Stage__c',
+          'Inquiry_Address_2__c',
+          'Return_Customer__c',
+          'If_Lost_Why__c',
+          'Inquiry_Contact_Lookup__c',
+          'Discount_Percentage__c',
+          'Inquiry_City__c',
+          'Inquiry_State__c',
+          'Inquiry_Country__c',
+          'Event_Fee__c',
+          'Check_in_Time__c',
+          'Check_out_Time__c'
+        ];
+
+
+Table KEDN_Ad_Group__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Flex_1__c',
+          'Flex_2__c',
+          'Flex_3__c',
+          'Lead__c',
+          'Opportunity__c'
+        ];
+
+
+Table KEDN_Keyword_Phrase__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Flex_1__c',
+          'Flex_2__c',
+          'Flex_3__c',
+          'Lead__c',
+          'Opportunity__c'
+        ];
+
+
+Table KEDN_Keyword__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Flex_1__c',
+          'Flex_2__c',
+          'Flex_3__c',
+          'Lead__c',
+          'Opportunity__c'
+        ];
+
+
+Table KEDN_Search_Campaign__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Flex_3__c',
+          'Flex_1__c',
+          'Flex_2__c',
+          'Search_Campaign_Description__c',
+          'Lead__c',
+          'Opportunity__c'
+        ];
+
+
+Table KEDN_Text_Ad__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Flex_1__c',
+          'Flex_2__c',
+          'Flex_3__c',
+          'Text_Ad_Description_2__c',
+          'Text_Ad_Display_URL__c',
+          'Text_Ad_Destination_URL__c',
+          'Text_Ad_Description_1__c',
+          'Lead__c',
+          'Opportunity__c'
+        ];
+
+
+Table KEDN_Version_11_0_4__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Lead has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'MasterRecordId',
+          'LastName',
+          'FirstName',
+          'Salutation',
+          'Name',
+          'Company',
+          'Street',
+          'City',
+          'State',
+          'PostalCode',
+          'Country',
+          'Phone',
+          'MobilePhone',
+          'Fax',
+          'Email',
+          'Description',
+          'LeadSource',
+          'Status',
+          'Rating',
+          'OwnerId',
+          'HasOptedOutOfEmail',
+          'IsConverted',
+          'ConvertedDate',
+          'ConvertedAccountId',
+          'ConvertedContactId',
+          'ConvertedOpportunityId',
+          'IsUnreadByOwner',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'Property_Interest__c',
+          'num_guests__c',
+          'Date_Interest__c',
+          'Check_in_Date__c',
+          'Check_out_Date__c'
+        ];
+
+
+Table LeadHistory has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'LeadId',
+          'CreatedById',
+          'CreatedDate',
+          'Field',
+          'OldValue',
+          'NewValue'
+        ];
+
+
+Table LeadShare has fields:
+$VAR1 = [
+          'Id',
+          'LeadId',
+          'UserOrGroupId',
+          'LeadAccessLevel',
+          'RowCause',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'IsDeleted'
+        ];
+
+
+Table LeadStatus has fields:
+$VAR1 = [
+          'Id',
+          'MasterLabel',
+          'SortOrder',
+          'IsDefault',
+          'IsConverted',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table MailmergeTemplate has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'Name',
+          'Description',
+          'Filename',
+          'BodyLength',
+          'Body',
+          'LastUsedDate',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Name has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'LastName',
+          'FirstName',
+          'Type',
+          'Alias',
+          'UserRoleId'
+        ];
+
+
+Table Note has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'ParentId',
+          'Title',
+          'IsPrivate',
+          'Body',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table NoteAndAttachment has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'IsNote',
+          'ParentId',
+          'Title',
+          'IsPrivate',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table OpenActivity has fields:
+$VAR1 = [
+          'Id',
+          'AccountId',
+          'WhoId',
+          'WhatId',
+          'Subject',
+          'IsTask',
+          'ActivityDate',
+          'OwnerId',
+          'Status',
+          'Priority',
+          'ActivityType',
+          'IsClosed',
+          'IsAllDayEvent',
+          'DurationInMinutes',
+          'Location',
+          'Description',
+          'IsDeleted',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'CallDurationInSeconds',
+          'CallType',
+          'CallDisposition',
+          'CallObject',
+          'ReminderDateTime',
+          'IsReminderSet'
+        ];
+
+
+Table Opportunity has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'AccountId',
+          'RecordTypeId',
+          'Name',
+          'Description',
+          'StageName',
+          'Amount',
+          'Probability',
+          'ExpectedRevenue',
+          'CloseDate',
+          'Type',
+          'LeadSource',
+          'IsClosed',
+          'IsWon',
+          'ForecastCategory',
+          'HasOpportunityLineItem',
+          'Pricebook2Id',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'FiscalQuarter',
+          'FiscalYear',
+          'Fiscal',
+          'Nights__c',
+          'Property_Interests__c',
+          'Upcharge__c',
+          'Deposit__c',
+          'First_Payment__c',
+          'Check_in_Date__c',
+          'Check_out_Date__c',
+          'Second_Payment__c',
+          'Amount_Due__c',
+          'Local_taxes__c'
+        ];
+
+
+Table OpportunityCompetitor has fields:
+$VAR1 = [
+          'Id',
+          'OpportunityId',
+          'CompetitorName',
+          'Strengths',
+          'Weaknesses',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table OpportunityContactRole has fields:
+$VAR1 = [
+          'Id',
+          'OpportunityId',
+          'ContactId',
+          'Role',
+          'IsPrimary',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table OpportunityHistory has fields:
+$VAR1 = [
+          'Id',
+          'OpportunityId',
+          'CreatedById',
+          'CreatedDate',
+          'StageName',
+          'Amount',
+          'ExpectedRevenue',
+          'CloseDate',
+          'Probability',
+          'ForecastCategory',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table OpportunityLineItem has fields:
+$VAR1 = [
+          'Id',
+          'OpportunityId',
+          'SortOrder',
+          'PricebookEntryId',
+          'Quantity',
+          'TotalPrice',
+          'UnitPrice',
+          'ListPrice',
+          'ServiceDate',
+          'Description',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table OpportunityPartner has fields:
+$VAR1 = [
+          'Id',
+          'OpportunityId',
+          'AccountToId',
+          'Role',
+          'IsPrimary',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table OpportunityShare has fields:
+$VAR1 = [
+          'Id',
+          'OpportunityId',
+          'UserOrGroupId',
+          'OpportunityAccessLevel',
+          'RowCause',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'IsDeleted'
+        ];
+
+
+Table OpportunityStage has fields:
+$VAR1 = [
+          'Id',
+          'MasterLabel',
+          'IsActive',
+          'SortOrder',
+          'IsClosed',
+          'IsWon',
+          'ForecastCategory',
+          'DefaultProbability',
+          'Description',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table Organization has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'Division',
+          'Street',
+          'City',
+          'State',
+          'PostalCode',
+          'Country',
+          'Phone',
+          'Fax',
+          'PrimaryContact',
+          'DefaultLocaleSidKey',
+          'LanguageLocaleKey',
+          'ReceivesInfoEmails',
+          'ReceivesAdminInfoEmails',
+          'PreferencesRequireOpportunityProducts',
+          'FiscalYearStartMonth',
+          'UsesStartDateAsFiscalYearName',
+          'DefaultAccountAndContactAccess',
+          'DefaultOpportunityAccess',
+          'DefaultLeadAccess',
+          'DefaultCaseAccess',
+          'DefaultCalendarAccess',
+          'DefaultPricebookAccess',
+          'MaxRulesPerEntity',
+          'MaxActionsPerRule',
+          'SystemModstamp',
+          'ComplianceBccEmail',
+          'UiSkin',
+          'TrialExpirationDate',
+          'OrganizationType',
+          'WebToCaseDefaultOrigin',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById'
+        ];
+
+
+Table Partner has fields:
+$VAR1 = [
+          'Id',
+          'OpportunityId',
+          'AccountFromId',
+          'AccountToId',
+          'Role',
+          'IsPrimary',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsDeleted'
+        ];
+
+
+Table PartnerRole has fields:
+$VAR1 = [
+          'Id',
+          'MasterLabel',
+          'SortOrder',
+          'ReverseRole',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table Period has fields:
+$VAR1 = [
+          'Id',
+          'FiscalYearSettingsId',
+          'Type',
+          'StartDate',
+          'EndDate',
+          'SystemModstamp',
+          'IsForecastPeriod',
+          'QuarterLabel',
+          'PeriodLabel',
+          'Number'
+        ];
+
+
+Table Pricebook2 has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'IsActive',
+          'LastModifiedDate',
+          'SystemModstamp',
+          'IsStandard',
+          'Description',
+          'LastModifiedById',
+          'CreatedDate',
+          'CreatedById',
+          'IsDeleted'
+        ];
+
+
+Table PricebookEntry has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'Pricebook2Id',
+          'Product2Id',
+          'UnitPrice',
+          'IsActive',
+          'UseStandardPrice',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'ProductCode',
+          'IsDeleted'
+        ];
+
+
+Table ProcessInstance has fields:
+$VAR1 = [
+          'Id',
+          'TargetObjectId',
+          'Status',
+          'IsDeleted',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table ProcessInstanceHistory has fields:
+$VAR1 = [
+          'Id',
+          'IsPending',
+          'ProcessInstanceId',
+          'TargetObjectId',
+          'StepStatus',
+          'OriginalActorId',
+          'ActorId',
+          'RemindersSent',
+          'Comments',
+          'IsDeleted',
+          'CreatedDate',
+          'CreatedById',
+          'SystemModstamp'
+        ];
+
+
+Table ProcessInstanceStep has fields:
+$VAR1 = [
+          'Id',
+          'ProcessInstanceId',
+          'StepStatus',
+          'OriginalActorId',
+          'ActorId',
+          'Comments',
+          'CreatedDate',
+          'CreatedById',
+          'SystemModstamp'
+        ];
+
+
+Table ProcessInstanceWorkitem has fields:
+$VAR1 = [
+          'Id',
+          'ProcessInstanceId',
+          'OriginalActorId',
+          'ActorId',
+          'IsDeleted',
+          'CreatedDate',
+          'CreatedById',
+          'SystemModstamp'
+        ];
+
+
+Table Product2 has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'ProductCode',
+          'Description',
+          'IsActive',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Family',
+          'IsDeleted'
+        ];
+
+
+Table Profile has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'PermissionsEditTask',
+          'PermissionsEditEvent',
+          'PermissionsManageUsers',
+          'PermissionsModifyAllData',
+          'PermissionsManageCases',
+          'PermissionsEditForecast',
+          'PermissionsManageSolutions',
+          'PermissionsCustomizeApplication',
+          'PermissionsEditReadonlyFields',
+          'PermissionsRunReports',
+          'PermissionsViewSetup',
+          'PermissionsTransferAnyEntity',
+          'PermissionsManageSelfService',
+          'PermissionsManageCssUsers',
+          'PermissionsImportLeads',
+          'PermissionsManageLeads',
+          'PermissionsTransferAnyLead',
+          'PermissionsViewAllData',
+          'PermissionsEditPublicDocuments',
+          'PermissionsManageDashboards',
+          'PermissionsSendSitRequests',
+          'PermissionsApiUserOnly',
+          'PermissionsDisableNotifications',
+          'PermissionsManageCategories',
+          'PermissionsConvertLeads',
+          'PermissionsPasswordNeverExpires',
+          'PermissionsUseTeamReassignWizards',
+          'PermissionsEditActivatedOrders',
+          'PermissionsInstallMultiforce',
+          'PermissionsPublishMultiforce',
+          'PermissionsEditOppLineItemUnitPrice',
+          'PermissionsManageTerritories',
+          'PermissionsCreateMultiforce',
+          'PermissionsSolutionImport',
+          'PermissionsManageCallCenters',
+          'PermissionsEditReports',
+          'PermissionsAuthorApex',
+          'LicenseType',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Description'
+        ];
+
+
+Table Property_Calendar__History has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'ParentId',
+          'CreatedById',
+          'CreatedDate',
+          'Field',
+          'OldValue',
+          'NewValue'
+        ];
+
+
+Table Property_Calendar__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Property__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'Occupancy_Rate__c',
+          'Nights__c',
+          'Purchase_Price__c',
+          'Current_Value__c',
+          'Property_Address__c',
+          'Check_in_Time__c',
+          'Property_Margin__c',
+          'Mortgage_Amount__c',
+          'Nightly_Rate_List_Price__c',
+          'List_Price_per_Week__c',
+          'Check_out_Time__c',
+          'Housekeeper__c',
+          'Site_Manager__c',
+          'Landscaper__c',
+          'Property_Type__c',
+          'Washer_Dryer__c',
+          'Air_Conditioning__c',
+          'Cable_Satellite_TV__c',
+          'Unlimited_Long_Distance__c',
+          'High_Definition_TV_DVR__c',
+          'Bed_Linens__c',
+          'Bath_Towels__c',
+          'DVD_Player__c',
+          'VCR__c',
+          'CD_Player__c',
+          'Private_Hot_Tub__c',
+          'Wireless_Internet__c',
+          'Video_Library__c',
+          'Music_Library__c',
+          'Stereo_System__c',
+          'Bedrooms__c',
+          'Bathrooms__c',
+          'Full_Kitchen__c',
+          'Refrigerator__c',
+          'Dishwasher__c',
+          'Microwave__c',
+          'Hair_Dryer__c',
+          'Cooking_Utensils__c',
+          'Barbecue__c',
+          'Patio_Lanai__c',
+          'Ocean_View__c',
+          'Mountain_View__c',
+          'Sleeps__c',
+          'Pets_Allowed__c',
+          'No_Smoking__c',
+          'Kid_Friendly__c',
+          'Site_Management_Fee__c',
+          'Housekeeping_Fee__c',
+          'Landscaping_Fee__c',
+          'Oven__c',
+          'Special_Amenities__c',
+          'Bathtubs__c',
+          'Showers__c',
+          'Local_Tax_Rate__c',
+          'Region__c',
+          'Available_to_the_Public__c'
+        ];
+
+
+Table QueueSobject has fields:
+$VAR1 = [
+          'Id',
+          'QueueId',
+          'SobjectType',
+          'CreatedById',
+          'SystemModstamp'
+        ];
+
+
+Table Recommendation__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'Contact__c',
+          'Account__c',
+          'Description__c'
+        ];
+
+
+Table Recommendations__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table RecordType has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'Description',
+          'BusinessProcessId',
+          'SobjectType',
+          'IsActive',
+          'IsPersonType',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table Rental_Agreement__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'Rental_Agreement_Number__c',
+          'Booking__c',
+          'Rental_Agreement_Contact__c',
+          'Rental_Agreement_Status__c'
+        ];
+
+
+Table Scontrol has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'DeveloperName',
+          'Description',
+          'EncodingKey',
+          'HtmlWrapper',
+          'Filename',
+          'BodyLength',
+          'Binary',
+          'ContentSource',
+          'SupportsCaching',
+          'NamespacePrefix',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table SelfServiceUser has fields:
+$VAR1 = [
+          'Id',
+          'LastName',
+          'FirstName',
+          'Name',
+          'Username',
+          'Email',
+          'IsActive',
+          'TimeZoneSidKey',
+          'LocaleSidKey',
+          'ContactId',
+          'LanguageLocaleKey',
+          'SuperUser',
+          'LastLoginDate',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+
+Table Solution has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'SolutionNumber',
+          'SolutionName',
+          'IsPublished',
+          'IsPublishedInPublicKb',
+          'Status',
+          'IsReviewed',
+          'SolutionNote',
+          'OwnerId',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'TimesUsed'
+        ];
+
+
+Table SolutionHistory has fields:
+$VAR1 = [
+          'Id',
+          'IsDeleted',
+          'SolutionId',
+          'CreatedById',
+          'CreatedDate',
+          'Field',
+          'OldValue',
+          'NewValue'
+        ];
+
+
+Table SolutionStatus has fields:
+$VAR1 = [
+          'Id',
+          'MasterLabel',
+          'SortOrder',
+          'IsDefault',
+          'IsReviewed',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table Task has fields:
+$VAR1 = [
+          'Id',
+          'WhoId',
+          'WhatId',
+          'Subject',
+          'ActivityDate',
+          'Status',
+          'Priority',
+          'OwnerId',
+          'Description',
+          'IsDeleted',
+          'AccountId',
+          'IsClosed',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'IsArchived',
+          'CallDurationInSeconds',
+          'CallType',
+          'CallDisposition',
+          'CallObject',
+          'ReminderDateTime',
+          'IsReminderSet'
+        ];
+
+
+Table TaskPriority has fields:
+$VAR1 = [
+          'Id',
+          'MasterLabel',
+          'SortOrder',
+          'IsDefault',
+          'IsHighPriority',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table TaskStatus has fields:
+$VAR1 = [
+          'Id',
+          'MasterLabel',
+          'SortOrder',
+          'IsDefault',
+          'IsClosed',
+          'CreatedById',
+          'CreatedDate',
+          'LastModifiedById',
+          'LastModifiedDate',
+          'SystemModstamp'
+        ];
+
+
+Table Tech_Agreement__c has fields:
+$VAR1 = [
+          'Id',
+          'OwnerId',
+          'IsDeleted',
+          'Name',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'LastActivityDate',
+          'Agreement_Number__c',
+          'Opportunity__c',
+          'Contact__c',
+          'Account__c',
+          'Total_Contract_Value__c'
+        ];
+
+
+Table User has fields:
+$VAR1 = [
+          'Id',
+          'Username',
+          'LastName',
+          'FirstName',
+          'Name',
+          'CompanyName',
+          'Division',
+          'Department',
+          'Title',
+          'Street',
+          'City',
+          'State',
+          'PostalCode',
+          'Country',
+          'Email',
+          'Phone',
+          'Fax',
+          'MobilePhone',
+          'Alias',
+          'IsActive',
+          'TimeZoneSidKey',
+          'UserRoleId',
+          'LocaleSidKey',
+          'ReceivesInfoEmails',
+          'ReceivesAdminInfoEmails',
+          'EmailEncodingKey',
+          'ProfileId',
+          'LanguageLocaleKey',
+          'EmployeeNumber',
+          'DelegatedApproverId',
+          'LastLoginDate',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'OfflineTrialExpirationDate',
+          'OfflinePdaTrialExpirationDate',
+          'UserPermissionsMarketingUser',
+          'UserPermissionsOfflineUser',
+          'UserPermissionsAvantgoUser',
+          'UserPermissionsCallCenterAutoLogin',
+          'ForecastEnabled',
+          'ContactId',
+          'CallCenterId',
+          'Extension'
+        ];
+
+
+Table UserRole has fields:
+$VAR1 = [
+          'Id',
+          'Name',
+          'ParentRoleId',
+          'RollupDescription',
+          'OpportunityAccessForAccountOwner',
+          'CaseAccessForAccountOwner',
+          'ForecastUserId',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp',
+          'PortalAccountId'
+        ];
+
+
+Table WebLink has fields:
+$VAR1 = [
+          'Id',
+          'PageOrSobjectType',
+          'Name',
+          'Url',
+          'EncodingKey',
+          'LinkType',
+          'OpenType',
+          'Height',
+          'Width',
+          'ShowsLocation',
+          'HasScrollbars',
+          'HasToolbar',
+          'HasMenubar',
+          'ShowsStatus',
+          'IsResizable',
+          'Position',
+          'ScontrolId',
+          'MasterLabel',
+          'Description',
+          'DisplayType',
+          'RequireRowSelection',
+          'NamespacePrefix',
+          'CreatedDate',
+          'CreatedById',
+          'LastModifiedDate',
+          'LastModifiedById',
+          'SystemModstamp'
+        ];
+
+

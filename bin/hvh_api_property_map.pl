@@ -6,26 +6,37 @@ use warnings;
 use WWW::Salesforce::Simple;
 
 my $username = shift;
-my $token = shift or die 'no token!';
+my $token = shift or warn "using default token\n";
 
+warn("connecting...\n");
 my $Sf = WWW::Salesforce::Simple->new(
-    username => $username,
-    password => $token,
+    username => $username || 'fred@redhotpenguin.com',
+    password => $token    || 'yomaingJN9fVMtleBighIslxY3EZxuE',
 );
-# perl  hvh_api_property_map.pl fred@redhotpenguin.com 
-# yomaingJN9fVMtleBighIslxY3EZxuE
+
 use Data::Dumper;
 
+warn("grabbing tables...\n");
 my $tables_ref = $Sf->get_tables();
+$DB::single = 1;
+print Dumper($tables_ref);
 
-#print Dumper($tables_ref);
+#my $table = 'Property__c';
 
-my $table = 'Property__c';
+warn("grabbing fields...\n");
 
-my $raw_fields = $Sf->get_field_list($table);
+open(FH, '>schema.dump') or die $!;
 
-my @fields = map { $_->{name} } @{$raw_fields};
+foreach my $table (@{ $tables_ref}) {
 
+	warn("processing table $table\n");
+	my $raw_fields = $Sf->get_field_list($table);
+	my @fields = map { $_->{name} } @{$raw_fields};
+	print FH "Table $table has fields:\n" . Dumper(\@fields) . "\n\n";
+}
+
+close(FH);
+__END__
 #print Dumper( \@fields );
 
 my $qp = join( ", ", @fields );

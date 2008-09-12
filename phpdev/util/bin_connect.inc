@@ -1,5 +1,5 @@
 <?php
-require_once ('../sforce_toolkit/soapclient/SforcePartnerClient.php');
+require_once ('sforce_toolkit/soapclient/SforcePartnerClient.php');
 
 $mySforceConnection = new SforcePartnerClient();
 

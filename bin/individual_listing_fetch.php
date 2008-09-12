@@ -25,7 +25,7 @@ foreach ($prop_array as $prop) {
 
 	// PUTTING EACH PROPERTY OBJ IN STATE WITH KEY EQUAL TO SFORCE ID //
 
-	$single_query = "SELECT Id, Name, Property_Address__c, Property_Type__c from Property__c where Id='$prop_obj->Id' limit 1";
+	$single_query = "SELECT Id, Name, Property_Address__c, Category__c, Description__c, Display_Location__c, Image_URL_1__c, Image_URL_2__c, Image_URL_3__c, Image_URL_4__c, Image_URL_5__c, Image_URL_6__c, Image_URL_7__c, Image_URL_8__c from Property__c where Id='$prop_obj->Id' limit 1";
 	$single_results = $mySforceConnection->query($single_query);
 	$single = $single_results->records;
 

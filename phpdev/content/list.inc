@@ -1,5 +1,6 @@
                     <?php 
                         $prop_cat = $_GET['prop_cat'];
+			$search_cat = $_GET['search_cat'];
                     ?>
                     <td width=558 valign=top>
                         <table border=0 cellpadding=0 cellspacing=0 width="100%">

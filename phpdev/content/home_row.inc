@@ -1,15 +1,27 @@
 <?php
-$sig_homes = mysql_query("select * from property where prop_cat='$prop_cat' order by home_pos asc limit $limit");
-$count_it = 0;
-while ($sig_home = mysql_fetch_array($sig_homes)) {
+$memcache = new Memcache;
+$memcache->connect('localhost', 11211) or die ("Could not connect");
+
+require_once ('soapclient/SforcePartnerClient.php');
+#$mySforceConnection = new SforcePartnerClient();
+while ($count_it <= $limit) {
+
+	error_log("making new home object\n", 0);
+
+	$key = "$cat|$count_it";
+	$get_result = $memcache->get($key);
+	$sObject = new SObject($get_result);
+
+	error_log("printing home object\n", 0);
+
     echo "<td width=175 bgcolor=\"#f2f2f2\" valign=top>";
     echo "<table border=0 cellpadding=8 cellspacing=0 width=175>";
     echo "<tr><td align=center class=entry>";
-        echo "<span class=entry_title><a href=\"listing.php?prop_id=$sig_home[id]\" class=home_row>$sig_home[name]</a></span><br>";
-        echo "<span class=entry_loc><a href=\"listing.php?prop_id=$sig_home[id]\" class=home_row>$sig_home[location]</a></span><Br>";
-        echo "<a href=\"listing.php?prop_id=$sig_home[id]\"><img src=\"img/$sig_home[image_name]\" border=0 vspace=4></a><br>";
-        echo "<span class=entry_desc>$sig_home[teaser]</span><br>";
-        echo "<a href=\"listing.php?prop_id=$sig_home[id]\" class=ulink>More Details</a>";
+    echo "<span class=entry_title><a href=\"listing.php?prop_id=$sObject->Id\" class=home_row>".$sObject->fields->Name."</a></span><br>";
+        echo "<span class=entry_loc><a href=\"listing.php?prop_id=$sObject->Id\" class=home_row>".$sObject->fields->Display_Location__c."</a></span><Br>";
+        echo "<a href=\"listing.php?prop_id=$sObject->Id\"><img src=\"img/".$sObject->fields->Image_URL_1__c."\" border=0 vspace=4></a><br>";
+        echo "<span class=entry_desc>".$sObject->fields->Teaser__c."</span><br>";
+        echo "<a href=\"listing.php?prop_id=$sObject->Id\" class=ulink>More Details</a>";
         echo "</td></tr>";
     echo "</table>";
     echo "<td>";

@@ -1,4 +1,17 @@
 <?php
+$memcache = new Memcache;
+$memcache->connect('localhost', 11211) or die ("Could not connect");
+
+require_once ('soapclient/SforcePartnerClient.php');
+#$mySforceConnection = new SforcePartnerClient();
+
+$search_key = "search|$search_cat";
+$search_key_val = $memcache->get($search_key);
+
+$total_key = "count|$search_key_val";
+$total_objs = $memcache->get($total_key);
+
+
 $param = $_GET['param'];
 $value = $_GET['value'];
 
@@ -10,24 +23,46 @@ if ($param) {
         $param = 'region';
         $value = $_POST['region'];
         $show_region = $value;
+
+
+
+		$search_cat = "region|$value";
+		$total_key = "count|region|$value";
+		$total_objs = $memcache->get($total_key);
+
+
     } 
     if ($_POST['city']) {
         $param = 'city';
         $value = $_POST['city'];
         $show_city = $value;
+
+        $search_cat = "city|$value";
+        $total_key = "count|city|$value";
+        $total_objs = $memcache->get($total_key);
+		
     }
 }
 
-$props = mysql_query("select * from property where $param='$value' order by prop_cat desc");
-$count_it = 0;
 
-while ($home = mysql_fetch_array($props)) {
 
-    $start_type = "$home[prop_cat]";
-    
-    echo "<table border=0 cellpadding=0 cellspacing=0 width=\"100%\">";
 
-    if ($start_type != $end_type) {
+
+$count_it = 1;
+
+while ($count_it < $total_objs) {
+
+    $key = "$search_cat|$count_it";
+    $get_result = $memcache->get($key);
+
+
+
+    $list_obj = new SObject($get_result);
+
+    $start_type = $list_obj->fields->Category__c;
+ 
+	echo "<table border=0 cellpadding=0 cellspacing=0 width=\"100%\">";
+    if ("$start_type" != "$end_type") {
         echo "<tr class=list_sh>";
         echo "<td class=list_sh>$start_type";
         if ($show_region) {
@@ -51,12 +86,12 @@ while ($home = mysql_fetch_array($props)) {
     echo "<table border=0 cellpadding=8 cellspacing=0 width=\"100%\">";
     echo "<tr>";
     echo "<td class=entry valign=top>";
-    echo "<span class=entry_title><a href=\"listing.php?prop_id=$home[0]\" class=home_row>$home[name]</a></span> - ";
-    echo "<span class=entry_loc><a href=\"listing.php?prop_id=$home[0]\" class=home_row>$home[location]</span></a><Br>";
-    echo "<span class=entry_desc>$home[teaser]</span><br>";
-    echo "<a href=\"listing.php?prop_id=$home[0]\" class=ulink>More Details</a>";
+    echo "<span class=entry_title><a href=\"listing.php?prop_id=".$list_obj->Id."\" class=home_row>".$list_obj->fields->Name."</a></span> - ";
+    echo "<span class=entry_loc><a href=\"listing.php?prop_id=".$list_obj->Id."\" class=home_row>".$list_obj->fields->Display_Location__c."</span></a><Br>";
+    echo "<span class=entry_desc>".$list_obj->fields->Teaser__c."</span><br>";
+    echo "<a href=\"listing.php?prop_id=".$list_obj->Id."\" class=ulink>More Details</a>";
     echo "</td>";
-    echo "<td valign=top><a href=\"listing.php?prop_id=$home[0]&param=$param&value=$value\" class=home_row><img src=\"img/$home[image_name]\" border=0 vspace=4></a></td>";
+    echo "<td valign=top><a href=\"listing.php?prop_id=".$list_obj->Id."&param=$param&value=$value&search_cat=".$search_cat."\" class=home_row><img src=\"img/".$list_obj->fields->Image_URL_1__c."\" border=0 vspace=4></a></td>";
     echo "</tr>";
     echo "</table>";
     echo "<td>";
@@ -65,12 +100,10 @@ while ($home = mysql_fetch_array($props)) {
     echo "</table>";
     echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
     
-    $end_type = "$home[prop_cat]"; 
+    $end_type = $list_obj->fields->Category__c; 
     
     echo "</td></tr>";
     echo "</table>";
-
-
 }    
     
     

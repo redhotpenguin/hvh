@@ -1,8 +1,16 @@
 <?php
-// AUTO POLULATE THE RGION AND CITY DROP DOWNS --- //
-$regions = mysql_query("select distinct region from property order by region asc");
-$cities = mysql_query("select distinct city from property order by city asc");
+$memcache = new Memcache;
+$memcache->connect('localhost', 11211) or die ("Could not connect");
+
+require_once ('../soapclient/SforcePartnerClient.php');
+#$mySforceConnection = new SforcePartnerClient();
+
+
 ?>
+
+
+
+
 <!-- BEGIN SEARCH -->
 <table border=0 cellpadding=0 cellspacing=0>
 <tr><Td><img src="img/search_props_box.gif"></td></tr>
@@ -18,18 +26,59 @@ $cities = mysql_query("select distinct city from property order by city asc");
 				<form method=post name=search action="list.php">
 				<select name=city class=search_select onChange="this.form.submit()">
                 <option value="">By City</option>
+
+
                 <?php
-                while ($cit = mysql_fetch_array($cities)) {
-                    echo "<option value=\"$cit[city]\">$cit[city]</option>";
+				$count = 1;
+				$distinct_vals = array();
+                 while ($count < 100) {
+
+					$key = "cities|$count";
+					$city = $memcache->get($key);
+					$city_obj = new SObject($city);
+					$city_name = $city_obj->fields->City__c;
+					
+					// SALES FORCE HACK FOR LACK OF ALLOWING DISTINCT IN SQL //
+
+					if (in_array("$city_name", $distinct_vals)) {} else {
+						
+						array_push($distinct_vals, "$city_name");
+					
+						if ($city_name != "") {
+                    		echo "<option value=\"".$city_name."\">".$city_name."</option>";
+						}
+					}
+					$count++;
                 }
                 ?>
+
+
+
 				</select>
 				<br/>
 				<select name=region class=search_select onChange="this.form.submit()">
 				<option value="">By Region</option>
                 <?php
-                while ($reg = mysql_fetch_array($regions)) {
-                    echo "<option value=\"$reg[region]\">$reg[region]</option>";
+				$count = 1;
+				$distinct_vals = array();
+                 while ($count < 100) {
+
+					$key = "regions|$count";
+					$region = $memcache->get($key);
+					$region_obj = new SObject($region);
+					$region_name = $region_obj->fields->Region__c;
+					
+					// SALES FORCE HACK FOR LACK OF ALLOWING DISTINCT IN SQL //
+
+					if (in_array("$region_name", $distinct_vals)) {} else {
+						
+						array_push($distinct_vals, "$region_name");
+					
+						if ($region_name != "") {
+                    		echo "<option value=\"".$region_name."\">".$region_name."</option>";
+						}
+					}
+					$count++;
                 }
                 ?>
 				</select>

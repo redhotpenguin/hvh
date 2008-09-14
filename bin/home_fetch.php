@@ -16,7 +16,7 @@ foreach ($cats as $cat) {
 	if ($cat == 'premier_inn') { $friendly_cat = 'Premier Inn'; }
 
 
-	$query = "SELECT Id, Name, Property_Address__c, Category__c, Teaser__c, Description__c, Display_Location__c, City__c, Image_URL_1__c  from Property__c where Category__c='$friendly_cat' order by Name ASC limit 3";
+	$query = "SELECT Id, Name, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, Region__c, City__c, Image_URL_1__c  from Property__c where Category__c='$friendly_cat' order by Name ASC limit 3";
 
 	echo "running query\n";
 

@@ -18,7 +18,7 @@ while ($count_it <= $limit) {
     echo "<table border=0 cellpadding=8 cellspacing=0 width=175>";
     echo "<tr><td align=center class=entry>";
     echo "<span class=entry_title><a href=\"listing.php?prop_id=$sObject->Id\" class=home_row>".$sObject->fields->Name."</a></span><br>";
-        echo "<span class=entry_loc><a href=\"listing.php?prop_id=$sObject->Id\" class=home_row>".$sObject->fields->Display_Location__c."</a></span><Br>";
+        echo "<span class=entry_loc><a href=\"listing.php?prop_id=$sObject->Id\" class=home_row>".$sObject->fields->City__c.", ".$sObject->fields->Location__c."</a></span><Br>";
         echo "<a href=\"listing.php?prop_id=$sObject->Id\"><img src=\"img/".$sObject->fields->Image_URL_1__c."\" border=0 vspace=4></a><br>";
         echo "<span class=entry_desc>".$sObject->fields->Teaser__c."</span><br>";
         echo "<a href=\"listing.php?prop_id=$sObject->Id\" class=ulink>More Details</a>";

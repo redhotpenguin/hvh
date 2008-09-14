@@ -87,7 +87,7 @@ while ($count_it < $total_objs) {
     echo "<tr>";
     echo "<td class=entry valign=top>";
     echo "<span class=entry_title><a href=\"listing.php?prop_id=".$list_obj->Id."\" class=home_row>".$list_obj->fields->Name."</a></span> - ";
-    echo "<span class=entry_loc><a href=\"listing.php?prop_id=".$list_obj->Id."\" class=home_row>".$list_obj->fields->Display_Location__c."</span></a><Br>";
+    echo "<span class=entry_loc><a href=\"listing.php?prop_id=".$list_obj->Id."\" class=home_row>".$list_obj->fields->Location__c."</span></a><Br>";
     echo "<span class=entry_desc>".$list_obj->fields->Teaser__c."</span><br>";
     echo "<a href=\"listing.php?prop_id=".$list_obj->Id."\" class=ulink>More Details</a>";
     echo "</td>";

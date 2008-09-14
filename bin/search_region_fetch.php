@@ -5,7 +5,7 @@ include("./phpdev/util/bin_connect.inc");
 // DATA CACHE FOR THE REGIONAL SEARCH // ------------------------------------------
 
 
-	$query = "SELECT Id, Name, Property_Address__c, Category__c, Teaser__c, Description__c, Display_Location__c, City__c, Image_URL_1__c, Region__c  from Property__c order by Region__c, Category__c, Name ASC";
+	$query = "SELECT Id, Name, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, City__c, Image_URL_1__c, Region__c  from Property__c order by Region__c, Category__c, Name ASC";
 	echo "running query\n";
 
 	$query_results = $mySforceConnection->query($query);

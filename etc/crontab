@@ -1,0 +1,9 @@
+# reboot once a day
+# 20 4 * * * /sbin/reboot
+1,11,21,31,41,51 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/cities_fetch.php
+2,12,22,32,42,52 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/home_fetch.php
+3,13,23,33,43,53 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/individual_listing_fetch.php
+4,14,24,34,44,54 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/regions_fetch.php
+5,15,25,35,45,55 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/search_category_fetch.php
+6,16,26,36,46,56 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/search_city_fetch.php
+7,17,27,37,47,57 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/search_region_fetch.php

@@ -1,6 +1,6 @@
 				<?php include "template/column_spacer.inc"; ?>
                 </tr>
-                <tr><td colspan=6 height=5><img src="img/clear.gif" width=1 height=5></td></tr>
+                <tr><td colspan=7 height=5><img src="img/clear.gif" width=1 height=5></td></tr>
                 <!-- PHILANTHROPY BANNER-->
                 <tr><td colspan=6 align=center>
 					<table border=0 cellpadding=0 cellspacing=0>
@@ -17,7 +17,7 @@
             </td></tr>
 
             <!-- MOUNTAINS BANNER -->
-            <tr><Td colspan=6><img src="img/mountains.gif" border=0 width=998 height=147></td></tr>
+            <tr><Td colspan=7><img src="img/mountains.gif" border=0 width=998 height=147></td></tr>
             </table>
                     
         </td>

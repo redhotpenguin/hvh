@@ -26,7 +26,7 @@ include "maps/Hawaii_head.inc";
             <!-- BEGIN TOP NAV -->
             <table border=0 cellpadding=0 cellspacing=0 width=998>
             <Tr>
-		<td><a href="index.php.php"><img src="img/home_off.gif" border=0></a></td>
+		<td><a href="index.php"><img src="img/home_off.gif" border=0></a></td>
                 <td><a href="contact_us.php"><img src="img/contact_us_off.gif" border=0></a></td>
 		<td><a href="about_us.php"><img src="img/about_us_off.gif" border=0></a></td>	
                 <td><a href="book_a_place.php"><img src="img/book_off.gif" border=0></a></td>

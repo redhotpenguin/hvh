@@ -1,1 +1,1 @@
-<div id="map" style="width: 900px; height: 600px"></div>
+<div id="North_America" style="width: 398px; height: 270px"></div>

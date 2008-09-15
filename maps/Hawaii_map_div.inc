@@ -1,1 +1,1 @@
-<div id="map" style="width: 900px; height: 600px"></div>
+<div id="Hawaii" style="width: 398px; height: 175px"></div>

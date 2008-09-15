@@ -1,0 +1,1 @@
+<div id="Europe" style="width: 199px; height: 200px"></div>

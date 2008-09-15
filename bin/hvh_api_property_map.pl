@@ -40,62 +40,91 @@ print Dumper( $res->[0] ) if DEBUG;
 use Geo::Coder::Google;
 my $geo =
   Geo::Coder::Google->new( apikey =>
-'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw'
+'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxS9Wc_wSMS9I-_uq3bV6rDa-qiUhxSx_eykChOiJtvGX7Z5-OemFI5dNQ'
+#  www.hvh.com 'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw'
   );
 
 use HTML::GoogleMaps;
 
-my @map_zones = ( "North_America", "Hawaii", "Alaska", "Europe", "Caribbean" );
+my %map_zones = ( "North_America" => { height => '270', width => '398', center => 'Kansas City, KS', controls => ['small_map_control' ], zoom => 3 },
+	 "Hawaii" => { height => '175', width => '398', center => 'Hana, Maui', zoom => 5 , controls => ['small_map_control' ]},
+	 "Alaska" => { height => '300', width => '398', center => 'Cordova, AK', zoom => 4, controls => ['small_map_control'] },
+	 "Europe" => { height => '200', width => '199', center => 'Berlin GE', zoom => 5  },
+	 "Caribbean" => { height => '175', width => '398', center => 'St Thomas, VI', zoom => 9 , controls => ['small_map_control'] }, );
 
-foreach my $display_map (@map_zones) {
+foreach my $display_map ( keys %map_zones ) {
 
+    print "\n******************\nBuilding display map $display_map\n" if DEBUG;
+#warn("height is " . $map_zones{$display_map}->{height});
+#warn("width is " . $map_zones{$display_map}->{width});
     my $map = HTML::GoogleMaps->new(
-        height => '600',
-        width  => '900',
+        height => $map_zones{$display_map}->{height},
+        width  => $map_zones{$display_map}->{width},
         key =>
-"ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw",
+'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxS9Wc_wSMS9I-_uq3bV6rDa-qiUhxSx_eykChOiJtvGX7Z5-OemFI5dNQ'
+# www.hvh.com "ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw",
     );
 
-    $map->v2_zoom(4);
+    $map->map_id($display_map);
+    $map->map_type('normal');
+    $map->v2_zoom($map_zones{$display_map}->{zoom});
+#    my $center = $geo->geocode( location => $map_zones{$display_map}->{center} );
+   # print "Center is " . Dumper($center->{Point}->{coordinates}) . "\n\n";
+    $map->center( $map_zones{$display_map}->{center} );
+#[
+#	$center->{Point}->{coordinates}->[0],
+#	$center->{Point}->{coordinates}->[1], ],
+# );
     $map->info_window(1);
-    $map->controls( 'large_map_control', 'map_type_control' );
+    if ($map_zones{$display_map}->{controls}) {
+        $map->controls( @{ $map_zones{$display_map}->{controls}} );
+    }
     $map->add_icon(
         shadow             => 'http://hvh2.hvh.com/img/solopalm.png',
         shadow_size        => [ 0, 0 ],
         icon_anchor        => [ 0, 0 ],
         info_window_anchor => [ 0, 0 ],
-        name               => 'jah',
+        name               => 'palm',
         image              => 'http://hvh2.hvh.com/img/solopalm.png',
         image_size         => [ 30, 30 ]
     );
     my @markers;
 
-    $map->center( point => $res->[0]->{Property_Address__c} );
 
     foreach my $row ( @{$res} ) {
 
+	next unless defined $row->{Display_Map__c};
+	next unless $row->{Display_Map__c} eq $display_map;
 
         next unless $row->{City__c} && $row->{State__c} . ' ' . $row->{Zip__c};
+
         my $address =
           $row->{City__c} . ', ' . $row->{State__c} . ' ' . $row->{Zip__c};
-        warn("address $address");
 
         next unless defined $address;
 
-        print "processing address $address\n\n" if DEBUG;
+	# don't overload google api
+	sleep 1;
 
-        warn("sleep 1") if DEBUG;
-        sleep 1;
+        print "processing address $address\n\n" if DEBUG;
 
         my $location = $geo->geocode( location => $address );
         unless ($address) {
             warn("couldn't get geocode for addr $address");
             next;
         }
+	unless ($location) {
+		warn("couldn't get location for addr $address");
+		next;
+	}
+	#print Dumper($row) . "\n\n\n\n";
+	print "writing to display map $display_map for addr $address\n";
         $map->add_marker(
             point => $address,
-            html  => '<p>JAH!</p>',
-            icon  => 'jah'
+            html  => '<a href="/phpdev/listing.php?prop_id=' .
+		$row->{Id}->[0] . '"><font size="small">' . $row->{Name} . '</font></a><br />' .
+	'<font size="small">' . $row->{City__c} . ', ' . $row->{Location__c} . '</font>',
+            icon  => 'palm'
         );
         $row->{location} = $location;
         push @markers,
@@ -112,7 +141,7 @@ foreach my $display_map (@map_zones) {
 
     foreach my $part ( keys %map_hash ) {
 
-      my $filename = "./" . $display_map . "_" . $part . ".inc";
+      my $filename = "./maps/" . $display_map . "_" . $part . ".inc";
       print "Filename is $filename\n" if DEBUG;
         my $part = $map_hash{$part};
         open( FH, '>', $filename ) or die $!;
@@ -122,8 +151,6 @@ foreach my $display_map (@map_zones) {
         close(FH);
     }
 }
-
-print 1;
 
 __END__
 use Geo::Google::StaticMaps;

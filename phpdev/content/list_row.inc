@@ -86,12 +86,12 @@ while ($count_it < $total_objs) {
     echo "<table border=0 cellpadding=8 cellspacing=0 width=\"100%\">";
     echo "<tr>";
     echo "<td class=entry valign=top>";
-    echo "<span class=entry_title><a href=\"listing.php?prop_id=".$list_obj->Id."\" class=home_row>".$list_obj->fields->Name."</a></span> - ";
+    echo "<span class=entry_title><a href=\"listing.php?prop_id=".$list_obj->Id."\" class=home_title>".$list_obj->fields->Name."</a></span> - ";
     echo "<span class=entry_loc><a href=\"listing.php?prop_id=".$list_obj->Id."\" class=home_row>".$list_obj->fields->Location__c."</span></a><Br>";
     echo "<span class=entry_desc>".$list_obj->fields->Teaser__c."</span><br>";
-    echo "<a href=\"listing.php?prop_id=".$list_obj->Id."\" class=ulink>More Details</a>";
+    echo "<a href=\"listing.php?prop_id=".$list_obj->Id."\" class=ulink>More...</a>";
     echo "</td>";
-    echo "<td valign=top><a href=\"listing.php?prop_id=".$list_obj->Id."&param=$param&value=$value&search_cat=".$search_cat."\" class=home_row><img src=\"img/".$list_obj->fields->Image_URL_1__c."\" border=0 vspace=4></a></td>";
+    echo "<td valign=top><a href=\"listing.php?prop_id=".$list_obj->Id."&param=$param&value=$value&search_cat=".$search_cat."\" class=home_row><img src=\"".$list_obj->fields->Image_URL_1__c."\" border=0 vspace=4></a></td>";
     echo "</tr>";
     echo "</table>";
     echo "<td>";

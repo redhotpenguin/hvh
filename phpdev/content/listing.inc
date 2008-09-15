@@ -1,5 +1,5 @@
                     <?php 
-                        $prop_cat = $_GET['prop_cat'];
+                        $prop_cat = $_GET['prop_cat'] || '';
                     ?>
                     <td width="*%" valign=top align=center>
                         <table border=0 cellpadding=0 cellspacing=0 width="100%">

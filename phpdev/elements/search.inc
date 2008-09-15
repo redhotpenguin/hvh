@@ -36,6 +36,9 @@ require_once ('../soapclient/SforcePartnerClient.php');
 					$key = "cities|$count";
 					$city = $memcache->get($key);
 					$city_obj = new SObject($city);
+					if (!$city_obj) {
+						next;
+					}
 					$city_name = $city_obj->fields->City__c;
 					
 					// SALES FORCE HACK FOR LACK OF ALLOWING DISTINCT IN SQL //

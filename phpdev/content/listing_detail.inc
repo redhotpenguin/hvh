@@ -67,7 +67,7 @@ $listing_obj = new SObject($get_result);
 	$img_array = array("Image_URL_2__c","Image_URL_3__c","Image_URL_4__c","Image_URL_5__c","Image_URL_6__c","Image_URL_7__c","Image_URL_8__c");
 	foreach ($img_array as $img) {	
 		if (strlen($listing_obj->fields->$img) > 3) {
-			echo "<img src=\"".$listing_obj->fields->$img."\" vspace=4><br>caption<br>";
+			echo "<img width=\"216\" height=\"152\" src=\"".$listing_obj->fields->$img."\" vspace=4><br>";
 		}
 	}
     echo "</td>";
@@ -77,24 +77,75 @@ $listing_obj = new SObject($get_result);
  //   echo "<span class=entry_loc>Property Address: ".$listing_obj->fields->Property_Address__c."</span></a><br><Br>";
     echo "<span class=entry_desc>".$listing_obj->fields->Description__c."</span><br>";
     echo "</td>";
+
+
     echo "<td valign=top class=amen width=200>";
-    echo "Amenities";
-    echo "<hr noshade size=1 color=\"#e2e2e1\">Beach View -<br>Swimming Pool -<br>Swim-Up Bar -<br>Hot Tub -<br>Private Hot Tub - ";
-    echo "<hr noshade size=1 color=\"#e2e2e1\">Attractions<hr noshade size=1 color=\"#e2e2e1\">";
-    echo "Golf Course -<br>Horse Back Riding -<br>Swimming -<br>Hiking -<br>Bike Trails -<br>Nature Tours -";
-    echo "<hr noshade size=1 color=\"#e2e2e1\">Dining<hr noshade size=1 color=\"#e2e2e1\">";
-    echo "Some Restaaurant -<br>Some Fine Restaurant -<br>Some Divy Cafe -";
-    echo "<hr noshade size=1 color=\"#e2e2e1\">Nightlife<hr noshade size=1 color=\"#e2e2e1\">";
-    echo "Disco Dans -<br>The Mayfair Pub -<br>Cafe Rock -";
-    echo "</td>";
+   	   	
+    if ($listing_obj->fields->Special_Amenities__c != '') {
+
+      echo "<h3>Special Amenities</h3>";
+    
+      $special_array = explode( ';', $listing_obj->fields->Special_Amenities__c);
+
+      foreach ($special_array as $special) {
+	
+        echo "<hr noshade size=1 color=\"#e2e2e1\">$special<br />";
+      }
+
+        echo "<hr noshade size=1 color=\"#e2e2e1\"><br />";
+    }
+
+    echo "<h3>Amenities</h3>";
+    $amenities_array =
+ array("Wireless_Internet__c", "Private_Hot_Tub__c", 
+	"Swimming_Pool__c", "High_Definition_TV_DVR__c",
+	"Unlimited_Long_Distance__c",
+	"Stereo_System__c", "CD_Player__c", "Music_Library__c", "VCR__c",
+	"DVD_Player__c",
+	"Video_Library__c", "Bath_Towels__c", "Bed_Linens__c", "Washer_Dryer__c",
+	"Refrigerator__c", "Dishwasher__c", "Oven__c",
+	"Microwave__c", "Air_Conditioning__c",
+	"Full_Kitchen__c", "Cooking_Utensils__c", "Barbecue__c", "Hair_Dryer__c" );
+
+
+    $amenities_hash =
+ array("Wireless_Internet__c" => "Wireless Internet",
+	"Private_Hot_Tub__c" => "Private Hot Tub",
+	"Swimming_Pool__c" => "Swimming Pool",
+	 "High_Definition_TV_DVR__c" => "High Definition TV/DVR",
+	"Unlimited_Long_Distance__c" => "Unlimited Long Distance",
+	"Stereo_System__c" => "Stereo System",
+	 "CD_Player__c" => "CD Player",
+	"Music_Library__c" => "Music Library",
+	"VCR__c" => "VCR",
+	"DVD_Player__c" => "DVD Player",
+	"Video_Library__c" => "Video Library",
+	 "Bath_Towels__c" => "Bath Towels",
+	 "Bed_Linens__c"  => "Bed Linens",
+	"Washer_Dryer__c" => "Washer/Dryer",
+	"Refrigerator__c" => "Refrigerator",
+	 "Dishwasher__c" => "Dishwasher",
+	"Oven__c" => "Oven",
+	"Microwave__c" => "Microwave",
+	 "Air_Conditioning__c" => "Air Conditioning",
+	"Full_Kitchen__c" => "Full Kitchen",
+	 "Cooking_Utensils__c" => "Cooking Utensils",
+	 "Barbecue__c" => "Barbecue",
+	 "Hair_Dryer__c" => "Hair Dryer");
+
+
+
+	foreach ($amenities_array as $amenity) {
+   	   	if ($listing_obj->fields->$amenity) {
+        	echo "<hr noshade size=1 color=\"#e2e2e1\">".$amenities_hash[$amenity];
+    		}
+   	}
+   echo "</td>";
     echo "</tr>";
     echo "</table>";
     echo "<td>";
-    $count_it++;
     echo "</tr>";
     echo "</table>";
-    
-    $end_type = "$home[prop_cat]"; 
     
     echo "</td></tr>";
     echo "</table>";

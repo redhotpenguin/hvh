@@ -8,6 +8,15 @@ span.detail_header {
         font-size: 2.2em;
         color: #000000;
 }
+span.map_header {
+        font-size: .9em;
+        color: #000000;
+	padding-top: 2px;
+	padding-left: 0px;
+	padding-right: 6px;
+	background-color: #ffffff;
+}
+
 td.content {  
 		font-size: 15px;
         color: #000000;

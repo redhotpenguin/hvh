@@ -46,11 +46,11 @@ my $geo =
 
 use HTML::GoogleMaps;
 
-my %map_zones = ( "North_America" => { height => '270', width => '398', center => 'Kansas City, KS', controls => ['small_map_control' ], zoom => 3 },
-	 "Hawaii" => { height => '175', width => '398', center => 'Hana, Maui', zoom => 5 , controls => ['small_map_control' ]},
-	 "Alaska" => { height => '300', width => '398', center => 'Cordova, AK', zoom => 4, controls => ['small_map_control'] },
-	 "Europe" => { height => '200', width => '199', center => 'Berlin GE', zoom => 5  },
-	 "Caribbean" => { height => '175', width => '398', center => 'St Thomas, VI', zoom => 9 , controls => ['small_map_control'] }, );
+my %map_zones = ( "North_America" => { height => '270', width => '398', center => 'Kansas City, KS', controls => ['small_map_control', 'map_type_control' ], zoom => 3 },
+	 "Hawaii" => { height => '220', width => '398', center => 'Honolulu, Oahu', zoom => 6 , controls => ['small_map_control', 'map_type_control' ]},
+	 "Alaska" => { height => '220', width => '398', center => 'Cordova, AK', zoom => 4, controls => ['small_map_control', 'map_type_control'] },
+	 "Europe" => { height => '300', width => '199', center => 'Berlin GE', zoom => 5 , controls => ['small_map_control', 'map_type_control']   },
+	 "Caribbean" => { height => '200', width => '398', center => 'St Thomas, VI', zoom => 9 , controls => ['small_map_control', 'map_type_control'] }, );
 
 foreach my $display_map ( keys %map_zones ) {
 
@@ -80,13 +80,13 @@ foreach my $display_map ( keys %map_zones ) {
         $map->controls( @{ $map_zones{$display_map}->{controls}} );
     }
     $map->add_icon(
-        shadow             => 'http://hvh2.hvh.com/img/solopalm.png',
+        shadow             => 'http://hvh2.hvh.com/img/clear.gif',
         shadow_size        => [ 0, 0 ],
-        icon_anchor        => [ 0, 0 ],
-        info_window_anchor => [ 0, 0 ],
+        icon_anchor        => [ 0, 30 ],
+        info_window_anchor => [ 0, 30 ],
         name               => 'palm',
-        image              => 'http://hvh2.hvh.com/img/solopalm.png',
-        image_size         => [ 30, 30 ]
+        image              => 'http://hvh2.hvh.com/img/lonepalm.outlinr.png',
+        image_size         => [ 25, 30 ]
     );
     my @markers;
 
@@ -119,11 +119,15 @@ foreach my $display_map ( keys %map_zones ) {
 	}
 	#print Dumper($row) . "\n\n\n\n";
 	print "writing to display map $display_map for addr $address\n";
+	my $category = $row->{Category__c};
+	$category =~ s/_/ /g;
         $map->add_marker(
             point => $address,
-            html  => '<a href="/phpdev/listing.php?prop_id=' .
-		$row->{Id}->[0] . '"><font size="small">' . $row->{Name} . '</font></a><br />' .
-	'<font size="small">' . $row->{City__c} . ', ' . $row->{Location__c} . '</font>',
+            html  => 
+'<a href="/phpdev/listing.php?prop_id=' .
+		$row->{Id}->[0] . '"><span style="font-size: 12px">' . $row->{Name} . '</span></a><br />' .
+	'<span style="font-size: 12px">' . $row->{City__c} . ', ' . $row->{Location__c} . '</span>' .
+	'<br /><span style="font-size: 12px">' . $category .  '</span>',
             icon  => 'palm'
         );
         $row->{location} = $location;

@@ -1,1 +1,1 @@
-<div id="Hawaii" style="width: 398px; height: 175px"></div>
+<div id="Hawaii" style="width: 398px; height: 220px"></div>

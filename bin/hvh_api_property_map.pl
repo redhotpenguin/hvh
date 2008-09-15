@@ -5,6 +5,8 @@ use warnings;
 
 use WWW::Salesforce::Simple;
 
+use constant DEBUG => $ENV{'HVH_DEBUG'} || 0;
+
 my $username = shift;
 my $token = shift or warn "using default token\n";
 
@@ -16,28 +18,15 @@ my $Sf = WWW::Salesforce::Simple->new(
 
 use Data::Dumper;
 
-warn("grabbing tables...\n");
-my $tables_ref = $Sf->get_tables();
-$DB::single = 1;
-print Dumper($tables_ref);
+my $table = 'Property__c';
 
-#my $table = 'Property__c';
+print "grabbing fields...\n") if DEBUG;
+	
+my $raw_fields = $Sf->get_field_list($table);
+my @fields = map { $_->{name} } @{$raw_fields};
+print "Table $table has fields:\n" . Dumper(\@fields) . "\n\n" if DEBUG;
 
-warn("grabbing fields...\n");
-
-open(FH, '>schema.dump') or die $!;
-
-foreach my $table (@{ $tables_ref}) {
-
-	warn("processing table $table\n");
-	my $raw_fields = $Sf->get_field_list($table);
-	my @fields = map { $_->{name} } @{$raw_fields};
-	print FH "Table $table has fields:\n" . Dumper(\@fields) . "\n\n";
-}
-
-close(FH);
-__END__
-#print Dumper( \@fields );
+print Dumper( \@fields ) if DEBUG;
 
 my $qp = join( ", ", @fields );
 
@@ -71,10 +60,10 @@ foreach my $row ( @{$res} ) {
     next unless defined $row->{Property_Address__c};
     next unless defined $row->{Property_Address__c};
 
-#    $map->center( point => $row->{Property_Address__c} );
-#    $map->add_marker( point => $row->{Property_Address__c} );
+    #    $map->center( point => $row->{Property_Address__c} );
+    #    $map->add_marker( point => $row->{Property_Address__c} );
 sleep 1;
-warn("sleep");
+    warn("sleep 1") if DEBUG;
     #next;
     my $location = $geo->geocode( location => $row->{Property_Address__c} );
     unless ($location) {

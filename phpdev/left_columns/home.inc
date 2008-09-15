@@ -9,6 +9,8 @@ include "elements/search.inc";
 include "elements/spacer.inc";
 include "elements/map.inc";
 include "elements/spacer.inc";
+include "elements/owners.inc";
+include "elements/spacer.inc";
 include "elements/solutions.inc"; 
 include "elements/spacer.inc";
 include "elements/testimonials.inc";

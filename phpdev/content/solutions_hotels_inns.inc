@@ -46,9 +46,9 @@ Pricing - Annual Subscription of $1995/yr includes 3 users and up to 50 properti
 
 <td valign=top align=right width="40%">
 
-<a href="">Download the Product Spec Sheet</a><br/>
-<a href="">Download the Company Overview</a><br/>
-<a href="">See a demo of the 2nd Home Edition</a></br>
+<a href="">Download the Product Spec Sheet<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
+<a href="">Download the Company Overview<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
+<a href="">See a demo of the 2nd Home Edition<img src="img/pdf_ico_small.gif" hspace=6 border=0></a></br>
 
 </td>
 </tr>

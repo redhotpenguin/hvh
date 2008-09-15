@@ -56,9 +56,8 @@ require_once ('../soapclient/SforcePartnerClient.php');
                 ?>
 
 
-
 				</select>
-				<br/>
+				<br/><img src="img/clear.gif" height=4 width=1><br/>
 				<select name=region class=search_select onChange="this.form.submit()">
 				<option value="">By Region</option>
                 <?php

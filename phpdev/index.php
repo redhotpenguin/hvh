@@ -7,7 +7,7 @@ $page_title = 'Hideaway Vacation Homes';
 // --- FOOTER IS THE PHILANTHROPY AND MOUNTAIN IMAGE - CLOSES ALL PAGES --- //
 // --- ANYTHING CALLED INBETWEEN HEADER AND FOOTER IS THE MAIN BODY OF THE PAGE --- //
 
-include "template/index_header.inc";
+include "template/header.inc";
 include "left_columns/home.inc";
 include "template/column_spacer.inc";
 include "content/home.inc";

@@ -42,7 +42,7 @@ foreach ($prop_array as $prop) {
         }
 #	error_log("\nQ Fields is $q_fields");
 
-	$single_query = "SELECT Id, Name, Property_Address__c, Category__c, Description__c, Location__c, Image_URL_1__c, Image_URL_2__c, Image_URL_3__c, Image_URL_4__c, Image_URL_5__c, Image_URL_6__c, Image_URL_7__c, Image_URL_8__c, City__c $q_fields from Property__c where Id='$prop_obj->Id' limit 1";
+	$single_query = "SELECT Id, Name, Property_Address__c, Category__c, Description__c, Location__c, Image_URL_1__c, Image_URL_2__c, Image_URL_3__c, Image_URL_4__c, Image_URL_5__c, Image_URL_6__c, Image_URL_7__c, Image_URL_8__c, City__c $q_fields, Special_Amenities__c from Property__c where Id='$prop_obj->Id' limit 1";
 	$single_results = $mySforceConnection->query($single_query);
 	$single = $single_results->records;
 

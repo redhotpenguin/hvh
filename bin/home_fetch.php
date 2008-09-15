@@ -1,5 +1,6 @@
 <?php
 
+chdir('/var/www/hvh2.hvh.com');
 include("./phpdev/util/bin_connect.inc");
 
 // DATA CACHE FOR THE TWELVE PROPERTIES TO BE FEATURED ON THE HOME PAGE // ------------------------------------------

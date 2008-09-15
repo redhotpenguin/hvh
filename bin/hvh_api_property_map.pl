@@ -7,6 +7,8 @@ use Data::Dumper;
 
 use constant DEBUG => $ENV{'HVH_DEBUG'} || 0;
 
+chdir('/var/www/hvh2.hvh.com');
+
 my $username = shift;
 my $token = shift or warn "using default token\n";
 

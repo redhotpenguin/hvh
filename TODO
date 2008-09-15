@@ -1,5 +1,69 @@
 TODO
 
+Top nav bar fix (possibly from maps)
+-- DH -- FIXED
+
+Add home button 
+-- DH -- DONE
+
+More space between search select boxes
+-- DH -- DONE
+
+home_row property title should be green, city/Location should be black
+-- DH - DONE
+
+"More Details" on property teaser should say just "More"
+-- DH -- DONE
+
+Add header to map showing map name (already in code, just uncomment and format)
+-- DH -- DONE
+===========================================
+
+Change "Solutions for Property Owners and Managers" to match power point slide
+
+
+
+Then when one box is clicked on, go to property type detail page.
+
+
+
+On detail page reorganize download links (product spec sheet, etc) to match style on
+
+http://www.salesforce.com/appexchange/detail_overview.jsp?NavCode__c=&id=a0330000005lhZwAAI
+
+Specifically, the pdf thumbnail image
+
+Maybe download links go in empty box to the right of the Solutions box (on detail page)
+
+
+When you click on the download pdf link, you go to a web form which submits to salesforce via web to lead.
+
+Then the salesforce email template takes over
+
+-- DH -- PDF ICON ADDED TO ALL LINKS - WHEN THE FORM IS READY LET ME KNOW I'LL LINK THE SUCKER UP.
+
+
+
+===========================================
+
+
+
+On home page, 'Solutions' (in red) shoud say "Software Solutions"
+-- DH -- DONE
+
+Create another box that looks like 'Solutions' which says <red>Owners and Managers</red> <subtext>'List your property here'</subtext> with just one button.  Put this box above the 'Solutions' Box
+-- DH - DONE
+
+MONKEY DOES NOT LOOK BELOW THIS  LINE ---
+
+------------------------------------------------------
+
+
+
+
+
+
+
 Link to full size image from thumbnail on detail page (photo gallery?)
 
 Make link to home page a button?  And put it at the top and bottom of

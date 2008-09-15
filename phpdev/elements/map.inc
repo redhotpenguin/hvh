@@ -17,6 +17,8 @@ echo "<tr><td colspan=3 width=1 bgcolor=\"#888888\"><img src=\"img/clear.gif\" w
 echo "</table>";
 echo "<br />";
 
+
+
 echo "<span class=map_header>Hawaii</span>\n";
 echo "<table border=0 cellpadding=0 cellspacing=0 width=\"100%\">";
 echo "<tr><td bgcolor=\"#888888\" colspan=3><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
@@ -46,21 +48,27 @@ echo "<tr><td colspan=3 width=1 bgcolor=\"#888888\"><img src=\"img/clear.gif\" w
 echo "</table>";
 echo "<br />";
 
+
+
+
+
+
 echo "<span class=map_header>Alaska</span>\n";
 echo "<table border=0 cellpadding=0 cellspacing=0 width=\"100%\">";
 echo "<tr><td bgcolor=\"#888888\" colspan=3><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
 echo "<tr><td width=1 bgcolor=\"#888888\"><img src=\"img/clear.gif\" width=1 height=1></td>";
 echo "<td valign=top>";
+
 include "maps/Alaska_map_div.inc";
+
 include "maps/Alaska_map_script.inc";
+
 echo "</td>";
 echo "<td width=1 bgcolor=\"#888888\"><img src=\"img/clear.gif\" width=1 height=1></td>";
 echo "</tr>";
 echo "<tr><td colspan=3 width=1 bgcolor=\"#888888\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
 echo "</table>";
 echo "<br />";
-
-
 
 
 

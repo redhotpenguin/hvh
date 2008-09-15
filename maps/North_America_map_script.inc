@@ -31,8 +31,14 @@
       GEvent.addListener(North_Americamap_marker_5, "click", function () {  North_Americamap_marker_5.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001OhFAAA0"><span style="font-size: 12px">Post Ranch Inn</span></a><br /><span style="font-size: 12px">Big Sur, California</span><br /><span style="font-size: 12px">Signature Inn</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_5);
       var North_Americamap_marker_6 = new GMarker(new GLatLng(32.230636, -80.732529) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_6, "click", function () {  North_Americamap_marker_6.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001OhFEAA0"><span style="font-size: 12px">Hilton Head Getaway</span></a><br /><span style="font-size: 12px">Hilton Head Is., Palmetto Dunes</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      GEvent.addListener(North_Americamap_marker_6, "click", function () {  North_Americamap_marker_6.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001OhFEAA0"><span style="font-size: 12px">Hilton Head Getaway</span></a><br /><span style="font-size: 12px">Hilton Head, Palmetto</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_6);
+      var North_Americamap_marker_7 = new GMarker(new GLatLng(39.643596, -106.37841) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_7, "click", function () {  North_Americamap_marker_7.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001wXsLAAU"><span style="font-size: 12px">Sonnenalp Resort</span></a><br /><span style="font-size: 12px">Vail, Colorado</span><br /><span style="font-size: 12px">Premier Inn</span></div>'); });
+      North_Americamap.addOverlay(North_Americamap_marker_7);
+      var North_Americamap_marker_8 = new GMarker(new GLatLng(39.345294, -120.173003) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_8, "click", function () {  North_Americamap_marker_8.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001wXsGAAU"><span style="font-size: 12px">Truckee Ski Home</span></a><br /><span style="font-size: 12px">Truckee, North Lake Tahoe</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      North_Americamap.addOverlay(North_Americamap_marker_8);
     }
 
     //]]>

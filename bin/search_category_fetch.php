@@ -1,5 +1,7 @@
 <?php
 
+chdir('/var/www/hvh2.hvh.com');
+
 include("./phpdev/util/bin_connect.inc");
 
 // DATA CACHE FOR THE TWELVE PROPERTIES TO BE FEATURED ON THE HOME PAGE // ------------------------------------------
@@ -16,7 +18,7 @@ foreach ($cats as $cat) {
 	if ($cat == 'all_premier_inn') { $friendly_cat = 'Premier Inn'; }
 
 
-	$query = "SELECT Id, Name, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, City__c, Image_URL_1__c  from Property__c where Category__c='$friendly_cat' order by Name ASC";
+	$query = "SELECT Id, Name, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, City__c, Image_URL_1__c  from Property__c where Category__c='$friendly_cat' and Available_to_the_Public__c=true order by Name ASC";
 	echo "running query\n";
 
 	$query_results = $mySforceConnection->query($query);

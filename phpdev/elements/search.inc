@@ -16,7 +16,7 @@ require_once ('../soapclient/SforcePartnerClient.php');
 <tr><Td><img src="img/search_props_box.gif"></td></tr>
 <tr><td valign=top>
     <table border0 cellpadding=0 cellspacing=0 width="100%">
-    <tr><td width=1 bgcolor="#99cc99"><img src="img/clear.gif" width=1 height=1></td>
+    <tr><td width=1 bgcolor="#ff3100"><img src="img/clear.gif" width=1 height=1></td>
         <Td valign=top>
 			<table border=0 cellpadding=0 cellspacing=0 width="100%">
 			<tr><td width=20><img src="img/clear.gif" width=20 height=1></td>
@@ -92,9 +92,9 @@ require_once ('../soapclient/SforcePartnerClient.php');
 			</tr>
 			</table>
         </td>
-        <td width=1 bgcolor="#99cc99"><img src="img/clear.gif" width=1 height=1></td>
+        <td width=1 bgcolor="#ff3100"><img src="img/clear.gif" width=1 height=1></td>
     </tr>
-    <tr><Td colspan=3 bgcolor="#99cc99"><img src="img/clear.gif" width=1 height=1></td></tr>
+    <tr><Td colspan=3 bgcolor="#ff3100"><img src="img/clear.gif" width=1 height=1></td></tr>
     </table>
 </td></tr>
 </table>

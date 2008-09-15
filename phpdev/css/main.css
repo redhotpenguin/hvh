@@ -210,6 +210,27 @@ a.home_row:active {
 }
 
 
+a.home_title {
+        text-decoration: none
+    }
+a.home_title:link {
+        text-decoration:none;
+        color:#2c5221;
+    }
+a.home_title:visited {
+        text-decoration:none;
+        color:#2c5221;
+    }
+a.home_title:hover {
+        color:blue;
+        text-decoration:underline;
+    }
+a.home_title:active {
+        text-decoration:none;
+}
+
+
+
 a.ulink {
         text-decoration: underline;
     }

@@ -1,13 +1,9 @@
                     <?php $limit = 3; ?>
                     <td width=550 valign=top>
                         <table border=0 cellpadding=0 cellspacing=0 width="100%">
-                        <tr><td img src="img/clear.gif" width=1 height=15></td></tr>
+                        <tr><td img src="img/clear.gif" width=1 height=1></td></tr>
                         </table>
-						<table border=0 cellpadding=0 cellspacing=0 width="100%">
-                    	<tr><td valign=top align=center><div class=software><Br><a href="solutions.php"><font color=black size=4>Software Solutions</font><Br><font color="#666666"><i>for Property Owners and Managers</i></font></a></div></td>
-							<td><img src="img/clear.gif" width=16 height=1></td>
-							<td align=center><div class=owners><Br><a href=""><font color=black size=4>Owners & Managers</font><Br><font color="#666666"><i>List your Property Here with HVH</i></font></div></a></td></tr>
-						</table>  
+						<?php include "elements/owners_top.inc" ?>
 						<table border=0 cellpadding=0 cellspacing=0 width="100%">
                         <tr><td img src="img/clear.gif" width=1 height=32></td></tr>
                         </table> 

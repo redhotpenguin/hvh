@@ -12,7 +12,7 @@ if only for a few days. We have made it our business to provide places for you t
 <p>If you have a home that fits this description
 and are interested in adding it to our listing please let us know. </p>
 
-<p><a href="philanthropy.html">Learn more about our matching contribution program.</a> </p><br><Br>						
+<p><a href="contact_us.php">Learn more about our matching contribution program.</a> </p><br><Br>						
 
 <!-- END LOVE LIFE CONTENT -- NOTHING BELOW THIS LINE-->
 </td>

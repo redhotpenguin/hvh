@@ -29,9 +29,9 @@ include "maps/Hawaii_head.inc";
 		<td><a href="index.php"><img src="img/home_off.gif" border=0></a></td>
                 <td><a href="contact_us.php"><img src="img/contact_us_off.gif" border=0></a></td>
 		<td><a href="about_us.php"><img src="img/about_us_off.gif" border=0></a></td>	
-                <td><a href="book_a_place.php"><img src="img/book_off.gif" border=0></a></td>
+                <td><a href="contact_us.php"><img src="img/book_off.gif" border=0></a></td>
                 <td><a href="love_life.php"><img src="img/love_life_off.gif" border=0></a></td>
-                <td><a href="book_a_place.php"><img src="img/nav_image.gif" border=0></a></td>
+                <td><a href="contact_us.php"><img src="img/nav_image.gif" border=0></a></td>
                 <td><a href="solutions.php"><img src="img/solutions_top_off.gif" border=0></a></td>
             </tr>
             <tr><Td colspan=7><a href="index.php"><img src="img/hvh_top_logo.gif" border=0 width=998 height=175></a></td></tr>

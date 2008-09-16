@@ -16,7 +16,7 @@ require_once ('../soapclient/SforcePartnerClient.php');
 <tr><Td><img src="img/search_props_box.gif"></td></tr>
 <tr><td valign=top>
     <table border0 cellpadding=0 cellspacing=0 width="100%">
-    <tr><td width=1 bgcolor="#ff3100"><img src="img/clear.gif" width=1 height=1></td>
+    <tr><td width=1 bgcolor="#ff3100"><img src="img/clear.gif" width=1 height=119></td>
         <Td valign=top>
 			<table border=0 cellpadding=0 cellspacing=0 width="100%">
 			<tr><td width=20><img src="img/clear.gif" width=20 height=1></td>
@@ -57,7 +57,7 @@ require_once ('../soapclient/SforcePartnerClient.php');
 
 
 				</select>
-				<br/><img src="img/clear.gif" height=4 width=1><br/>
+				<br/><img src="img/clear.gif" height=8 width=1><br/>
 				<select name=region class=search_select onChange="this.form.submit()">
 				<option value="">By Region</option>
                 <?php
@@ -86,6 +86,7 @@ require_once ('../soapclient/SforcePartnerClient.php');
 				</select>
 				</span>
 				</form>
+			<font size=2>&nbsp;&nbsp;<i>Or select a location using the maps below.</i></font>
 			</td></tr>
 	        </table>
 			</td>

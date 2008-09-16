@@ -21,7 +21,7 @@
 		<td valign=top>
 			<table border=0 cellpadding=6 cellspacing=10 width="100%">
 			<tr><Td align=center><font size=4><b>Second Home</b></font></td></tr>
-			<tr><td><font size=2>Tailored for the second home owner looking foa simple yet comprehensive system to manage every aspect of renting a property. A second home should be fun, not a hassle!</td></tr>
+			<tr><td><font size=2>Tailored for the second home owner looking for a simple yet comprehensive system to manage every aspect of renting a property. A second home should be fun, not a hassle!</td></tr>
 			
 			<tr><td align=center><font size=2><b>$595/yr<br>1 Named User<br>1 Property</b></font></td></tr>
 			</table>

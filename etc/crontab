@@ -1,3 +1,8 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=dev
+HOME=/
+
 # reboot once a day
 # 20 4 * * * /sbin/reboot
 1,11,21,31,41,51 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/cities_fetch.php
@@ -7,3 +12,13 @@
 5,15,25,35,45,55 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/search_category_fetch.php
 6,16,26,36,46,56 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/search_city_fetch.php
 7,17,27,37,47,57 * * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/search_region_fetch.php
+8,18,28,38,48,58 * * * * /usr/bin/perl /var/www/hvh2.hvh.com/bin/hvh_api_property_map.pl
+
+20 4 * * * /usr/bin/php /var/www/hvh2.hvh.com/bin/flush_cache.php
+
+
+# run-parts
+58 * * * * root run-parts /etc/cron.hourly
+7 1 * * * root run-parts /etc/cron.daily
+52 2 * * 0 root run-parts /etc/cron.weekly
+56 2 7 * * root run-parts /etc/cron.monthly

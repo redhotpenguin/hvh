@@ -9,11 +9,11 @@
       North_Americamap.addControl(new GSmallMapControl());
       North_Americamap.addControl(new GMapTypeControl());
       var icon_palm = new GIcon();
-      icon_palm.shadow = "http://hvh2.hvh.com/img/clear.gif"
+      icon_palm.shadow = "http://www.hvh.com/img/clear.gif"
       icon_palm.shadowSize = new GSize(0, 0);
       icon_palm.iconAnchor = new GPoint(0, 30);
       icon_palm.infoWindowAnchor = new GPoint(0, 30);
-      icon_palm.image = "http://hvh2.hvh.com/img/lonepalm.outlinr.png";
+      icon_palm.image = "http://www.hvh.com/img/lonepalm.outlinr.png";
 
       var North_Americamap_marker_1 = new GMarker(new GLatLng(43.756026, -110.946409) , icon_palm);
       GEvent.addListener(North_Americamap_marker_1, "click", function () {  North_Americamap_marker_1.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001LJNrAAO"><span style="font-size: 12px">Tablerock</span></a><br /><span style="font-size: 12px">Alta, Wyoming</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });

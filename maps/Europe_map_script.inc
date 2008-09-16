@@ -9,11 +9,11 @@
       Europemap.addControl(new GSmallMapControl());
       Europemap.addControl(new GMapTypeControl());
       var icon_palm = new GIcon();
-      icon_palm.shadow = "http://hvh2.hvh.com/img/clear.gif"
+      icon_palm.shadow = "http://www.hvh.com/img/clear.gif"
       icon_palm.shadowSize = new GSize(0, 0);
       icon_palm.iconAnchor = new GPoint(0, 30);
       icon_palm.infoWindowAnchor = new GPoint(0, 30);
-      icon_palm.image = "http://hvh2.hvh.com/img/lonepalm.outlinr.png";
+      icon_palm.image = "http://www.hvh.com/img/lonepalm.outlinr.png";
 
     }
 

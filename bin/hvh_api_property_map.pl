@@ -42,8 +42,9 @@ print Dumper( $res->[0] ) if DEBUG;
 use Geo::Coder::Google;
 my $geo =
   Geo::Coder::Google->new( apikey =>
-'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxS9Wc_wSMS9I-_uq3bV6rDa-qiUhxSx_eykChOiJtvGX7Z5-OemFI5dNQ'
-#  www.hvh.com 'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw'
+# hvh2.hvh.com 'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxS9Wc_wSMS9I-_uq3bV6rDa-qiUhxSx_eykChOiJtvGX7Z5-OemFI5dNQ'
+#  'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw'
+'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw'
   );
 
 use HTML::GoogleMaps;
@@ -63,7 +64,8 @@ foreach my $display_map ( keys %map_zones ) {
         height => $map_zones{$display_map}->{height},
         width  => $map_zones{$display_map}->{width},
         key =>
-'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxS9Wc_wSMS9I-_uq3bV6rDa-qiUhxSx_eykChOiJtvGX7Z5-OemFI5dNQ'
+'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw'
+#'ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxS9Wc_wSMS9I-_uq3bV6rDa-qiUhxSx_eykChOiJtvGX7Z5-OemFI5dNQ'
 # www.hvh.com "ABQIAAAAyhXzbW_tBTVZ2gviL0TQQxRl5tXefiK1-ZeuozlcWNgF3wNt9BSaAm_sI_TNkiqf_bzFgxHIfD1lpw",
     );
 
@@ -82,12 +84,12 @@ foreach my $display_map ( keys %map_zones ) {
         $map->controls( @{ $map_zones{$display_map}->{controls}} );
     }
     $map->add_icon(
-        shadow             => 'http://hvh2.hvh.com/img/clear.gif',
+        shadow             => 'http://www.hvh.com/img/clear.gif',
         shadow_size        => [ 0, 0 ],
         icon_anchor        => [ 0, 30 ],
         info_window_anchor => [ 0, 30 ],
         name               => 'palm',
-        image              => 'http://hvh2.hvh.com/img/lonepalm.outlinr.png',
+        image              => 'http://www.hvh.com/img/lonepalm.outlinr.png',
         image_size         => [ 25, 30 ]
     );
     my @markers;

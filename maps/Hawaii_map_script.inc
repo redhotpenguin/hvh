@@ -18,9 +18,12 @@
       var Hawaiimap_marker_1 = new GMarker(new GLatLng(22.205314, -159.411288) , icon_palm);
       GEvent.addListener(Hawaiimap_marker_1, "click", function () {  Hawaiimap_marker_1.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000000sarbAAA"><span style="font-size: 12px">Plumeria Moon</span></a><br /><span style="font-size: 12px">Kilauea, Kauai</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
       Hawaiimap.addOverlay(Hawaiimap_marker_1);
-      var Hawaiimap_marker_2 = new GMarker(new GLatLng(20.753799, -155.987262) , icon_palm);
-      GEvent.addListener(Hawaiimap_marker_2, "click", function () {  Hawaiimap_marker_2.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001OhF9AAK"><span style="font-size: 12px">Hana Mauai Hotel</span></a><br /><span style="font-size: 12px">Hana, Maui</span><br /><span style="font-size: 12px">Signature Inn</span></div>'); });
+      var Hawaiimap_marker_2 = new GMarker(new GLatLng(22.205314, -159.411288) , icon_palm);
+      GEvent.addListener(Hawaiimap_marker_2, "click", function () {  Hawaiimap_marker_2.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000000sarXAAQ"><span style="font-size: 12px">Hideaway Bay</span></a><br /><span style="font-size: 12px">Kilauea, Kauai</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
       Hawaiimap.addOverlay(Hawaiimap_marker_2);
+      var Hawaiimap_marker_3 = new GMarker(new GLatLng(20.753799, -155.987262) , icon_palm);
+      GEvent.addListener(Hawaiimap_marker_3, "click", function () {  Hawaiimap_marker_3.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001OhF9AAK"><span style="font-size: 12px">Hana Mauai Hotel</span></a><br /><span style="font-size: 12px">Hana, Maui</span><br /><span style="font-size: 12px">Signature Inn</span></div>'); });
+      Hawaiimap.addOverlay(Hawaiimap_marker_3);
     }
 
     //]]>

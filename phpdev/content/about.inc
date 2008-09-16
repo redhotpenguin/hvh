@@ -21,7 +21,7 @@ Disabled Recreation, Global Understanding, Micro-Enterprise Lending, and
 Environmental Conservation initiatives.&nbsp; Over the past 7 years, the ABS
 Foundation has given over $3.5M dollars to worthy organizations around the
 world.</p>				
-
+<!--
 <p><span style="color: #666666;"><strong><span style="font-size: 1.4em;">Debbie ???</span></strong></span></p>
 <p><span style="color: #666666;"><strong><span style="font-size: 1.4em;">Tim ???</span></strong></span></p>
 <p><span style="color: #666666;"><strong><span style="font-size: 1.4em;">Fred ???</span></strong></span></p>
@@ -29,7 +29,7 @@ world.</p>
 <p><span style="color: #666666;"><strong><span style="font-size: 1.4em;">Cindy Hultgren</span></strong></span></p>
 <p><span style="color: #666666;"><strong><span style="font-size: 1.4em;">Sy Testae</span></strong></span></p>
 <p><span style="color: #666666;"><strong><span style="font-size: 1.4em;">Louis Balady</span></strong></span></p>
-
+-->
 <p>Please call or email us anytime.&nbsp; We are committed to responding to you immediately and we look forward to speaking with you.</p>
 <p><span style="font-weight: bold;">Thomas Beebe<br />888-858-6562<br /><a href="mailto:thomas@hvh.com">thomas@HVH.com</a><br /></span></p>
 <p><span style="font-weight: bold;"></span></p>

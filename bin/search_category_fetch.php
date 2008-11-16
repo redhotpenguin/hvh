@@ -7,7 +7,7 @@ include("./phpdev/util/bin_connect.inc");
 // DATA CACHE FOR THE TWELVE PROPERTIES TO BE FEATURED ON THE HOME PAGE // ------------------------------------------
 
 
-$cats = array("all_signature_home","all_signature_inn","all_premier_home","all_premier_inn");
+$cats = array("all_signature_home","all_signature_hotel","all_premier_home","all_premier_hotel");
 
 
 foreach ($cats as $cat) {

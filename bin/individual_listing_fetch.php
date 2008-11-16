@@ -28,7 +28,6 @@ foreach ($prop_array as $prop) {
 
     $amenities_array = array("Wireless_Internet__c", "Private_Hot_Tub__c", 
 	"Swimming_Pool__c", "High_Definition_TV_DVR__c",
-	"Unlimited_Long_Distance__c",
 	"Stereo_System__c", "CD_Player__c", "Music_Library__c", "VCR__c",
 	"DVD_Player__c",
 	"Video_Library__c", "Bath_Towels__c", "Bed_Linens__c", "Washer_Dryer__c",

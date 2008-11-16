@@ -6,15 +6,15 @@ include("./phpdev/util/bin_connect.inc");
 // DATA CACHE FOR THE TWELVE PROPERTIES TO BE FEATURED ON THE HOME PAGE // ------------------------------------------
 
 
-$cats = array("signature_home","signature_inn","premier_home","premier_inn");
+$cats = array("signature_home","signature_hotel","premier_home","premier_hotel");
 
 
 foreach ($cats as $cat) {
 
 	if ($cat == 'signature_home') { $friendly_cat = 'Signature Home'; }
-	if ($cat == 'signature_inn') { $friendly_cat = 'Signature Inn'; }
+	if ($cat == 'signature_hotel') { $friendly_cat = 'Signature Hotel'; }
 	if ($cat == 'premier_home') { $friendly_cat = 'Premier Home'; }
-	if ($cat == 'premier_inn') { $friendly_cat = 'Premier Inn'; }
+	if ($cat == 'premier_hotel') { $friendly_cat = 'Premier Hotel'; }
 
 
 	$query = "SELECT Id, Name, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, Region__c, City__c, Image_URL_1__c  from Property__c where Category__c='$friendly_cat' and Available_to_the_Public__c=true order by Name ASC limit 3";

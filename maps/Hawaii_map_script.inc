@@ -22,8 +22,14 @@
       GEvent.addListener(Hawaiimap_marker_2, "click", function () {  Hawaiimap_marker_2.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000000sarXAAQ"><span style="font-size: 12px">Hideaway Bay</span></a><br /><span style="font-size: 12px">Kilauea, Kauai</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
       Hawaiimap.addOverlay(Hawaiimap_marker_2);
       var Hawaiimap_marker_3 = new GMarker(new GLatLng(20.753799, -155.987262) , icon_palm);
-      GEvent.addListener(Hawaiimap_marker_3, "click", function () {  Hawaiimap_marker_3.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001OhF9AAK"><span style="font-size: 12px">Hana Mauai Hotel</span></a><br /><span style="font-size: 12px">Hana, Maui</span><br /><span style="font-size: 12px">Signature Inn</span></div>'); });
+      GEvent.addListener(Hawaiimap_marker_3, "click", function () {  Hawaiimap_marker_3.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001OhF9AAK"><span style="font-size: 12px">Hana Maui Hotel</span></a><br /><span style="font-size: 12px">Hana, Maui</span><br /><span style="font-size: 12px">Signature Hotel</span></div>'); });
       Hawaiimap.addOverlay(Hawaiimap_marker_3);
+      var Hawaiimap_marker_4 = new GMarker(new GLatLng(20.002145, -155.6664575) , icon_palm);
+      GEvent.addListener(Hawaiimap_marker_4, "click", function () {  Hawaiimap_marker_4.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a06500000021f6MAAQ"><span style="font-size: 12px">Sleeping Turtle Sanctuary</span></a><br /><span style="font-size: 12px">Kamuela, Big Island</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      Hawaiimap.addOverlay(Hawaiimap_marker_4);
+      var Hawaiimap_marker_5 = new GMarker(new GLatLng(21.883748, -159.467815) , icon_palm);
+      GEvent.addListener(Hawaiimap_marker_5, "click", function () {  Hawaiimap_marker_5.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000002G0hGAAS"><span style="font-size: 12px">Bird of Paradise</span></a><br /><span style="font-size: 12px">Poipu, Kauai</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      Hawaiimap.addOverlay(Hawaiimap_marker_5);
     }
 
     //]]>

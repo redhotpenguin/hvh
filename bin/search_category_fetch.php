@@ -13,9 +13,9 @@ $cats = array("all_signature_home","all_signature_inn","all_premier_home","all_p
 foreach ($cats as $cat) {
 
 	if ($cat == 'all_signature_home') { $friendly_cat = 'Signature Home'; }
-	if ($cat == 'all_signature_inn') { $friendly_cat = 'Signature Inn'; }
+	if ($cat == 'all_signature_inn') { $friendly_cat = 'Signature Hotel'; }
 	if ($cat == 'all_premier_home') { $friendly_cat = 'Premier Home'; }
-	if ($cat == 'all_premier_inn') { $friendly_cat = 'Premier Inn'; }
+	if ($cat == 'all_premier_inn') { $friendly_cat = 'Premier Hotel'; }
 
 
 	$query = "SELECT Id, Name, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, City__c, Image_URL_1__c  from Property__c where Category__c='$friendly_cat' and Available_to_the_Public__c=true order by Name ASC";

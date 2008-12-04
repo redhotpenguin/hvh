@@ -7,7 +7,7 @@ echo "opening connection\n";
 $mySoapClient = $mySforceConnection->createConnection("partner.wsdl.xml");
 
 echo "logging in\n";
-$mylogin = $mySforceConnection->login("fred@redhotpenguin.com", "yomaingJN9fVMtleBighIslxY3EZxuE");
+$mylogin = $mySforceConnection->login("api@hvh.com", "SaaS69dBfUy0GkDQB7oAdOxu77DJBFtv");
 
 echo "logged in ok, running query\n";
 

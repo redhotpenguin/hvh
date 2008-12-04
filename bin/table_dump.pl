@@ -10,10 +10,9 @@ my $token = shift or warn "using default token\n";
 
 warn("connecting...\n");
 my $Sf = WWW::Salesforce::Simple->new(
-    username => $username || 'fred@redhotpenguin.com',
-    password => $token    || 'yomaingJN9fVMtleBighIslxY3EZxuE',
+    username => $username || 'api@hvh.com',
+    password => $token    || 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFtv',
 );
-
 use Data::Dumper;
 
 warn("grabbing tables...\n");

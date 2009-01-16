@@ -395,7 +395,7 @@ close(FH);
 		}
 
 		# hack for SOAP bug
-		if ($q->param('zip') =~ m/^\d{5}$/) {
+		if ($q->param('zip') =~ m/^\d+$/) {
 			$sf_args{Inquiry_Zip_Code__c} = $q->param('zip') . '-';
 		}
 

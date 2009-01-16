@@ -395,7 +395,10 @@ close(FH);
 		}
 
 		# hack for SOAP bug
-		$sf_args{Inquiry_Zip_Code__c} = '_' . $q->param('zip');
+		if ($q->param('zip') =~ m/^\d{5}$/) {
+			$sf_args{Inquiry_Zip_Code__c} = $q->param('zip') . '-';
+		}
+
 		if (length($q->param('guests')) == 1) {
 			$sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
 		}	

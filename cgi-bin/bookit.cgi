@@ -5,6 +5,6 @@ use warnings;
 
 use Bookit;
 
-my $bk = Bookit->new;
+my $bk = Bookit->new();
 $bk->run;
 

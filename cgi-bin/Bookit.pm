@@ -5,13 +5,14 @@ use warnings;
 
 use base qw( CGI::Application );
 
-use CGI::Application::Plugin::Redirect ();
 use Mail::Mailer ();
 use Data::FormValidator ();
 use Data::FormValidator::Constraints qw(:closures);
 use Business::PayPal::API ();
 use WWW::Salesforce::Simple ();
 use DateTime ();
+
+use CGI::Application::Plugin::Redirect;
 
 our $Paypal = Business::PayPal::API->new(
 	Username => 'mike_api1.hvh.com',
@@ -22,7 +23,7 @@ our $Paypal = Business::PayPal::API->new(
 
 sub setup {
 	my $self = shift;
-	$self->start_mode('bookit');
+	$self->start_mode('contact');
 	$self->run_modes(
 	[ qw( bookit contact hold ) ] );
 }
@@ -35,9 +36,11 @@ our %Inquiry = ( address => 'Inquiry_Address_1__c',
 		 phone   => 'Inquiry_Phone__c',
 		 guests  => 'Number_of_Guests__c',
 		 comments => 'Inquiry_Comments__c', );
+
+
 	
 sub contact {
-	my $self = shift;
+	my ( $self) = @_;
 
 	my @required = qw( prop_name first_name last_name email
 		checkin_date checkout_date  );
@@ -50,19 +53,24 @@ sub contact {
                 email       => email(),
                 first_name  => valid_first(),
                 last_name   => valid_last(),
-		checkin_date => checkin_date(),
-		checkout_date => checkout_date(),
+		checkin_date => valid_date(),
+		checkout_date => valid_date(),
             }
         );
 
 	my $q = $self->query;
 
+	use Data::Dumper;
+	open(FH, '>/tmp/foo') or die $!;
+	print FH Dumper($q);
+
         my $results = Data::FormValidator->check( $q, \%profile );
+	print FH "\n\n" . Dumper($results);
+	close(FH);
 
 	if ( $results->has_missing or $results->has_invalid ) {
 		# set new url;
-		my $redir_url;
-		$self->redirect( $redir_url );
+		return $self->redirect( 'http://www.hvh.com/missing_elements.html' );
 	}
 
 	# create salesforce inquiry
@@ -90,20 +98,20 @@ sub contact {
 			}
 		}
 
-		$sf->upsert( 'Inquiry__c', ,\%sf_args );
+		$sf->upsert( type => 'Inquiry__c', ,\%sf_args );
 	};
 
 	die $@ if $@;
 	
 	my $thanks_url;
-	$self->redirect( $thanks_url );
+	return $self->redirect( $thanks_url );
 }	
 
-sub sf_login {
+sub _sf_login {
 
 	my $Sf = WWW::Salesforce->login(
 	    		username => 'api@hvh.com',
-	    		password => 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFtv',
+	    		password => 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFt',
 		) or die $!;
 	return $Sf;
 }
@@ -174,7 +182,7 @@ sub bookit {
 
 	my $res = $sf->do_query($q);
 	if (defined $res->[0]) { # found a conflicting booking
-		$self->redirect("https://www.hvh.com/double_booked.html");
+		return $self->redirect("https://www.hvh.com/double_booked.html");
 	}
 
 	eval {
@@ -196,7 +204,7 @@ sub bookit {
 			Payment_Method__c           => 'PayPal',
 		);
 
-		$sf->upsert( 'Booking__c', ,\%sf_args );
+		$sf->upsert( type => 'Booking__c', ,\%sf_args );
 	};
 	die $@ if $@;
 
@@ -287,7 +295,7 @@ sub bookit {
 
 		unless ( $pay_res{Ack} eq 'Success' ) {
 			warn("errors: " . Dumper($pay_res{Errors}));
-			$self->redirect('https://www.hvh.com/booking_errors.html');
+			return $self->redirect('https://www.hvh.com/booking_errors.html');
 		}
 
 		warn "Successful payment";
@@ -300,7 +308,7 @@ sub bookit {
 		die $@ if $@;
 
 
-		$self->redirect('https://www.hvh.com/booking_success.html');		
+		return $self->redirect('https://www.hvh.com/booking_success.html');		
 }
 
 
@@ -366,6 +374,18 @@ sub hold {
 	my $thanks_url;
 	$self->redirect( $thanks_url );
 }	
+sub valid_date {
+
+    return sub {
+        my $dfv = shift;
+        my $val = $dfv->get_current_constraint_value;
+
+	return unless $val =~ m/^\d{1,2}\/\d{1,2}\/20\d{2}$/;
+
+        return $val;
+      }
+}
+
 
 sub valid_first {
 

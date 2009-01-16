@@ -60,13 +60,7 @@ sub contact {
 
 	my $q = $self->query;
 
-	use Data::Dumper;
-	open(FH, '>/tmp/foo') or die $!;
-	print FH Dumper($q);
-
         my $results = Data::FormValidator->check( $q, \%profile );
-	print FH "\n\n" . Dumper($results);
-	close(FH);
 
 	if ( $results->has_missing or $results->has_invalid ) {
 		# set new url;
@@ -103,8 +97,7 @@ sub contact {
 
 	die $@ if $@;
 	
-	my $thanks_url;
-	return $self->redirect( $thanks_url );
+	return $self->redirect( 'http://www.hvh.com/contact_made_ok.html' );
 }	
 
 sub _sf_login {
@@ -114,6 +107,37 @@ sub _sf_login {
 	    		password => 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFt',
 		) or die $!;
 	return $Sf;
+}
+
+sub _check_booking {
+	my ($sf, $checkin_date, $checkout_date) = @_;
+	# checkin date
+	my ($month, $day, $year) = split(/\//, $checkin_date);
+	$checkin_date = DateTime->new( year => $year,
+					  month => $month,
+					  day => $day,);
+
+	$checkin_date->set_time_zone( 'local' );
+	$checkin_date = $checkin_date->ymd('-');
+
+	# checkout date
+	($month, $day, $year) = split(/\//, $checkout_date);
+	$checkout_date = DateTime->new( year => $year,
+					  month => $month,
+					  day => $day,);
+
+	$checkout_date->set_time_zone( 'local' );
+	$checkout_date = $checkout_date->ymd('-');
+
+	# check to see if these dates conflict with an existing booking
+	my $sql = "Select Id from Booking__c where ( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date > $checkin_date ) ) or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_date__c > $checkin_date ) ) or  ( ( Check_in_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_date__c > $checkout_date ) )";
+
+	my $res = $sf->do_query($sql);
+	if (defined $res->[0]) { # found a conflicting booking
+		return (1, $checkin_date, $checkout_date);
+	}
+
+	return;
 }
 
 
@@ -158,30 +182,12 @@ sub bookit {
 	die $@ if $@;
 
 
-	# checkin date
-	my ($month, $day, $year) = split(/\//, $q->param('checkin_date'));
-	my $checkin_date = DateTime->new( year => $year,
-					  month => $month,
-					  day => $day,);
+	my ($is_available, $checkin_date, $checkout_date) = _check_booking(
+		 $sf,
+		 $q->param('checkin_date'), 
+		 $q->param('checkout_date'));
 
-	$checkin_date->set_time_zone( 'local' );
-	$checkin_date = $checkin_date->ymd('-');
-
-	# checkout date
-	($month, $day, $year) = split(/\//, $q->param('checkout_date'));
-	my $checkout_date = DateTime->new( year => $year,
-					  month => $month,
-					  day => $day,);
-
-	$checkout_date->set_time_zone( 'local' );
-	$checkout_date = $checkout_date->ymd('-');
-
-
-	# check to see if these dates conflict with an existing booking
-	my $sql = "Select Id from Booking__c where ( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date > $checkin_date ) ) or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_date__c > $checkin_date ) ) or  ( ( Check_in_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_date__c > $checkout_date ) )";
-
-	my $res = $sf->do_query($q);
-	if (defined $res->[0]) { # found a conflicting booking
+	unless ($is_available) {
 		return $self->redirect("https://www.hvh.com/double_booked.html");
 	}
 
@@ -210,7 +216,7 @@ sub bookit {
 
 	my $query = "Select Id, First_Payment_Amount__c, Second_Payment_Amount__c from Booking__c where Name = '" . $name . "'";
 	# get the booking
-	$res = $sf->do_query($q);
+	my $res = $sf->do_query($q);
 	my ($id, $one_payment, $two_payment) = @{$res};
 
 	my %pay_res;
@@ -219,7 +225,7 @@ sub bookit {
 		# do one payment
 		%pay_res = $Paypal->DoDirectPaymentRequest(
 			PaymentAction => 'Sale',
-			OrderTotal => $one_payment,
+			OrderTotal => $one_payment + $two_payment,
 			TaxTotal   => 0.0,
 			ShippingTotal => 0.0,
 			ItemTotal => 0.0,
@@ -288,14 +294,12 @@ sub bookit {
 	}
 
 
-=cut
-=cut
 		use Data::Dumper;
 		warn("response: " . Dumper(\%pay_res));
 
 		unless ( $pay_res{Ack} eq 'Success' ) {
 			warn("errors: " . Dumper($pay_res{Errors}));
-			return $self->redirect('https://www.hvh.com/booking_errors.html');
+			return $self->redirect('http://www.hvh.com/booking_errors.html');
 		}
 
 		warn "Successful payment";
@@ -308,7 +312,7 @@ sub bookit {
 		die $@ if $@;
 
 
-		return $self->redirect('https://www.hvh.com/booking_success.html');		
+		return $self->redirect('http://www.hvh.com/booking_success.html');	
 }
 
 
@@ -340,10 +344,19 @@ sub hold {
 		$self->redirect( $redir_url );
 	}
 
+	my $sf = _sf_login();
+	my ($is_available, $checkin_date, $checkout_date) = _check_booking(
+		 $sf,
+		 $q->param('checkin_date'), 
+		 $q->param('checkout_date'));
+
+	unless ($is_available) {
+		return $self->redirect("https://www.hvh.com/double_booked.html");
+	}
+
 	
 	# create salesforce inquiry
 	eval {
-		my $sf = _sf_login();
 
 		# the required args
 		my %sf_args = (
@@ -371,9 +384,9 @@ sub hold {
 
 	die $@ if $@;
 	
-	my $thanks_url;
-	$self->redirect( $thanks_url );
+	$self->redirect( 'http://www.hvh.com/hold_created.html' );
 }	
+
 sub valid_date {
 
     return sub {

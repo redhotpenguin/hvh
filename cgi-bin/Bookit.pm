@@ -23,7 +23,7 @@ our $Paypal = Business::PayPal::API->new(
 
 sub setup {
 	my $self = shift;
-	$self->start_mode('contact');
+	$self->start_mode('hold');
 	$self->run_modes(
 	[ qw( bookit contact hold ) ] );
 }
@@ -31,7 +31,7 @@ sub setup {
 our %Inquiry = ( address => 'Inquiry_Address_1__c',
 		 city    => 'Inquiry_City__c',
 	      	 state   => 'Inquiry_State__c',
-		 zip     => 'Inquiry_Zip__c',
+		 zip     => 'Inquiry_Zip_Code__c',
 		 country => 'Inquiry_Country__c',
 		 phone   => 'Inquiry_Phone__c',
 		 guests  => 'Number_of_Guests__c',
@@ -42,7 +42,7 @@ our %Inquiry = ( address => 'Inquiry_Address_1__c',
 sub contact {
 	my ( $self) = @_;
 
-	my @required = qw( prop_name first_name last_name email
+	my @required = qw( first_name last_name email
 		checkin_date checkout_date  );
 
 
@@ -59,7 +59,7 @@ sub contact {
         );
 
 	my $q = $self->query;
-
+	$q->param(-name => 'prop_id', -value => 'a0650000001OhFAAA0');
         my $results = Data::FormValidator->check( $q, \%profile );
 
 	if ( $results->has_missing or $results->has_invalid ) {
@@ -68,20 +68,22 @@ sub contact {
 	}
 
 	# create salesforce inquiry
+	my $r;
 	eval {
 		my $sf = _sf_login();
 
 		# the required args
 		my %sf_args = (
+			type => 'Inquiry__c',
 			Name          => join(' ', $q->param('first_name'),
-						   $q->param('last_name'), rand(10), ),
+						   $q->param('last_name'),int(rand(1000)), ),
 
 			Inquiry_First_Name__c => $q->param('first_name'),
 			Inquiry_Last_Name__c  => $q->param('last_name'),
 			Inquiry_Email__c      => $q->param('email'),
-			Property__c           => $q->param('prop_name'),
-			Check_in_Time__c      => $q->param('checkin_date'),
-          		Check_out_Time__c     => $q->param('checkout_date'),
+			Property__c           => $q->param('prop_id'),
+			Check_in_Date__c      => _dbdate($q->param('checkin_date')),
+          		Check_out_Date__c     => _dbdate($q->param('checkout_date')),
 			Inquiry_Stage__c      => 'Open',
 		);
 
@@ -91,17 +93,20 @@ sub contact {
 				$sf_args{$Inquiry{$opt}} = $q->param($opt);
 			}
 		}
-
-		$sf->upsert( type => 'Inquiry__c', ,\%sf_args );
+#warn("SF args are " . Dumper(\%sf_args));
+		$r = $sf->create( %sf_args );
 	};
 
 	die $@ if $@;
-	
+
+open(FH, '>/tmp/bar') or die $!;
+use Data::Dumper;
+print FH Dumper($r);
+close(FH);	
 	return $self->redirect( 'http://www.hvh.com/contact_made_ok.html' );
 }	
 
 sub _sf_login {
-
 	my $Sf = WWW::Salesforce->login(
 	    		username => 'api@hvh.com',
 	    		password => 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFt',
@@ -109,31 +114,34 @@ sub _sf_login {
 	return $Sf;
 }
 
+sub _dbdate {
+	my $date = shift;
+	warn("Date is $date");
+	my ($month, $day, $year) = split(/\//, $date);
+	$date = DateTime->new( year => $year,
+					  month => $month,
+					  day => $day,);
+
+#	$date->set_time_zone( 'local' );
+	$date = $date->ymd('-');
+
+	return $date;
+}
+
+
+
 sub _check_booking {
 	my ($sf, $checkin_date, $checkout_date) = @_;
-	# checkin date
-	my ($month, $day, $year) = split(/\//, $checkin_date);
-	$checkin_date = DateTime->new( year => $year,
-					  month => $month,
-					  day => $day,);
 
-	$checkin_date->set_time_zone( 'local' );
-	$checkin_date = $checkin_date->ymd('-');
-
-	# checkout date
-	($month, $day, $year) = split(/\//, $checkout_date);
-	$checkout_date = DateTime->new( year => $year,
-					  month => $month,
-					  day => $day,);
-
-	$checkout_date->set_time_zone( 'local' );
-	$checkout_date = $checkout_date->ymd('-');
+	$checkin_date = _dbdate($checkin_date);
+	$checkout_date = _dbdate($checkout_date);
 
 	# check to see if these dates conflict with an existing booking
-	my $sql = "Select Id from Booking__c where ( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date > $checkin_date ) ) or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_date__c > $checkin_date ) ) or  ( ( Check_in_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_date__c > $checkout_date ) )";
+	my $sql = "Select Id from Booking__c where ( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) ) or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_Date__c > $checkin_date ) ) or  ( ( Check_in_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date ) )";
 
-	my $res = $sf->do_query($sql);
-	if (defined $res->[0]) { # found a conflicting booking
+	my $res = $sf->query( query => $sql);
+	
+	if ($res) { # found a conflicting booking
 		return (1, $checkin_date, $checkout_date);
 	}
 
@@ -191,8 +199,10 @@ sub bookit {
 		return $self->redirect("https://www.hvh.com/double_booked.html");
 	}
 
+	my $r;
 	eval {
 		my %sf_args = (
+			type => 'Booking__c',
 			Name => $name,
 			Booking_Contact_First_Name__c => $q->param('first_name'),
 			Booking_Contact_Last_Name__c  => $q->param('last_name'),
@@ -210,7 +220,7 @@ sub bookit {
 			Payment_Method__c           => 'PayPal',
 		);
 
-		$sf->upsert( type => 'Booking__c', ,\%sf_args );
+		$r = $sf->create( %sf_args );
 	};
 	die $@ if $@;
 
@@ -321,8 +331,9 @@ sub hold {
 	my $self = shift;
 
 	my $q = $self->query;
+	$q->param(-name => 'prop_id', -value => 'a0650000001OhFAAA0');
 
-	my @required = qw( prop_name first_name last_name email
+	my @required = qw( prop_id first_name last_name email
 		phone checkin_date checkout_date address city state country zip );
 
         my %profile = (
@@ -332,16 +343,15 @@ sub hold {
                 email       => email(),
                 first_name  => valid_first(),
                 last_name   => valid_last(),
-		checkin_date => checkin_date(),
-		checkout_date => checkout_date(),
+		checkin_date => valid_date(),
+		checkout_date => valid_date(),
             }
         );
         my $results = Data::FormValidator->check( $q, \%profile );
 	
 	if ( $results->has_missing or $results->has_invalid ) {
 		# set new url;
-		my $redir_url;
-		$self->redirect( $redir_url );
+		return $self->redirect("http://www.hvh.com/missing_fields_hold.html" );
 	}
 
 	my $sf = _sf_login();
@@ -356,22 +366,27 @@ sub hold {
 
 	
 	# create salesforce inquiry
+	my $r;
 	eval {
 
 		# the required args
 		my %sf_args = (
+			type => 'Inquiry__c',
 			Name                  => join(' ', $q->param('first_name'),
 							   $q->param('last_name'), ),
 
 			Inquiry_First_Name__c => $q->param('first_name'),
 			Inquiry_Last_Name__c  => $q->param('last_name'),
 			Inquiry_Email__c      => $q->param('email'),
-			Property__c           => $q->param('prop_name'),
-			Check_in_Time__c      => $q->param('checkin_date'),
-          		Check_out_Time__c     => $q->param('checkout_date'),
-			Inquiry_Stage__c      => '48 Hour Hold',
+			Property__c           => $q->param('prop_id'),
+			Check_in_Date__c      => _dbdate($q->param('checkin_date')),
+          		Check_out_Date__c     => _dbdate($q->param('checkout_date')),
+			Inquiry_Stage__c      => '48 Hour Hold'
 		);
-
+use Data::Dumper;
+open(FH, '>/tmp/iq') or die $!;
+print FH Dumper(\%sf_args);
+close(FH);
 		# add the optional args
 		foreach my $opt (keys %Inquiry) {
 			if ($q->param($opt)) {
@@ -379,9 +394,18 @@ sub hold {
 			}
 		}
 
-		$sf->upsert( 'Inquiry__c', ,\%sf_args );
+		# hack for SOAP bug
+		$sf_args{Inquiry_Zip_Code__c} = '_' . $q->param('zip');
+		if (length($q->param('guests')) == 1) {
+			$sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
+		}	
+
+		$r = $sf->create( %sf_args );
 	};
 
+open(FH, '>/tmp/r') or die $!;
+print FH Dumper($r);
+close(FH);
 	die $@ if $@;
 	
 	$self->redirect( 'http://www.hvh.com/hold_created.html' );

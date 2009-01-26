@@ -43,7 +43,7 @@ sub _gen_redirect {
 		my @fields = ( keys %{$results->{invalid}}, 
 			       keys %{$results->{missing}});
 		
-		my $url = '&invalid=' . join('&invalid=', @fields);
+		my $url = '&invalid=' . join('|', @fields);
 
 		# add the current field values
 		foreach my $invalid (keys %{$results->{invalid}}) {

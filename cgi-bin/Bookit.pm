@@ -11,8 +11,8 @@ use Data::FormValidator::Constraints qw(:closures);
 use Business::PayPal::API ();
 use WWW::Salesforce::Simple ();
 use DateTime ();
-
 use CGI::Application::Plugin::Redirect;
+use Data::Dumper;
 
 our $Paypal = Business::PayPal::API->new(
 	Username => 'mike_api1.hvh.com',
@@ -23,7 +23,7 @@ our $Paypal = Business::PayPal::API->new(
 
 sub setup {
 	my $self = shift;
-	$self->start_mode('hold');
+	$self->start_mode('foo');
 	$self->run_modes(
 	[ qw( bookit contact hold ) ] );
 }
@@ -37,14 +37,34 @@ our %Inquiry = ( address => 'Inquiry_Address_1__c',
 		 guests  => 'Number_of_Guests__c',
 		 comments => 'Inquiry_Comments__c', );
 
+sub _gen_redirect {
+	my ($results, $q) = @_;
+		# set new url;
+		my @fields = ( keys %{$results->{invalid}}, 
+			       keys %{$results->{missing}});
+		
+		my $url = '&invalid=' . join('&invalid=', @fields);
 
+		# add the current field values
+		foreach my $invalid (keys %{$results->{invalid}}) {
+			$url .= '&' . $invalid . '=' . $q->param($invalid);
+		}
+
+		my %params = $q->Vars;
+		foreach my $param( keys %params ) {
+			$url .= '&' . $param . '=' . $params{$param};
+		}
+
+		$url = $ENV{'HTTP_REFERER'} . $url;
+
+	return $url;
+}
 	
 sub contact {
 	my ( $self) = @_;
 
 	my @required = qw( first_name last_name email
 		checkin_date checkout_date  );
-
 
         my %profile = (
             required => \@required,
@@ -63,8 +83,10 @@ sub contact {
         my $results = Data::FormValidator->check( $q, \%profile );
 
 	if ( $results->has_missing or $results->has_invalid ) {
-		# set new url;
-		return $self->redirect( 'http://www.hvh.com/missing_elements.html' );
+
+		my $url = _gen_redirect( $results, $q );
+
+		return $self->redirect($url);
 	}
 
 	# create salesforce inquiry
@@ -100,7 +122,6 @@ sub contact {
 	die $@ if $@;
 
 open(FH, '>/tmp/bar') or die $!;
-use Data::Dumper;
 print FH Dumper($r);
 close(FH);	
 	return $self->redirect( 'http://www.hvh.com/contact_made_ok.html' );
@@ -180,7 +201,13 @@ sub bookit {
             }
         );
         my $results = Data::FormValidator->check( $q, \%profile );
-	
+		
+	if ( $results->has_missing or $results->has_invalid ) {
+		my $url = _gen_redirect( $results, $q );
+
+		return $self->redirect($url);
+	}
+
 	# create salesforcebooking
 	# the required args
 	my $name =  join(' ', $q->param('first_name'),
@@ -293,7 +320,7 @@ sub bookit {
 	  CCPayerPostalCode => $q->param('zip'),
 	  CCPayerPhone => $q->param('phone'),
 	  CreditCardType => $q->param('card_type'),
-	  CreditCardNumber => $q->param('card_numer'),
+	  CreditCardNumber => $q->param('card_number'),
 	  ExpMonth => $q->param('exp_month'),
 	  ExpYear   => $q->param('exp_year'),
 	  CVV2      => $q->param('cvv2'),
@@ -304,7 +331,6 @@ sub bookit {
 	}
 
 
-		use Data::Dumper;
 		warn("response: " . Dumper(\%pay_res));
 
 		unless ( $pay_res{Ack} eq 'Success' ) {
@@ -350,8 +376,9 @@ sub hold {
         my $results = Data::FormValidator->check( $q, \%profile );
 	
 	if ( $results->has_missing or $results->has_invalid ) {
-		# set new url;
-		return $self->redirect("http://www.hvh.com/missing_fields_hold.html" );
+		my $url = _gen_redirect( $results, $q );
+
+		return $self->redirect($url);
 	}
 
 	my $sf = _sf_login();
@@ -383,7 +410,6 @@ sub hold {
           		Check_out_Date__c     => _dbdate($q->param('checkout_date')),
 			Inquiry_Stage__c      => '48 Hour Hold'
 		);
-use Data::Dumper;
 open(FH, '>/tmp/iq') or die $!;
 print FH Dumper(\%sf_args);
 close(FH);

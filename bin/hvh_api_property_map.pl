@@ -15,7 +15,7 @@ my $token = shift or warn "using default token\n";
 print "connecting...\n" if DEBUG;
 my $Sf = WWW::Salesforce::Simple->new(
     username => $username || 'api@hvh.com',
-    password => $token    || 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFtv',
+    password => $token    || 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFt',
 );
 
 my $table = 'Property__c';

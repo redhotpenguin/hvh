@@ -1,0 +1,28 @@
+
+            <table border=0 cellpadding=0 cellspacing=0 width=250>
+            <tr><td bgcolor="#f2eedf" width=1><img src="img/clear.gif" width=1 height=1></td>
+                <td bgcolor="#f2eedf">
+
+<img src="img/clear.gif" width=1 height=5>
+                <table border=0 cellpadding=0 cellspacing=0 widht="100%">
+                <tr><td width=16><img src="img/clear.gif" width=18 height=1></td>
+                    <td><a href="philanthropy.php"><img src="img/hvh_new_phil_logo.gif" border=0 width=220 height=58></a></td></tr>
+                <tr><td></td><td class=small_text>
+                <table border=0 cellpadding=4 cellspacing=0>
+                <tr><td class=small_text>
+                <img src="img/clear.gif" width=1 height=5>
+                <br>
+<!--                    <i>
+                At HVH we believe in doing well by doing good.
+Our charitable mission is to help the young and
+the voiceless by supporting youth programs,
+environmental conservation, and disabled mobility.<br><br>
+                </i>-->
+                </td></tr>
+                </table>
+                </td></tr>
+                </table>
+
+                </td>
+            </tr>
+            </table>

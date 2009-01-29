@@ -1,0 +1,260 @@
+<!-- BEGIN CONTACT INFO - NOTHING ABOVE THIS LINE-->
+<table border=0 cellpadding=30 cellspacing=0 width="100%">
+<Tr><td valign=top class=reg_copy>
+<h2>About Us</h2>
+Hideaway Vacation Homes is a partnership of a group of people dedicated to providing a high level of service to our clients.  We share a common vision of providing a memorable and relaxing experience, and we bring different skills and interests to our work for you.<br><Br>
+
+Many claim to have a track record of success.  
+We actually do!
+<br><Br>
+<li>Lifetime of goal-oriented achievement
+<li>Self-Funded Company 
+<li>Silicon Valley & Real Estate industry veterans
+<li>Small, tightly knit group of highly effective people 
+<li>Most of us have worked together for years
+<Br><Br>
+HVH is already a success, and this team made it happen
+
+<Br><Br>
+<table border=0 cellpadding=0 cellspacing=0 width="100%">
+
+
+
+
+<tr>
+
+<td valign=top bgcolor="#e2e2e1">
+<table border=0 cellpadding=1 cellspacing=0 width="100%">
+<tr><Td class=reg_copy><b>EXECUTIVE TEAM</b><br></td></tr>
+<tr><Td bgcolor="#ffffff"><img src="img/clear.gif" width=1 height=1></td></tr>
+
+<tr><Td class=small_text>
+&nbsp;Mike Testa, President & CEO<br>
+&nbsp;Thomas Beebe, Chief Operating Officer<br>
+&nbsp;Debbie Milne, VP Finance<br>
+&nbsp;Craig Whetstone, General Counsel<br>
+&nbsp;Erik Schultz, Philanthropy<br><Br>
+</td></tr>
+</table>
+
+</td>
+<td valign=top bgcolor="#cccccc">
+
+
+<table border=0 cellpadding=1 cellspacing=0 width="100%">
+<tr><Td align=center class=reg_copy>&nbsp;&nbsp;<b>TECHNOLOGY</b></td></tr>
+<tr><Td bgcolor="#ffffff"><img src="img/clear.gif" width=1 height=1></td></tr>
+<Tr><Td valign=top align=center class=small_text>
+Fred Moyer, VP Development<br>
+Jeff Lennan, Director UI<br>
+Dustin Henderson, Programmer<Br>
+Eric Johnson, Programmer<br>
+Todd Bryson, Director Search
+</td></tr>
+</table>
+</td>
+<Td valign=top align=right bgcolor="#e2e2e1">
+<table border=0 cellpadding=1 cellspacing=0 width="100%">
+<tr><Td align=right class=reg_copy><b>SALES AND MARKETING</b>&nbsp;&nbsp;</td></tr>
+<tr><Td bgcolor="#ffffff"><img src="img/clear.gif" width=1 height=1></td></tr>
+<tr><td valign=top align=right class=small_text>
+Cindy Hultgren, East&nbsp;<br>
+Troy Testa, Central&nbsp;<Br>
+Sy Testa, South&nbsp;<br>
+Maura Mack, Mountain&nbsp;<Br>
+Tim O'Mahoney, VP Marketing&nbsp;<br>
+Louis Balady, Inside Sales&nbsp; 
+</td></tr>
+</table>
+</td></tr>
+</table>
+
+
+
+
+<br>
+
+<table border=0 cellpadding=4 cellspacing=0 width="100%">
+<tr><td class=reg_copy>
+<b><u>Mike Testa, President & CEO</u></b><br>
+<ul>
+<li>16 years of Enterprise Applications experience
+<ul>
+<li>2004 - 2008	Director, Strategic Accounts - Salesforce.com
+<li>1999 - 2004	Major Accounts - Corio Inc. (sold to IBM in '04)
+<li>1992 - 1999	Global Account Manager - Oracle Corporation
+</ul>
+<li>$112M in sales throughout career
+<li>10-time Quota Club qualifier
+<li>5-time President's Club qualifier 
+<li>3-time Top Account Team Worldwide - Oracle Corporation
+<li>Top Strategic Accounts Rep - Salesforce 2004
+<li>Top Applications Rep - Oracle Industrial Vertical 1997
+<li>Top Inside Sales Rep - Oracle DMD 1995
+<li>First $10M contract at Corio and aided growth from $6M in '99 to $220M in '04
+<li>Managed eBay, Nat. Semi, Intel, Apple, Sun, HP, etc.
+<li>Owner - Kauai Vacation Hideaway & Truckee High Camp
+<li>Certified Salesforce Administrator
+<li>Trustee - Arthur B. Schultz Foundation
+<li>Assistant Coach - Marin Catholic Wrestling Program
+<li>B.A. Economics - University of California, Davis 1988 - 1992
+<li>Co-Captain - UC Davis Rugby Club 1990-1992
+<li>Bronze Medal - Texas State Wrestling Championships 1988
+</ul>
+
+<b><u>Thomas Beebe, Chief Operating Officer</u></b><br>
+
+<ul>
+<li>15-year Real Estate and Property Management Veteran 
+<ul>
+<li>2000 - 2008	COO, Kauai Vacation Hideaway
+<li>1997 - 2009	Owner/Founder, Sweat Equity Property Management
+<li>1993 - 1997	President, International Motorcycle Travel Club
+</ul>
+<li>Licensed Real Estate Agent
+<li>B.S. Landscaping Architecture, University of California at Davis 1988-1993 
+<li>President, Hideaway Bay Homeowners Association
+</ul>
+
+
+
+<b><u>Debbie Milne, VP Finance</u></b><br>
+<ul>
+<li>License Administration, Accounting, Revenue, and Contracts
+<ul>
+<li>2003 - 2008	VP Finance, Hideaway Vacation Homes
+<li>2001 - 2003	Business Practices and Sales Ops, Corio
+<li>1994 - 2000	Contracts Manager, Oracle Corporation
+</ul>
+<li>Quickbooks Certified
+<li>VP San Ramon Valley Unified School District
+<li>B.A. Business Management, University of Colorado 1985-1989 
+</ul>
+
+
+<b><u>Fred Moyer, VP Product Development</u></b><br>
+<ul>
+<li>Apache, mod_perl, and PostgreSQL Technology Expert
+<ul>
+<li>2005 - 2008	Founder, Silver Lining Networks
+<li>2004 - 2006	Senior Software Engineer, Symantec
+<li>1999 - 2004	CTO Digital Campaigns
+</ul>
+<li>M.S. Mechanical Engineering, University of Nevada at Reno 1997 - 1999
+<li>B.S. Mechanical Engineering, University of California at Davis 1990 - 1996
+<li>B.S. Materials Science, University of California at Davis 1990 - 1996
+<li>Apache Software Foundation Committer
+<li>Member mod_perl Project Management Committee
+</ul>
+
+
+<b><u>Tim O'Mahoney, VP Sales & Marketing</u></b><br>
+<ul>
+<li>Founding team, VA Linux Systems
+<ul>
+<li>Largest single-day IPO gainer in history (NASDAQ: LNUX)
+<li>First sales & marketing person at LNUX
+<li>Went from $300,000 in sales to $5M during his tenure
+</ul>
+<li>Hollywood Power Broker
+</ul>
+
+
+<b><u>Craig Whetstone, General Counsel</u></b><br>
+<ul><li>Operations, Legal, Licensing, and Contracts Management 
+<ul>
+<li>2000 - 2008	Ops Manager, Corio/IBM Applications on Demand
+<li>1997 - 2000	Contract Negotiator, BEA Systems and Lucent
+<li>1995 - 1997	License Management, Oracle Corporation
+</ul>
+<li>Scaled Corio Ops/Legal team to support growth from $80M to $220M in 2 years
+<li>Chairman, Craigvation Committee 
+<li>JD Northwestern School of Law - Lewis and Clark College 1992-1994
+<li>BA Economics, Minor History - University of California at Davis 1988-1993 
+</ul>
+
+
+
+<b><u>Louis Balady, Director Inside Sales</u></b><br>
+<ul>
+<li>Operates a high volume Call Center in Dallas, TX
+<ul>
+<li>2000 - 2008	President, America Home Key
+<li>1997 - 2000	Branch Owner, Prime Lending
+<li>1993 - 1997	Owner, AquaSurge Sports - St. Thomas VI
+</ul>
+<li>Licensed Mortgage Banker
+<li>BA Business Administration, Rice University 1988-1993 
+</ul>
+
+
+<b><u>Jeff Lennan, Director User Experience</u></b><br>
+<ul>
+<li>Founder, Digital Campaigns
+<li>Co-Owner, Red Hot Penguin Consulting
+<li>COO, Winning Mark LLC
+<li>B.A. Economics, University of California at Davis 1991-1996
+</ul>
+
+<b><u>Eric Johnson, Director Salesforce Development</u></b><br>
+<ul>
+<li>7 years of Salesforce Administrator Experience
+<li>APEX Programmer
+<li>Java, JavaScript, XML, S-Controls
+<li>Salesforce API
+<li>Professional Services at Oracle and Corio
+<li>Bass Player, Stone Monkeys
+<li>B.S. Landscape Architecture, University of California at Davis 1992-1996
+</ul>
+
+
+<b><u>Todd Bryson, Director Search</u></b><br>
+<ul>
+<li>Account Executive, Search Keyword Sales - Local.com
+<li>Participates in extensive partnership between Local.com and Google
+<li>Director, Technology Sales - Silver Lining Networks
+<li>UC Davis Rugby Club
+<li>B.A. Economics, University of California at Davis 1992-1996
+</ul>
+
+<b><u>Dustin Henderson, Application Developer</u></b><br>
+<ul><li>HTML, PHP, CSS, MySQL, JavaScript, Salesforce Administrator
+<li>B.S. Political Science, University of California at Berkeley 1990-1994
+</ul>
+
+
+
+<b><u>Advisory Board</u></b><br>
+<ul>
+- Art Schultz - Chairman ABS Foundation<br> 
+- Bruce Juell - CEO Six Flags Inc. (ret.)<br>
+- Rachael Knapp - ABSF Trustee<br>
+- Dave Straley - 3rd Creek Investments<br>
+- Bob Olson - President Sumitomo Electric (ret.)<br>
+- Troy Testa - Director Sales, Verari Linux<br>
+- Jim Testa - Principle Sales Engineer, Salesforce<br>
+- David Obrand - VP Strategic Accounts, Salesforce<br>
+- Brent Floyd - Director Alliances, Salesforce<br>
+- Kevin Francis - VP Sales, Oracle<br>
+- Caryn Testa - Roscor Group<br>
+- Dr. Arinn Testa - My wife and muse<br><br>
+</ul>
+
+
+
+
+
+
+
+</td></tr></table/>
+
+
+<p>Please call or email us anytime.&nbsp; We are committed to responding to you immediately and we look forward to speaking with you.</p>
+<p><span style="font-weight: bold;">Thomas Beebe<br />888-858-6562<br /><a href="mailto:thomas@hvh.com">thomas@HVH.com</a><br /></span></p>
+<p><span style="font-weight: bold;"></span></p>
+<p><span style="font-weight: bold;">(If you are on the east coast, please consider that Hawaiian Standard Time is 5-6 hours behind you depending on daylight savings)<br /></span></p>
+
+</td></tr>
+</table>
+
+<!-- END CONTACT INFO - NOTHING BELOW THIS LINE -->

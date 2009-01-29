@@ -31,11 +31,8 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 			<tr><Td><a href="index.php"><img src="img/top_mountain_banner.gif" border=0></a></td></tr>
 <?php } ?> 
 
-<?php if ($my_page == 'index.php') { ?>
-<tr><Td><a href="index.php"><img src="img/hvh_logo_blue.gif" border=0></a></td></tr>
-<?php } ?>
 
-<?php if ($my_page == 'index2.php') { ?>
+<?php if ($my_page == 'index.php') { ?>
 <tr><Td valign=top>
 <script language="JavaScript" type="text/javascript">
 	AC_FL_RunContent(
@@ -73,7 +70,7 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 <?php } ?>
 
 
-<?php if (($my_page != 'philanthropy.php') && ($my_page != 'index.php') && ($my_page != 'index2.php')) { ?>
+<?php if (($my_page != 'philanthropy.php') && ($my_page != 'index.php')) { ?>
             <tr><Td><a href="index.php"><img src="img/hvh_logo_blue.gif" border=0></a></td></tr>
 <?php } ?>
 			</table>

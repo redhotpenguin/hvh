@@ -6,7 +6,8 @@ Please call or email us anytime.&nbsp; We are committed to responding to you imm
 <br><Br>
 Thomas Beebe<br />888-858-6562<br /><a href="mailto:thomas@hvh.com">thomas@HVH.com</a><br /><br>
 
-If you are on the east coast, please consider that Hawaiian Standard Time is 5-6 hours behind you depending on daylight savings
+Mike Testa<br>
+<a href="mailto:mike@hvh.com">mike@HVH.com</a><br /><br>
 <br><br>
 </td></tr>
 </table>

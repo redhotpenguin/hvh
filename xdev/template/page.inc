@@ -4,6 +4,7 @@
 <title><?php echo "$page_title" ?></title>
 <link rel=stylesheet type="text/css" href="css/main.css">
 <?php
+if ($banner) { $banner = $banner; } else { $banner = 'main_image.inc'; }
 include "elements/maps/North_America_head.inc";
 $my_page = basename($_SERVER['REQUEST_URI']);
 if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
@@ -27,52 +28,9 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
             <Tr><td><img src="img/hvh_top.gif">
             </tr>
 			<Tr><Td><?php include "template/navs/top_nav.inc"; ?></td></tr>
-<?php if ($my_page == 'philanthropy.php') { ?>
-			<tr><Td><a href="index.php"><img src="img/top_mountain_banner.gif" border=0></a></td></tr>
-<?php } ?> 
+			<tr><Td><?php include "banners/$banner"; ?></td></tr>
 
 
-<?php if ($my_page == 'index.php') { ?>
-<tr><Td valign=top>
-<script language="JavaScript" type="text/javascript">
-	AC_FL_RunContent(
-		'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0',
-		'width', '1000',
-		'height', '150',
-		'src', 'hvhbanner',
-		'quality', 'high',
-		'pluginspage', 'http://www.adobe.com/go/getflashplayer',
-		'align', 'middle',
-		'play', 'true',
-		'loop', 'true',
-		'scale', 'showall',
-		'wmode', 'window',
-		'devicefont', 'false',
-		'id', 'hvhbanner',
-		'bgcolor', '#ffffff',
-		'name', 'hvhbanner',
-		'menu', 'true',
-		'allowFullScreen', 'false',
-		'allowScriptAccess','sameDomain',
-		'movie', 'hvhbanner',
-		'salign', ''
-		); //end AC code
-</script>
-	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="1000" height="150" id="hvhbanner" align="middle">
-	<param name="allowScriptAccess" value="sameDomain" />
-	<param name="allowFullScreen" value="false" />
-	<param name="movie" value="swf/hvhbanner.swf" />
-	<param name="quality" value="high" /><param name="bgcolor" value="#ffffff" />	
-	<embed src="swf/hvhbanner.swf" loop='False' quality="high" bgcolor="#ffffff" width="1000" height="150" name="hvhbanner" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" />
-	</object>
-
-</td></tr>
-<?php } ?>
-
-
-<?php if (($my_page != 'philanthropy.php') && ($my_page != 'index.php')) { ?>
-            <tr><Td><a href="index.php"><img src="img/hvh_logo_blue.gif" border=0></a></td></tr>
-<?php } ?>
 			</table>
 		</td>
 	</tr>

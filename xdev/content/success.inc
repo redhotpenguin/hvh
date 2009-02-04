@@ -3,6 +3,9 @@
 <table border=0 cellpadding=0 cellspacing=0 width="100%">
 <Tr><Td colspan=2 class=reg_copy valign=top>
 <h2>Customer Success</h2>
+
+The HVH team is made up of High Tech and Real Estate industry veterans.  We have a long track record of success and we hope to bring that experience and success to our HVH customers.  Below are some examples of the work we have done for companies both small and large.<br>
+<hr noshade size=1 color="#cccccc">
 Hi Mike,
 <br><Br>
 Congratulations on a successful implementation in 2008!  I wanted to update you that using the system we've booked orders for 315 wheelchairs since we launched the program last year!!

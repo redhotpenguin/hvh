@@ -3,6 +3,7 @@
 $page_title = 'Hideaway Vacation Homes';
 $left_cols = 'home';
 $sub_nav = 'home_sub';
+$banner = 'flash_banner.inc';
 //$content = '../phpdev/xdev_content_home';
 
 // switch to this when appropriate.

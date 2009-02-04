@@ -4,7 +4,7 @@ $page_title = 'Hideaway Vacation Homes';
 $left_cols = 'home';
 $sub_nav = 'love_life_sub';
 $content = 'content/love_life';
-
+$banner = 'lovers.inc';
 // switch to this when appropriate.
 // $content = 'solutions.inc';
 

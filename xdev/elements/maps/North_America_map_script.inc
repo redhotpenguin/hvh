@@ -4,7 +4,7 @@
     if (GBrowserIsCompatible()) {
       var North_Americamap = new GMap2(document.getElementById("North_America"));
       North_Americamap.setCenter(new GLatLng(39.102746, -94.626202));
-      North_Americamap.setZoom(4);
+      North_Americamap.setZoom(3);
       North_Americamap.setMapType(G_NORMAL_MAP);
       North_Americamap.addControl(new GSmallMapControl());
       var icon_palm = new GIcon();

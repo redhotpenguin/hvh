@@ -4,7 +4,7 @@
     if (GBrowserIsCompatible()) {
       var Hawaiimap = new GMap2(document.getElementById("Hawaii"));
       Hawaiimap.setCenter(new GLatLng(21.291982, -157.821856));
-      Hawaiimap.setZoom(6);
+      Hawaiimap.setZoom(7);
       Hawaiimap.setMapType(G_NORMAL_MAP);
       Hawaiimap.addControl(new GSmallMapControl());
       var icon_palm = new GIcon();

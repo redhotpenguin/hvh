@@ -18,7 +18,7 @@ We deliver an end-to-end business solution including the following capabilities:
 <li>Maintenance Tracking
 <li>Free listing on <a href="index.html">HVH.com</a>
 </ul>
-Pricing - Annual subscription of $595/yr for a single user with one property. <!--Additional users and properties are available and described in US Price List (Button: download here to the Price List) Button (purchase here) (link to credit card acceptance form) Button (download the product spec sheet) Take a test drive (www.appexchange.com)--></p><br><Br>
+Pricing - Annual subscription of $295/yr for a single user with one property. <!--Additional users and properties are available and described in US Price List (Button: download here to the Price List) Button (purchase here) (link to credit card acceptance form) Button (download the product spec sheet) Take a test drive (www.appexchange.com)--></p><br><Br>
 </td>
 
 <td width=10><img src="img/clear.gif" width=10 height=1></td>

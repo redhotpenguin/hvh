@@ -33,6 +33,8 @@ $listing_obj = new SObject($get_result);
 $cto = $_GET['cto'];
 $fhh = $_GET['fhh'];
 $bkt = $_GET['bkt'];
+$customer = $listing_obj->fields->Solutions_Customer__c;
+
 // $props = mysql_query("select * from property where id='$prop_id' limit 1");
 
 
@@ -76,13 +78,13 @@ $bkt = $_GET['bkt'];
 	echo "<td align=right><a href=\"listing.php?prop_id=$get_prop_id&bkt=1\"><img src=\"img/bkt_off.gif\" border=0></a></td>";
 	
 	echo "</tr>";
-	 echo "<tr><td colspan=3 bgcolor=\"#ffffff\"><img src=\"img/clear.gif\" width=1 height=3></td></tr>";
-	if ($cto == 1) {
+	 echo "<tr><td colspan=3 bgcolor=\"#ffffff\"><img src=\"img/clear.gif\" width=1 height=2></td></tr>";
+	if (($cto == 1) || ($cto == 'success')) {
 		echo "<tr><td colspan=3 bgcolor=\"#2c74c8\"><img src=\"img/clear.gif\" width=1 height=10></td></tr>";
 	}
 
 	
-	if ($fhh == 1) {
+	if (($fhh == 1) || ($fhh == 'success')) {
 		echo "<tr><td colspan=3 bgcolor=\"#db1f00\"><img src=\"img/clear.gif\" width=1 height=10></td></tr>";
 	}
 		
@@ -113,8 +115,12 @@ $bkt = $_GET['bkt'];
 		echo "</form>";
 		echo "</table><br>";
 	}
+	if ($cto == 'success') {
+		echo "<div class=success>Your message and contact information has been sent to the owner or property manager at ".$listing_obj->fields->Name.".</div><br>";
+	}
 	
 	if ($fhh == 1) {
+		if ($customer == 'true') {
 		echo "<script>setTimeout(\"document.fhh.fname.focus()\",10);</script>";
                 echo "<span class=detail_header>".$listing_obj->fields->Name."</span>";
                 echo "<span class=entry_loc> - ".$listing_obj->fields->City__c.", ".$listing_obj->fields->Location__c."</span></a>";
@@ -132,9 +138,16 @@ $bkt = $_GET['bkt'];
 		echo "<tr><td colspan=3 class=reg_copy><input type=image src=\"img/hold_off.gif\" vspace=4></td></tr>";
 		echo "</form>";
 		echo "</table><br>";
+		} else {
+
+			echo "not a solutions customer - 48 hour hold splash page content needed.";
+		}
 	}
-	
+	if ($fhh == 'success') {
+		echo "<div class=success>Congratulations! Your accommodations at ".$listing_obj->fields->Name." have been put on hold for 48-hours. To finalize your booking, please return to HVH.com and submit your credit card information, or please contact us directly within the 48 hour time period.  Thanks for choosing HVH!</div><br>";
+	}	
 	if ($bkt == 1) {
+		if ($customer == 'true') {	
 		echo "<span class=detail_header>".$listing_obj->fields->Name."</span>";
 		echo "<span class=entry_loc> - ".$listing_obj->fields->City__c.", ".$listing_obj->fields->Location__c."</span></a>";
 		echo "<table border=0 cellpadding=1 cellspacing=0 width=\"100%\">";
@@ -153,8 +166,13 @@ $bkt = $_GET['bkt'];
 		echo "<tr><td colspan=3 class=reg_copy><input type=image src=\"img/bkt_off.gif\" vspace=4></td></tr>";
 		echo "</form>";
 		echo "</table><br>";
+		} else {
+			echo "not a solutions customer. bookit splash page content needed";
+		}
 	}
-
+	if ($bkt == 'success') {
+		echo "<div class=success>Property successfully booked.</div>";
+	}
 	
 if (($bkt == 1) || ($fhh == 1) || ($cto == 1)) { $hide_content = 1; }
 

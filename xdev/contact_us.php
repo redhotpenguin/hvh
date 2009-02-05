@@ -4,7 +4,7 @@ $page_title = 'Hideaway Vacation Homes';
 $left_cols = 'home';
 $sub_nav = 'contact_sub';
 $content = 'content/contact';
-
+$banner = 'main_image.inc';
 // switch to this when appropriate.
 // $content = 'solutions.inc';
 

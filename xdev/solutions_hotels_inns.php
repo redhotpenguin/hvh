@@ -4,7 +4,7 @@ $page_title = 'Hideaway Vacation Homes';
 $left_cols = 'home';
 $sub_nav = 'solutions_hotels_inns_sub';
 $content = 'content/solutions_hotels_inns';
-
+$banner = 'main_image.inc';
 // switch to this when appropriate.
 // $content = 'solutions.inc';
 

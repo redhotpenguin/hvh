@@ -4,7 +4,7 @@ $page_title = 'Hideaway Vacation Homes';
 $left_cols = 'home';
 $sub_nav = 'list_sub';
 $content = '../phpdev/xdev_content_list';
-
+$banner = 'main_image.inc';
 
 // --- HEADER = TOP NAV + LOGO - OPENS ALL PAGES --- //
 // --- COLUMN_SPACER IS THE 15 PIXEL SPACER IN BETWEEN COLUMNS --- //

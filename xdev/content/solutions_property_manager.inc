@@ -46,9 +46,9 @@ Pricing
 <tr><Td align=center><img src="img/sol_but_two.gif"></td></tr>
 </table>
 <br>
-<a href="" class=download_link>Download the Product Spec Sheet<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
-<a href="" class=download_link>Download the Company Overview<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
-<a href="" class=download_link>See a demo of the 2nd Home Edition<img src="img/pdf_ico_small.gif" hspace=6 border=0></a></br>
+<a href="contact_us.php" class=download_link>Download the Product Spec Sheet<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
+<a href="contact_us.php" class=download_link>Download the Company Overview<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
+<a href="contact_us.php" class=download_link>See a demo of the 2nd Home Edition<img src="img/pdf_ico_small.gif" hspace=6 border=0></a></br>
 
 </td>
 </tr>

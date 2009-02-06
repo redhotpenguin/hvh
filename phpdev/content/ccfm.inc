@@ -1,11 +1,28 @@
-<tr><Td class=entry_desc>*Card Type</td>
+<?php 
+$card_type = $_GET['card_type'];
+$card_number = $_GET['card_number'];
+$cvc = $_GET['cvc'];
+$exp_month = $_GET['exp_month'];
+$exp_year = $_GET['exp_year'];
+$billing_address = $_GET['billing_address'];
+$billing_state = $_GET['billing_state'];
+$billing_zip = $_GET['billing_zip'];
+$billing_country = $_GET['billing_country'];
+
+
+
+
+
+?>
+<?php if (in_array('card_type', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+<tr><Td class=<?php echo "$check_class"; ?>>*Card Type</td>
 	<td class=entry_desc>
 	<table border=0 cellpadding=0 cellspacing=0 width="100%">
-	<tr><Td><select class="left" id="card_type">
-			<option value="cardtype" selected="selected">Select a card type</option>
-			<option value="visa">Visa</option>
-			<option value="mastercard">MasterCard</option>
-			<option value="amex">American Express</option>
+	<tr><Td><select class="left" name="card_type">
+			<option value="cardtype">Select a card type</option>
+			<option value="visa" <?php if ($card_type == 'visa') { echo ' SELECTED'; } ?>>Visa</option>
+			<option value="mastercard" <?php if ($card_type == 'mastercard') { echo ' SELECTED'; } ?>>MasterCard</option>
+			<option value="amex" <?php if ($card_type == 'amex') { echo ' SELECTED'; } ?>>American Express</option>
 		</select></td>
 		<td><img src="img/ccpic.gif"></td>
 	</tr>
@@ -13,12 +30,14 @@
 		
 	</td>
 </tr>
-<tr><td class=entry_desc valign=top>*Card Number</td>
+<?php if (in_array('card_number', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+<tr><td class=<?php echo "$check_class"; ?> valign=top>*Card Number</td>
 	<td class=entry_desc>
 
 		<table border=0 cellpadding=0 cellspacing=0 width="100%">
-		<Tr><td><input class=full maxlength="16" class="creditcard" type="text" value=""/></td>
-		<td class=entry_desc width=1>&nbsp;&nbsp;*CVC&nbsp;</td><td width=1><input maxlength="4" type="text" id="cvc" value="" size=4/></td></tr>
+		<Tr><td><input class=full maxlength="16" name="card_number" type="text" value="<?php echo "$card_number"; ?>"/></td>
+<?php if (in_array('cvc', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+		<td class="<?php echo "$check_class"; ?>" width=1>&nbsp;&nbsp;*CVC&nbsp;</td><td width=1><input maxlength="4" type="text" name="cvc" value="<?php echo "$cvc"; ?>" size=4/></td></tr>
 		<Tr><Td class=entry_desc colspan=3><i>Numbers Only, No Spaces</i></td></tr>
 		</table>
 
@@ -26,61 +45,94 @@
 
 	</td>
 </tr>
-<tr><td class=entry_desc>*Expiration</td>
-	<Td class=entry_desc><select id="month">
-			<option value="january">01</option>
-			<option value="february">02</option>
-			<option value="march">03</option>
+<?php if (in_array('exp_month', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+<tr><td class=<?php echo "$check_class"; ?>>*Expiration</td>
+	<Td class=entry_desc><select name="exp_month">
+			<option value="">Select Month</option>
+			<option value="january" <?php if ($exp_month == 'january') { echo ' SELECTED';} ?>>01</option>
+			<option value="february" <?php if ($exp_month == 'february') { echo ' SELECTED';} ?>>02</option>
+			<option value="march" <?php if ($exp_month == 'march') { echo ' SELECTED';} ?>>03</option>
 
-			<option value="april">04</option>
-			<option value="may">05</option>
-			<option value="june">06</option>
-			<option value="july">07</option>
-			<option value="august">08</option>
-			<option value="september">09</option>
+			<option value="april" <?php if ($exp_month == 'april') { echo ' SELECTED';} ?>>04</option>
+			<option value="may" <?php if ($exp_month == 'may') { echo ' SELECTED';} ?>>05</option>
+			<option value="june" <?php if ($exp_month == 'june') { echo ' SELECTED';} ?>>06</option>
+			<option value="july" <?php if ($exp_month == 'july') { echo ' SELECTED';} ?>>07</option>
+			<option value="august" <?php if ($exp_month == 'august') { echo ' SELECTED';} ?>>08</option>
+			<option value="september" <?php if ($exp_month == 'september') { echo ' SELECTED';} ?>>09</option>
 
-			<option value="october">10</option>
-			<option value="november">11</option>
-			<option value="december">12</option>
+			<option value="october" <?php if ($exp_month == 'october') { echo ' SELECTED';} ?>>10</option>
+			<option value="november" <?php if ($exp_month == 'november') { echo ' SELECTED';} ?>>11</option>
+			<option value="december" <?php if ($exp_month == 'december') { echo ' SELECTED';} ?>>12</option>
 		</select>
-		<select id="year">
-			<option value="2008">2008</option>
-			<option value="2009">2009</option>
-			<option value="2010">2010</option>
-			<option value="2011">2011</option>
-			<option value="2012">2012</option>
+		<select name="exp_year">
+		<option value="">Select Year</option>
+		<?php foreach (range(2009, 2040) as $number) {
 
-			<option value="2013">2013</option>
-			<option value="2014">2014</option>
-			<option value="2015">2015</option>
-			<option value="2016">2016</option>
-			<option value="2017">2017</option>
-			<option value="2018">2018</option>
+			echo "<option value=$number";
+				if ($number == $exp_year) {
+					echo " SELECTED";
+				}
+			echo ">$number</option>";	
 
-			<option value="2019">2019</option>
-			<option value="2020">2020</option>
-			<option value="2021">2021</option>
-			<option value="2022">2022</option>
-			<option value="2023">2023</option>
-			<option value="2024">2024</option>
-
-			<option value="2025">2025</option>
-			<option value="2026">2026</option>
+		} ?>
 		</select>
 	</td>
 </tr>
-<tr><Td class=entry_desc>*Billing Address</td>
-	<td><input class=full type="text" value="" name=billing_address/></td>
+<?php if (in_array('billing_address', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+<tr><Td class=<?php echo "$check_class"; ?>>*Billing Address</td>
+	<td><input class=full type="text" value="<?php echo "$billing_address"; ?>" name=billing_address/></td>
 </tr>
-<tr><Td class=entry_desc>*City</td>
-	<Td>
-	<table border=0 cellpadding=0 cellspacing=0 width="100%">	
-	<tr><Td class=entry_desc><input class=full type="text" value="" name=billing_city/></td>
-	<td class=entry_desc size=1>&nbsp;&nbsp;#Zip</td><td size=1><input class=full type="text" value="" name=billing_zip size= 10/></td></tr>
-	</table>
-
-
-
-	</td>
+<?php if (in_array('billing_city', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+<tr><Td class=<?php echo "$check_class"; ?>>*Billing City</td>
+	<Td class=entry_desc><input class=full type="text" value="<?php echo "$billing_city"; ?>" name=billing_city/></td>
 </tr>
+<?php if (in_array('billing_state', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+ <tr>
+                <td class="<?php echo "$check_class"; ?>">*Billing State:</td><td class="entry_desc">
+                    <select name="billing_state">
+                    <option value="">Select One</option>
+
+                    <?php
+                    foreach ($states_array AS $state_val) {
+                        echo "<option value=\"$state_val\"";
+                        if ($state_val == $billing_state) {
+                            echo " SELECTED";
+                        }
+                        echo ">$state_val</option>"; 
+                        }
+                    ?>
+
+
+                    </select>
+
+                </td>
+            </tr>
+<?php if (in_array('billing_zip', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+<Tr><td class=<?php echo "$check_class"; ?> size=1>*Billing Zip</td><td size=1><input type="text" value="" name=billing_zip size=7 maxlength=5 value="<?php echo "$billing_zip"; ?>"></td></tr>
+
+<?php if (in_array('billing_country', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+            <tr>
+                <td class="<?php echo "$check_class"; ?>">*Billiing Country:</td><td class="entry_desc">
+
+                        <select name="billing_country">
+                        <option value="">Select a Country</option>
+                        <?php
+
+                            foreach ($country_array as $country_val) {
+
+                                echo "<option value=\"$country_val\"";
+                                if ($country_val == $billing_country) {
+                                    echo " SELECTED";
+                                }
+                                echo ">$country_val</option>";
+                            }
+
+
+                        ?>
+
+
+                        </select>
+                </td>
+            </tr>
+
 

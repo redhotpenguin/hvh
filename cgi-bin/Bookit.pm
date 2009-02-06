@@ -79,11 +79,11 @@ sub contact {
         );
 
 	my $q = $self->query;
-	$q->param(-name => 'prop_id', -value => 'a0650000001OhFAAA0');
         my $results = Data::FormValidator->check( $q, \%profile );
 
 	if ( $results->has_missing or $results->has_invalid ) {
 
+# 	warn("results, " . join(',', keys %{$results->{invalid}}) . ' missing;' . join(',', keys %{$results->{missing} } ));
 		my $url = _gen_redirect( $results, $q );
 
 		return $self->redirect($url);
@@ -115,16 +115,26 @@ sub contact {
 				$sf_args{$Inquiry{$opt}} = $q->param($opt);
 			}
 		}
-#warn("SF args are " . Dumper(\%sf_args));
 		$r = $sf->create( %sf_args );
+
+		my $result = $r->envelope->{Body}->{createResponse}->{result};
+		if ($result->{success} eq 'false') {
+			die ("Salesforce failed to create inquiry: " . Dumper($result->{errors}));
+		}
+
 	};
 
 	die $@ if $@;
 
-open(FH, '>/tmp/bar') or die $!;
-print FH Dumper($r);
-close(FH);	
-	return $self->redirect( 'http://www.hvh.com/contact_made_ok.html' );
+#open(FH, '>/tmp/bar') or die $!
+#
+#;
+#print FH Dumper($r);
+#close(FH);
+#
+	my $uri = $ENV{'HTTP_REFERER'};
+	$uri =~ s/cto\=1/cto\=success/;
+	return $self->redirect( $uri );
 }	
 
 sub _sf_login {
@@ -137,7 +147,7 @@ sub _sf_login {
 
 sub _dbdate {
 	my $date = shift;
-	warn("Date is $date");
+#	warn("Date is $date");
 	my ($month, $day, $year) = split(/\//, $date);
 	$date = DateTime->new( year => $year,
 					  month => $month,
@@ -176,9 +186,10 @@ sub bookit {
 	my $q = $self->query;
 
 	my @required = qw( prop_name first_name last_name
-		address city state country email
-		phone checkin_date checkout_date
-		cvv2 card_type card_number );
+		address city state zip country email guests 
+		phone checkin_date checkout_date exp_month exp_year
+		cvc card_type card_number billing_address billing_city
+		billing_state billing_zip billing_country);
 
         my %profile = (
             required => \@required,
@@ -189,9 +200,9 @@ sub bookit {
  		phone       => phone(),
                 first_name  => valid_first(),
                 last_name   => valid_last(),
-                month       => qr/^\d{2}$/,
-                year        => qr/^\d{4}$/,
-                cvv2        => valid_cvv(),
+                exp_month       => qr/^\d{2}$/,
+                exp_year        => qr/^\d{4}$/,
+                cvc        => valid_cvv(),
                 city        => valid_city(),
 		checkin_date => valid_date(),
 		checkout_date => valid_date(),
@@ -269,9 +280,9 @@ sub bookit {
 			HandlingTotal => 0.0,
 			CreditCardType => ucfirst($q->param('card_type')),
 			CreditCardNumber => $q->param('card_number'),
-			ExpMonth         => $q->param('month'),
-			ExpYear          => $q->param('year'),
-			CVV2             => $q->param('cvv2'),
+			ExpMonth         => $q->param('exp_month'),
+			ExpYear          => $q->param('exp_year'),
+			CVV2             => $q->param('cvc'),
 			FirstName        => $q->param('first_name'),
 			LastName         => $q->param('last_name'),
 			Street1          => $q->param('address'),
@@ -323,7 +334,7 @@ sub bookit {
 	  CreditCardNumber => $q->param('card_number'),
 	  ExpMonth => $q->param('exp_month'),
 	  ExpYear   => $q->param('exp_year'),
-	  CVV2      => $q->param('cvv2'),
+	  CVV2      => $q->param('cvc'),
 		  );
 
 
@@ -348,7 +359,9 @@ sub bookit {
 		die $@ if $@;
 
 
-		return $self->redirect('http://www.hvh.com/booking_success.html');	
+	my $uri = $ENV{'HTTP_REFERER'};
+	$uri =~ s/bkt\=1/bkt\=success/;
+	return $self->redirect($uri);
 }
 
 
@@ -357,14 +370,13 @@ sub hold {
 	my $self = shift;
 
 	my $q = $self->query;
-	$q->param(-name => 'prop_id', -value => 'a0650000001OhFAAA0');
 
 	my @required = qw( prop_id first_name last_name email
-		phone checkin_date checkout_date address city state country zip );
+		phone checkin_date checkout_date address city state country zip guests);
 
         my %profile = (
             required => \@required,
-            optional => [ qw( comments guests ) ],
+            optional => [ qw( comments ) ],
             constraint_methods => {
                 email       => email(),
                 first_name  => valid_first(),
@@ -410,9 +422,7 @@ sub hold {
           		Check_out_Date__c     => _dbdate($q->param('checkout_date')),
 			Inquiry_Stage__c      => '48 Hour Hold'
 		);
-open(FH, '>/tmp/iq') or die $!;
-print FH Dumper(\%sf_args);
-close(FH);
+		
 		# add the optional args
 		foreach my $opt (keys %Inquiry) {
 			if ($q->param($opt)) {
@@ -432,12 +442,11 @@ close(FH);
 		$r = $sf->create( %sf_args );
 	};
 
-open(FH, '>/tmp/r') or die $!;
-print FH Dumper($r);
-close(FH);
 	die $@ if $@;
 	
-	$self->redirect( 'http://www.hvh.com/hold_created.html' );
+	my $uri = $ENV{'HTTP_REFERER'};
+	$uri =~ s/fhh\=1/fhh\=success/;
+	$self->redirect( $uri );
 }	
 
 sub valid_date {
@@ -446,10 +455,26 @@ sub valid_date {
         my $dfv = shift;
         my $val = $dfv->get_current_constraint_value;
 
-	return unless $val =~ m/^\d{1,2}\/\d{1,2}\/20\d{2}$/;
+	my ($mon, $day, $year) = $val =~ m{^(\d{1,2})/(\d{1,2})/((?:20)?\d{2})$};
 
-        return $val;
-      }
+#	warn("year is $year, day $day, month $mon");
+	return unless  ($day && $mon && $year);
+
+	eval {
+		my $dt = DateTime->new(year => $year, month => $mon, day => $day );
+	};
+#	warn $@ if $@;
+	return if $@;
+
+	if (length($year) == 2) {
+#	warn("year is $year");
+		# two digit year used
+		$val = sprintf("%d/%d/%d", $day, $mon, '20' . $year);
+      	}
+	
+	return $val;
+	
+	}
 }
 
 

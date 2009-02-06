@@ -109,17 +109,16 @@ sub contact {
 			Inquiry_Stage__c      => 'Open',
 		);
 
-		# add the optional args
-		foreach my $opt ( keys %Inquiry) {
-			if ($q->param($opt)) {
-				$sf_args{$Inquiry{$opt}} = $q->param($opt);
-			}
-		}
-		$r = $sf->create( %sf_args );
+		_add_optional_args($q, \%Inquiry, \%sf_args );		
 
+		# fixup the request
+		_hack_the_soap( $q, \%sf_args );
+
+		$r = $sf->create( %sf_args );
 		my $result = $r->envelope->{Body}->{createResponse}->{result};
+		# warn('result is ' . $result->{success});	
 		if ($result->{success} eq 'false') {
-			die ("Salesforce failed to create inquiry: " . Dumper($result->{errors}));
+			die ("Salesforce failed to create inquiry: " . Dumper($result->{errors} . ", args: " . Dumper(\%sf_args)));
 		}
 
 	};
@@ -137,6 +136,24 @@ sub contact {
 	return $self->redirect( $uri );
 }	
 
+# fixes up our SOAP request the hard way
+sub _hack_the_soap {
+	my ($q, $sf_args) = @_;
+
+		# hack for SOAP bug
+		if ($q->param('zip') =~ m/^\d+$/) {
+			$sf_args->{Inquiry_Zip_Code__c} = $q->param('zip') . '-0000';
+		}
+
+		# hack for salesforce bug
+		if (length($q->param('guests')) == 1) {
+			$sf_args->{Number_of_Guests__c} = '0' . $q->param('guests');
+		}	
+
+	return 1;
+}
+
+
 sub _sf_login {
 	my $Sf = WWW::Salesforce->login(
 	    		username => 'api@hvh.com',
@@ -149,6 +166,10 @@ sub _dbdate {
 	my $date = shift;
 #	warn("Date is $date");
 	my ($month, $day, $year) = split(/\//, $date);
+	if (length($year) == 2) {
+		$year = '20' . $year;
+	}
+
 	$date = DateTime->new( year => $year,
 					  month => $month,
 					  day => $day,);
@@ -257,6 +278,10 @@ sub bookit {
 			Booking_Description__c      => $q->param('comments'),
 			Payment_Method__c           => 'PayPal',
 		);
+
+		_add_optional_args($q, \%Inquiry, \%sf_args );		
+		# fixup the request
+		_hack_the_soap( $q, \%sf_args );
 
 		$r = $sf->create( %sf_args );
 	};
@@ -422,22 +447,11 @@ sub hold {
           		Check_out_Date__c     => _dbdate($q->param('checkout_date')),
 			Inquiry_Stage__c      => '48 Hour Hold'
 		);
-		
-		# add the optional args
-		foreach my $opt (keys %Inquiry) {
-			if ($q->param($opt)) {
-				$sf_args{$Inquiry{$opt}} = $q->param($opt);
-			}
-		}
 
-		# hack for SOAP bug
-		if ($q->param('zip') =~ m/^\d+$/) {
-			$sf_args{Inquiry_Zip_Code__c} = $q->param('zip') . '-';
-		}
+		_add_optional_args($q, \%Inquiry, \%sf_args );		
 
-		if (length($q->param('guests')) == 1) {
-			$sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
-		}	
+		# fixup the request
+		_hack_the_soap( $q, \%sf_args );
 
 		$r = $sf->create( %sf_args );
 	};
@@ -448,6 +462,16 @@ sub hold {
 	$uri =~ s/fhh\=1/fhh\=success/;
 	$self->redirect( $uri );
 }	
+
+sub _add_optional_args {
+	my ($q, $Inquiry, $sf_args) = @_;
+		# add the optional args
+		foreach my $opt (keys %{$Inquiry}) {
+			if ($q->param($opt)) {
+				$sf_args->{$Inquiry->{$opt}} = $q->param($opt);
+			}
+		}
+}
 
 sub valid_date {
 

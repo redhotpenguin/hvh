@@ -81,11 +81,11 @@ $billing_country = $_GET['billing_country'];
 </tr>
 <?php if (in_array('billing_address', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
 <tr><Td class=<?php echo "$check_class"; ?>>*Billing Address</td>
-	<td><input class=full type="text" value="<?php echo "$billing_address"; ?>" name=billing_address></td>
+	<td><input class=full type="text" value="<?php echo "$billing_address"; ?>" name="billing_address"></td>
 </tr>
 <?php if (in_array('billing_city', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
 <tr><Td class=<?php echo "$check_class"; ?>>*Billing City</td>
-	<Td class=entry_desc><input class=full type="text" value="<?php echo "$billing_city"; ?>" name=billing_city></td>
+	<Td class=entry_desc><input class=full type="text" value="<?php echo "$billing_city"; ?>" name="billing_city"></td>
 </tr>
 <?php if (in_array('billing_state', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
  <tr>
@@ -109,7 +109,7 @@ $billing_country = $_GET['billing_country'];
                 </td>
             </tr>
 <?php if (in_array('billing_zip', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
-<Tr><td class=<?php echo "$check_class"; ?> size=1>*Billing Zip</td><td size=1><input type="text" name=billing_zip size=7 maxlength=5 value="<?php echo "$billing_zip"; ?>"></td></tr>
+<Tr><td class=<?php echo "$check_class"; ?> size=1>*Billing Zip</td><td size=1><input type="text" name="billing_zip" size=7 maxlength=5 value="<?php echo "$billing_zip"; ?>"></td></tr>
 
 <?php if (in_array('billing_country', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
             <tr>

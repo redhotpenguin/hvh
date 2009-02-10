@@ -113,7 +113,7 @@ $billing_country = $_GET['billing_country'];
 
 <?php if (in_array('billing_country', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
             <tr>
-                <td class="<?php echo "$check_class"; ?>">*Billiing Country:</td><td class="entry_desc">
+                <td class="<?php echo "$check_class"; ?>">*Billing Country:</td><td class="entry_desc">
 
                         <select name="billing_country">
                         <option value="">Select a Country</option>

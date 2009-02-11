@@ -40,7 +40,7 @@ foreach ($cats as $cat) {
 
 	foreach ($sig_homes AS $sig_home) {
 
-		 echo "making new home object\n";
+		// echo "making new home object\n";
 
 		$key = "$cat|$count_it";
 		$memcache->set($key, $sig_home, MEMCACHE_COMPRESSED, 0) or die ("Failed to save data at the server");

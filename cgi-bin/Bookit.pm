@@ -12,7 +12,10 @@ use Business::PayPal::API ();
 use WWW::Salesforce::Simple ();
 use DateTime ();
 use CGI::Application::Plugin::Redirect;
+use URI::Escape ();
 use Data::Dumper;
+
+use constant DEBUG => 1; #$ENV{HVH_DEBUG} || 1;
 
 our $Paypal = Business::PayPal::API->new(
 	Username => 'mike_api1.hvh.com',
@@ -38,7 +41,8 @@ our %Inquiry = ( address => 'Inquiry_Address_1__c',
 		 comments => 'Inquiry_Comments__c', );
 
 sub _gen_redirect {
-	my ($results, $q) = @_;
+	my ($results, $q, $extra) = @_;
+
 		# set new url;
 		my @fields = ( keys %{$results->{invalid}}, 
 			       keys %{$results->{missing}});
@@ -47,15 +51,19 @@ sub _gen_redirect {
 
 		# add the current field values
 		foreach my $invalid (keys %{$results->{invalid}}) {
-			$url .= '&' . $invalid . '=' . $q->param($invalid);
+			$url .= '&' . $invalid . '=' . URI::Escape::uri_escape($q->param($invalid));
 		}
 
 		my %params = $q->Vars;
 		foreach my $param( keys %params ) {
-			$url .= '&' . $param . '=' . $params{$param};
+			$url .= '&' . $param . '=' . URI::Escape::uri_escape($params{$param});
 		}
 
-		$url = $ENV{'HTTP_REFERER'} . $url;
+		my ($lead) = $ENV{'HTTP_REFERER'} =~ m/^(.*?prop_id=\w+\&(?:bkt|fhh|cto)=1)/;
+
+		$url = $lead . $url;
+
+	$url .= $extra if $extra;
 
 	return $url;
 }
@@ -162,6 +170,22 @@ sub _sf_login {
 	return $Sf;
 }
 
+sub _dtdate {
+	my $date = shift;
+#	warn("Date is $date");
+	my ($month, $day, $year) = split(/\//, $date);
+	if (length($year) == 2) {
+		$year = '20' . $year;
+	}
+
+	$date = DateTime->new( year => $year,
+					  month => $month,
+					  day => $day,);
+	return $date;
+}
+
+
+
 sub _dbdate {
 	my $date = shift;
 #	warn("Date is $date");
@@ -182,22 +206,59 @@ sub _dbdate {
 
 
 
-sub _check_booking {
+sub check_booking {
 	my ($sf, $checkin_date, $checkout_date) = @_;
 
-	$checkin_date = _dbdate($checkin_date);
-	$checkout_date = _dbdate($checkout_date);
+	# sanity check, make sure it is at least 24 hours ahead in time
+	my $dt_ci = _dtdate( $checkin_date );
+	my $dt_co = _dtdate( $checkout_date );
 
-	# check to see if these dates conflict with an existing booking
-	my $sql = "Select Id from Booking__c where ( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) ) or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_Date__c > $checkin_date ) ) or  ( ( Check_in_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date ) )";
+	my $tomorrow = DateTime->now->add( days => 1 );
 
-	my $res = $sf->query( query => $sql);
-	
-	if ($res) { # found a conflicting booking
-		return (1, $checkin_date, $checkout_date);
+	if ( ( $dt_ci->epoch < $tomorrow->epoch ) or 
+	    ( $dt_co->epoch < $tomorrow->epoch ) ) {
+
+		warn("trying to book too early!");
+		return;
+
 	}
 
-	return;
+	#warn("in is " . DateTime->now->mdy('/'));
+	#warn("in " . $dt_ci->epoch . ", tomrrow epoch " . $tomorrow->epoch);
+	$checkin_date = _dbdate($checkin_date);
+	$checkout_date = _dbdate($checkout_date);
+	#warn("checkin date $checkin_date, co $checkout_date");
+
+	my $sql = "Select Id from Booking__c where ";
+
+	$sql .= "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) ) ";
+	# (booked_checkin) (new_checkin) (new_checkout) (booked_checkout)
+
+	$sql .= " or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_in_Date__c > $checkin_date ) ) ";
+	# (new_checkin) (booked_checkin) (new_checkout) (booked_checkout)
+
+	$sql .= " or ( ( Check_in_Date__c < $checkin_date ) and ( ( Check_out_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkin_date ) ) ) ";
+	# (booked_checkin) (new_checkin) (booked_checkout) (new_checkout)
+
+	$sql .= " or ( ( Check_in_Date__c > $checkin_date )  and ( Check_out_date__c < $checkout_date ) ) ";
+	# (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
+
+	warn("checking for booking between in $checkin_date and out $checkout_date") if DEBUG;
+	my $res = $sf->query(query => $sql);
+
+	if ($res->valueof('//queryResponse/result')->{size} != 0) { # found a conflicting booking
+#		open(FH, '>', '/tmp/foo') or die $!;
+#		print FH Dumper($res);
+#		print FH Dumper($res->valueof('//queryResponse/result')->{size});
+#		close(FH) or die $!;
+		warn("booking conflict! ") if DEBUG;
+#		warn("res: " . Dumper($res)) if DEBUG;
+		return;
+	}
+
+	warn("booking range open") if DEBUG;
+
+	return (1, $checkin_date, $checkout_date);
 }
 
 
@@ -207,27 +268,27 @@ sub bookit {
 	my $q = $self->query;
 
 	my @required = qw( prop_name first_name last_name
-		address city state zip country email guests 
+		email guests 
 		phone checkin_date checkout_date exp_month exp_year
 		cvc card_type card_number billing_address billing_city
-		billing_state billing_zip billing_country);
+		billing_state billing_zip billing_country );
 
         my %profile = (
             required => \@required,
             optional => [qw( guests )],
             constraint_methods => {
                 email       => email(),
-                zip         => zip(),
+                billing_zip         => zip(),
  		phone       => phone(),
                 first_name  => valid_first(),
                 last_name   => valid_last(),
                 exp_month       => qr/^\d{2}$/,
                 exp_year        => qr/^\d{4}$/,
                 cvc        => valid_cvv(),
-                city        => valid_city(),
+                billing_city        => valid_city(),
 		checkin_date => valid_date(),
 		checkout_date => valid_date(),
-                street      => valid_street(),
+                billing_address      => valid_street(),
                 card_type   => cc_type(),
                 card_number => cc_number( { fields => ['card_type'] } ),
             }
@@ -235,6 +296,10 @@ sub bookit {
         my $results = Data::FormValidator->check( $q, \%profile );
 		
 	if ( $results->has_missing or $results->has_invalid ) {
+
+	 	warn("results:  invalid: " . join(',', keys %{$results->{invalid}}) .
+			', missing;' . join(',', keys %{$results->{missing} } ));
+
 		my $url = _gen_redirect( $results, $q );
 
 		return $self->redirect($url);
@@ -249,15 +314,17 @@ sub bookit {
 	die $@ if $@;
 
 
-	my ($is_available, $checkin_date, $checkout_date) = _check_booking(
+	my ($is_available, $checkin_date, $checkout_date) = check_booking(
 		 $sf,
 		 $q->param('checkin_date'), 
 		 $q->param('checkout_date'));
 
 	unless ($is_available) {
-		return $self->redirect("https://www.hvh.com/double_booked.html");
+		my $url = _gen_redirect( $results, $q, '&booked=1' );
+		return $self->redirect($url);
 	}
 
+	warn("booking available, sf api call") if DEBUG;
 	my $r;
 	eval {
 		my %sf_args = (
@@ -270,11 +337,11 @@ sub bookit {
 			Check_in_Date__c      => $q->param('checkin_date'),
           		Check_out_Date__c     => $q->param('checkout_date'),
 			Booking_Stage__c      => 'Pending',
-			Booking_Contact_Mailing_Address__c => $q->param('address'),
+			Booking_Contact_Mailing_Address__c => $q->param('billing_address'),
 			Booking_Contact_Phone__c => $q->param('phone'),
-			Booking_Contact_State__c => $q->param('state'),
-			Booking_Contact_Postal_Code__c => $q->param('zip'),
-			Booking_Contact_Country__c  => $q->param('country'),
+			Booking_Contact_State__c => $q->param('billing_state'),
+			Booking_Contact_Postal_Code__c => $q->param('billing_zip'),
+			Booking_Contact_Country__c  => $q->param('billing_country'),
 			Booking_Description__c      => $q->param('comments'),
 			Payment_Method__c           => 'PayPal',
 		);
@@ -287,14 +354,24 @@ sub bookit {
 	};
 	die $@ if $@;
 
+	warn("booking created, sf api call to get payment amounts") if DEBUG;
 	my $query = "Select Id, First_Payment_Amount__c, Second_Payment_Amount__c from Booking__c where Name = '" . $name . "'";
+
 	# get the booking
-	my $res = $sf->do_query($q);
+	my $res = $sf->query(query => $query);
 	my ($id, $one_payment, $two_payment) = @{$res};
 
+	unless ($id && $one_payment && $two_payment) {
+		die ("query to created booking failed, id $id, one pay $one_payment, two pay $two_payment");
+	}
+
+
+	warn("making paypal call") if DEBUG;
 	my %pay_res;
 	my $billto_name = join(' ', $q->param('first_name'), $q->param('last_name') );
 	if ($checkin_date->subtract( days => 30 ) < DateTime->now) {
+	
+		warn("paypal single payment") if DEBUG;
 		# do one payment
 		%pay_res = $Paypal->DoDirectPaymentRequest(
 			PaymentAction => 'Sale',
@@ -310,19 +387,19 @@ sub bookit {
 			CVV2             => $q->param('cvc'),
 			FirstName        => $q->param('first_name'),
 			LastName         => $q->param('last_name'),
-			Street1          => $q->param('address'),
+			Street1          => $q->param('billing_address'),
 			Street2          => '',
-			CityName         => $q->param('city'),
-			StateOrProvince  => $q->param('state'),
-			PostalCode       => $q->param('zip'),
-			Country          => $q->param('country'),
+			CityName         => $q->param('billing_city'),
+			StateOrProvince  => $q->param('billing_state'),
+			PostalCode       => $q->param('billing_zip'),
+			Country          => $q->param('billing_country'),
 			Payer            => $q->param('email'),
 			ShipToName       => $billto_name,
-			ShipToStreet1    => $q->param('address'),
+			ShipToStreet1    => $q->param('billing_address'),
 			ShipToStreet2    => '',
-			ShipToCityName   => $q->param('city'),
-			ShipToStateOrProvince => $q->param('state'),
-			ShipToCountry    => $q->param('country'),
+			ShipToCityName   => $q->param('billing_city'),
+			ShipToStateOrProvince => $q->param('billing_state'),
+			ShipToCountry    => $q->param('billing_country'),
 			CurrencyID       => 'USD',
 			IPAddress        => $q->param('ip'),
 			MerchantSessionID => int(rand(100_000)),
@@ -332,6 +409,8 @@ sub bookit {
 	} else {
 		# do two payments
 	
+	  warn("paypal double payment") if DEBUG;
+
 	    %pay_res = $Paypal->CreateRecurringPaymentsProfile(
 	  SubscriberName => $billto_name,
 	  BillingStartDate => DateTime->now->mdy('-'),
@@ -348,12 +427,12 @@ sub bookit {
 	  InitialAmount => $one_payment,
 	  CCPayerName => $billto_name,
 	  CCPayer     => $q->param('email'),
-	  CCPayerStreet1 => $q->param('address'),
+	  CCPayerStreet1 => $q->param('billing_address'),
 	  CCPayerStreet2 => '',
-	  CCPayerCityName => $q->param('city'),
-	  CCPayerStateOrProvince => $q->param('state'),
-	  CCPayerCountry => $q->param('country'),
-	  CCPayerPostalCode => $q->param('zip'),
+	  CCPayerCityName => $q->param('billing_city'),
+	  CCPayerStateOrProvince => $q->param('billing_state'),
+	  CCPayerCountry => $q->param('billing_country'),
+	  CCPayerPostalCode => $q->param('billing_zip'),
 	  CCPayerPhone => $q->param('phone'),
 	  CreditCardType => $q->param('card_type'),
 	  CreditCardNumber => $q->param('card_number'),
@@ -367,7 +446,7 @@ sub bookit {
 	}
 
 
-		warn("response: " . Dumper(\%pay_res));
+		warn("response: " . Dumper(\%pay_res)) if DEBUG;
 
 		unless ( $pay_res{Ack} eq 'Success' ) {
 			warn("errors: " . Dumper($pay_res{Errors}));
@@ -388,7 +467,6 @@ sub bookit {
 	$uri =~ s/bkt\=1/bkt\=success/;
 	return $self->redirect($uri);
 }
-
 
 
 sub hold {
@@ -419,7 +497,7 @@ sub hold {
 	}
 
 	my $sf = _sf_login();
-	my ($is_available, $checkin_date, $checkout_date) = _check_booking(
+	my ($is_available, $checkin_date, $checkout_date) = check_booking(
 		 $sf,
 		 $q->param('checkin_date'), 
 		 $q->param('checkout_date'));

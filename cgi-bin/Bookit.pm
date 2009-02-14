@@ -120,7 +120,15 @@ sub contact {
 		_add_optional_args($q, \%Inquiry, \%sf_args );		
 
 		# fixup the request
-		_hack_the_soap( $q, \%sf_args );
+		# hack for SOAP bug
+		if ($q->param('zip') =~ m/^\d+$/) {
+			$sf_args{Inquiry_Zip_Code__c} = $q->param('zip') . '-0000';
+		}
+
+		# hack for salesforce bug
+		if (length($q->param('guests')) == 1) {
+			$sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
+		}	
 
 		$r = $sf->create( %sf_args );
 		my $result = $r->envelope->{Body}->{createResponse}->{result};
@@ -148,6 +156,7 @@ sub contact {
 sub _hack_the_soap {
 	my ($q, $sf_args) = @_;
 
+	
 		# hack for SOAP bug
 		if ($q->param('zip') =~ m/^\d+$/) {
 			$sf_args->{Inquiry_Zip_Code__c} = $q->param('zip') . '-0000';
@@ -325,17 +334,17 @@ sub bookit {
 	}
 
 	warn("booking available, sf api call") if DEBUG;
-	my $r;
+	my ($r, %sf_args);
 	eval {
-		my %sf_args = (
+		%sf_args = (
 			type => 'Booking__c',
 			Name => $name,
 			Booking_Contact_First_Name__c => $q->param('first_name'),
 			Booking_Contact_Last_Name__c  => $q->param('last_name'),
 			Booking_Contact_Email__c      => $q->param('email'),
 			Property__c           => $q->param('prop_name'),
-			Check_in_Date__c      => $q->param('checkin_date'),
-          		Check_out_Date__c     => $q->param('checkout_date'),
+			Check_in_Date__c      => _dbdate($q->param('checkin_date')),
+          		Check_out_Date__c     => _dbdate( $q->param('checkout_date')),
 			Booking_Stage__c      => 'Pending',
 			Booking_Contact_Mailing_Address__c => $q->param('billing_address'),
 			Booking_Contact_Phone__c => $q->param('phone'),
@@ -346,13 +355,31 @@ sub bookit {
 			Payment_Method__c           => 'PayPal',
 		);
 
-		_add_optional_args($q, \%Inquiry, \%sf_args );		
-		# fixup the request
-		_hack_the_soap( $q, \%sf_args );
+		if ($q->param('comments')) {		
+			$sf_args{Booking_Comments__c} = $q->param('comments');
+		}		
+
+		if ($q->param('billing_zip') =~ m/^\d+$/) {
+			$sf_args{Booking_Contact_Postal_Code__c} = $q->param('billing_zip') . '-0000';
+		}
+
+		# hack for salesforce bug
+		if (length($q->param('guests')) == 1) {
+			$sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
+		}	
 
 		$r = $sf->create( %sf_args );
 	};
-	die $@ if $@;
+	die $@ if $@ or !$r;
+		
+	my $result = $r->envelope->{Body}->{createResponse}->{result};
+open(FH, '>/tmp/bar') or die $!;
+print FH Dumper($result);
+close(FH) or die $!;
+		# warn('result is ' . $result->{success});	
+	if ($result->{success} eq 'false') {
+		die ("Salesforce failed to create booking: " . Dumper($result)); # . ", args: " . Dumper(\%sf_args));
+	}
 
 	warn("booking created, sf api call to get payment amounts") if DEBUG;
 	my $query = "Select Id, First_Payment_Amount__c, Second_Payment_Amount__c from Booking__c where Name = '" . $name . "'";

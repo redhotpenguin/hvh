@@ -1,6 +1,6 @@
 <table border=0 cellpadding=0 cellspacing=0 width="100%">
 <tr>
-    <Td bgcolor="#e2e2e1" align=center class=right_header><img src="img/clear.gif" width=1 height=3><br><a href="solutions.php"><font color=black>Owners and Managers</font></a><br><img src="img/clear.gif" width=1 height=3></td></tr>
+    <Td bgcolor="#e2e2e1" align=center class=right_header><img src="img/clear.gif" width=1 height=3><br><a href="solutions.php" class=cat_header><font color=black>Owners and Managers</font></a><br><img src="img/clear.gif" width=1 height=3></td></tr>
 
 <tr>
     <Td bgcolor="#496b97" align=center class=right_header>
@@ -12,7 +12,7 @@
     </td>
 </tr>
 <tr>
-    <Td bgcolor="#92cbee" align=center class=right_header><img src="img/clear.gif" width=1 height=3><Br><a href="solutions.php"><font color=black>Management Solutions</font></a><br><img src="img/clear.gif" width=1 height=3></td></tr>
+    <Td bgcolor="#92cbee" align=center class=right_header><img src="img/clear.gif" width=1 height=3><Br><a href="solutions.php" class=cat_header><font color=black>Management Solutions</font></a><br><img src="img/clear.gif" width=1 height=3></td></tr>
 <tr><td height=1 bgcolor="#496b97" colspan=2><img src="img/clear.gif" width=1 height=1></td></tr>
 <tr>
     <Td align=center bgcolor="#d2eefe" class=right_header>

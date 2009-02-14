@@ -18,8 +18,8 @@ while ($count_it <= $limit) {
 		next;
 	}
 
-	if ($Debug) {
-	error_log("printing home object\n", 0);
+	if ($Debug == true) {
+		error_log("printing home object\n", 0);
 	}
 
     echo "<table border=0 cellpadding=0 cellspacing=0 width=148>";

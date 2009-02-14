@@ -8,7 +8,9 @@ require_once ('soapclient/SforcePartnerClient.php');
 #$mySforceConnection = new SforcePartnerClient();
 while ($count_it <= $limit) {
 
-	error_log("making new home object\n", 0);
+	if ($Debug == true) {
+	  error_log("making new home object\n", 0);
+	}
 
 	$key = "$cat|$count_it";
 	$get_result = $memcache->get($key);
@@ -18,8 +20,8 @@ while ($count_it <= $limit) {
 		next;
 	}
 
-	if ($Debug) {
-	error_log("printing home object\n", 0);
+	if ($Debug == true) {
+	  error_log("printing home object\n", 0);
 	}
 
     echo "<td width=175 bgcolor=\"#f2f2f2\" valign=top>";

@@ -6,59 +6,76 @@ use warnings;
 use WWW::Salesforce::Simple;
 
 warn("connecting...\n");
-my $Sf = WWW::Salesforce::Simple->new( username => 'api@hvh.com',
-	 password => 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFt') or die $!;
 
-use DateTime;
+my $sforce = WWW::Salesforce->login(
+    username => 'api@hvh.com',
+    password => 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFt'
+) or die $!;
+
+my $email = 'bluesmetal@yahoo.com';
+my $name  = 'Foo Monkey7';
+
+my $sql = <<SQL;
+SELECT Id from Account where Name = '$name' and Type = 'Rental Customer'
+SQL
+
+warn("running query\n");
+my $res = $sforce->query( query => $sql, limit => '1' );
+
 use Data::Dumper;
+warn("dumping result\n");
 
-# test start and stop the same
-my $year = '2007';
-##my $checkin_date = DateTime->new( year => $year,
-#                                month => '1',
-#                                day => '3');
+#print Dumper( $res );
 
-#$checkin_date = $checkin_date->ymd('-');
-#warn("checkin date: $checkin_date\n");
+print "\n\n\n";
 
-#my $checkout_date = DateTime->new( year => $year,
-#                                month => '1',
-#                                day => '5');
+my $result = $res->envelope->{Body}->{queryResponse}->{result};
+print "Result is " . Dumper($result);
 
-#$checkout_date = $checkout_date->ymd('-');
-#warn("checkout date: $checkout_date\n");
-use Bookit;
-my ($is_available, $checkin_date, $checkout_date) = Bookit::check_booking(
-		 $Sf,
-		 '1/10/10', 
-		 '1/20/10');
+my $size = $result->{size};
+if ( defined $size && ( $size == 1 ) ) {
 
+    print "Found some records\n";
 
-warn("is avail: $is_available");
-exit(0);
+    my $records = $result->{records};
+    print "Result is " . Dumper($records);
+    print "Result type is " . $records->{Id}->[0] . "\n";
 
-my $sql = "Select Id from Booking__c where ";
+}
+else {
 
-$sql .= "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) ) ";
-# (booked_checkin) (new_checkin) (new_checkout) (booked_checkout)
+    print "no records found, creating one\n";
+    my $query = <<QUERY;
+INSERT into Account (Name, Type) values ('$name', 'Rental Customer')
+QUERY
 
-$sql .= " or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_in_Date__c > $checkin_date ) ) ";
-# (new_checkin) (booked_checkin) (new_checkout) (booked_checkout)
+    #  my $r = $sforce->query( query => $query );
 
-$sql .= " or ( ( Check_in_Date__c < $checkin_date ) and ( ( Check_out_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkin_date ) ) ) ";
-# (booked_checkin) (new_checkin) (booked_checkout) (new_checkout)
+    my $r = $sforce->create(
+        Name => $name,
+        Type => 'Rental Customer',
+        type => 'Account'
+    );
+    my $result = $res->envelope->{Body}->{queryResponse}->{result};
 
-#$sql .= " or ( ( Check_in_Date__c > $checkin_date )  and ( Check_out_date__c < $checkout_date ) ) ";
-# (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
+    warn( Dumper($result) );
+    if ( $result->{done} eq 'true' ) {
+        warn("YEAAAH BOOOY!");
+    }
 
+    # grab the id
+    my $res = $sforce->query( query => $sql, limit => '1' );
+    $result = $res->envelope->{Body}->{queryResponse}->{result};
+    print "Result is " . Dumper($result);
 
-warn("running query...\n");
-my $res = $Sf->do_query($sql, []);
-warn("query finished...\n");
+    my $size = $result->{size};
+    if ( defined $size && ( $size == 1 ) ) {
 
-print "\n" x 8;
+        print "Found some records\n";
 
-print Dumper( $res );
-
-
+        my $records = $result->{records};
+        print "Result is " . Dumper($records);
+        print "Result type is " . $records->{Id}->[0] . "\n";
+    }
+}
 

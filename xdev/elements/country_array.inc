@@ -1,5 +1,6 @@
 <?php
 			$country_array = array(
+						"United States",
 						"Afghanistan",
 						"Albania",
 						"Algeria",
@@ -196,7 +197,6 @@
 						"Uganda",
 						"Ukraine",
 						"United-Arab-Emirates",
-						"United-States",
 						"Uruguay",
 						"Uzbekistan",
 						"Vanuatu",

@@ -140,7 +140,24 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 		echo "</table><br>";
 		} else {
 
-			echo "not a solutions customer - 48 hour hold splash page content needed.";
+			echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is currently working with this location to complete the automated bookings process.  For now, please populate the \"Contact the Owner\" form below.  In the comments section, please note your request to place a 48 hour hold on the property for the selected dates.  Someone will respond to your request as soon as possible.  Thanks for using HVH!<br><br>";
+			
+		echo "<table border=0 cellpadding=1 cellspacing=0 width=\"100%\">";
+		echo "<form name='cto' action='https://www.hvh.com/cgi-bin/bookit.cgi' method=post>";
+		echo "<input type='hidden' name='rm' value='contact'>";
+		echo "<tr><Td colspan=3><hr noshade size=1 color=\"#e2e2e1\"></td></tr>";
+		echo "<tr><td copy colspan=3 class=entry_desc>To <b><i>contact the owner</i></b> at ";
+		echo $listing_obj->fields->Name;
+		echo ", please fill out the form below and click the 'Contact Owner' button at the bottom of the page.</td></tr>";
+
+		echo "<tr><Td colspan=3><hr noshade size=1 color=\"#e2e2e1\"></td></tr>";
+
+		echo "<tr><td colspan=3>";
+		include "../phpdev/content/xdev_content_listing_detail_cto.inc";
+		echo "</td></tr>";
+		echo "<tr><td colspan=3 class=reg_copy><input type=image src=\"img/cto_off.gif\" vspace=4></td></tr>";
+		echo "</form>";
+		echo "</table><br>";
 		}
 	}
 	if ($fhh == 'success') {
@@ -167,7 +184,24 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 		echo "</form>";
 		echo "</table><br>";
 		} else {
-			echo "not a solutions customer. bookit splash page content needed";
+			echo "Thank you for your interest in ".$listing_obj->fields->Name.".  HVH is currently working with this location to complete the automated bookings process.  For now, please populate the \"Contact the Owner\" form below.  In the comments section, please note your request to book the property for the selected dates.  Someone will contact you as soon as possible to complete the booking.  Thanks for using HVH and enjoy your vacation!<br><br>";
+			
+		echo "<table border=0 cellpadding=1 cellspacing=0 width=\"100%\">";
+		echo "<form name='cto' action='https://www.hvh.com/cgi-bin/bookit.cgi' method=post>";
+		echo "<input type='hidden' name='rm' value='contact'>";
+		echo "<tr><Td colspan=3><hr noshade size=1 color=\"#e2e2e1\"></td></tr>";
+		echo "<tr><td copy colspan=3 class=entry_desc>To <b><i>contact the owner</i></b> at ";
+		echo $listing_obj->fields->Name;
+		echo ", please fill out the form below and click the 'Contact Owner' button at the bottom of the page.</td></tr>";
+
+		echo "<tr><Td colspan=3><hr noshade size=1 color=\"#e2e2e1\"></td></tr>";
+
+		echo "<tr><td colspan=3>";
+		include "../phpdev/content/xdev_content_listing_detail_cto.inc";
+		echo "</td></tr>";
+		echo "<tr><td colspan=3 class=reg_copy><input type=image src=\"img/cto_off.gif\" vspace=4></td></tr>";
+		echo "</form>";
+		echo "</table><br>";
 		}
 	}
 	if ($bkt == 'success') {

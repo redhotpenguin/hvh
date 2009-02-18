@@ -14,6 +14,8 @@ $checkin_date = $_GET['checkin_date'];
 $checkout_date = $_GET['checkout_date'];
 $comments = $_GET['comments'];
 
+$booked = $_GET['booked'];
+
 include "elements/states_array.inc";
 include "elements/country_array.inc";
 
@@ -75,12 +77,14 @@ $cto = $_GET['cto'];
             </tr>
                     <tr>
 				<?php if (in_array('checkin_date', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
+				<?php if ($booked == 1) { $check_class='entry_red'; } ?>
                 <td class="<?php echo "$check_class"; ?>">*Check-in Date:<span class="dateInput"></td>
         <td class="entry_desc"><input  id="checkin_date" name="checkin_date" maxlength="10" size="10" type="text" value="<?php echo "$checkin_date"; ?>"/> ( MM/DD/YYYY )</span><br></td>
         </tr>
            <tr>
 				<?php if (in_array('checkout_date', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
-                <td class="<?php echo "$check_class"; ?>">*Check-out Date:<span class="dateInput"></td>
+				<?php if ($booked == 1) { $check_class='entry_red'; } ?> 
+               <td class="<?php echo "$check_class"; ?>">*Check-out Date:<span class="dateInput"></td>
         <td class="entry_desc"><input  id="checkout_date" name="checkout_date" maxlength="10" size="10" type="text" value="<?php echo "$checkout_date"; ?>"/> ( MM/DD/YYYY )</span><br></td>
 
         </tr> 

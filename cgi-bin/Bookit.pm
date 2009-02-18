@@ -252,24 +252,16 @@ sub check_booking {
 
     my $sql = "Select Id from Booking__c where ";
 
-    $sql .=
-"( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) ) ";
-
+    $sql .= "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) ) ";
     # (booked_checkin) (new_checkin) (new_checkout) (booked_checkout)
 
-    $sql .=
-" or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_in_Date__c > $checkin_date ) ) ";
-
+    $sql .= " or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_in_Date__c > $checkin_date ) ) ";
     # (new_checkin) (booked_checkin) (new_checkout) (booked_checkout)
 
-    $sql .=
-" or ( ( Check_in_Date__c < $checkin_date ) and ( ( Check_out_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkin_date ) ) ) ";
-
+    $sql .= " or ( ( Check_in_Date__c < $checkin_date ) and ( ( Check_out_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkin_date ) ) ) ";
     # (booked_checkin) (new_checkin) (booked_checkout) (new_checkout)
 
-    $sql .=
-" or ( ( Check_in_Date__c > $checkin_date )  and ( Check_out_date__c < $checkout_date ) ) ";
-
+    $sql .= " or ( ( Check_in_Date__c > $checkin_date )  and ( Check_out_date__c < $checkout_date ) ) ";
     # (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
 
     warn("checking for booking between in $checkin_date and out $checkout_date")
@@ -315,9 +307,9 @@ sub _find_or_create_contact {
     if ($contact_id) {
 
         # update the contact
-        $sf->update(
+        my $res = $sf->update(
             type      => 'Contact',
-            ContactId => $contactid,
+            ContactId => $contact_id,
             Name      => $name,
             Type      => 'Rental Customer',
             %contact_args,
@@ -331,13 +323,13 @@ sub _find_or_create_contact {
     }
 
     # otherwise create a new contact
-    my $r = $sforce->create(
+    my $r = $sf->create(
         type => 'Contact',
         Name => $name,
         Type => 'Rental Customer',
         %contact_args,
     );
-    my $result = $res->envelope->{Body}->{queryResponse}->{result};
+    my $result = $r->envelope->{Body}->{queryResponse}->{result};
     die "error creating contact name $name\n"
       unless ( $result->{done} eq 'true' );
 
@@ -358,8 +350,7 @@ SELECT Id from Contact where Name = '$name' and AccountId = '$account_id'
 SQL
 
     warn("running query\n") if DEBUG;
-    my $r = $sforce->query( query => $sql, limit => '1' )
-
+    my $r = $sf->query( query => $sql, limit => '1' )
       or die "SF query failed!: $sql";
 
     # things get ugly here
@@ -394,12 +385,12 @@ sub _find_or_create_account {
     return $account_id if $account_id;
 
     # otherwise create a new account
-    my $r = $sforce->create(
+    my $r = $sf->create(
         Name => $name,
         Type => 'Rental Customer',
         type => 'Account'
     );
-    my $result = $res->envelope->{Body}->{queryResponse}->{result};
+    my $result = $r->envelope->{Body}->{queryResponse}->{result};
     die "error creating account name $name\n"
       unless ( $result->{done} eq 'true' );
 

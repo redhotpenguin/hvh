@@ -248,21 +248,30 @@ sub check_booking {
     $checkin_date  = _dbdate($checkin_date);
     $checkout_date = _dbdate($checkout_date);
 
-    #warn("checkin date $checkin_date, co $checkout_date");
+    warn("checkin date $checkin_date, co $checkout_date");
 
     my $sql = "Select Id from Booking__c where ";
 
-    $sql .= "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) ) ";
+    $checkin_date = '2010-01-10';
+    $checkout_date = '2010-01-20';
+
+    #$sql .= "( ( Check_out_Date__c < $checkin_date ) and ( Check_in_Date__c > $checkout_date  ) )";
+    # (booked_checkout) (new_checkin) (new_checkout) (booked_checkin)
+
+    $sql .= "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date) ) ";
     # (booked_checkin) (new_checkin) (new_checkout) (booked_checkout)
 
-    $sql .= " or ( ( Check_out_Date__c < $checkout_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_in_Date__c > $checkin_date ) ) ";
-    # (new_checkin) (booked_checkin) (new_checkout) (booked_checkout)
-
-    $sql .= " or ( ( Check_in_Date__c < $checkin_date ) and ( ( Check_out_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkin_date ) ) ) ";
+    $sql .= " or ( ( Check_in_Date__c < $checkin_date ) and (  Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c < $checkout_date ) ) ";
     # (booked_checkin) (new_checkin) (booked_checkout) (new_checkout)
 
-    $sql .= " or ( ( Check_in_Date__c > $checkin_date )  and ( Check_out_date__c < $checkout_date ) ) ";
+
+    $sql .= " or ( ( Check_in_Date__c > $checkin_date ) and ( Check_out_Date__c > $checkin_date )  and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date ) )";
+    # (new_checkin) (booked_checkin)  (new_checkout) (booked_checkout)
+
+    $sql .= " or ( ( Check_in_Date__c > $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c < $checkout_date ) ) ";
     # (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
+
+    
 
     warn("checking for booking between in $checkin_date and out $checkout_date")
       if DEBUG;
@@ -271,10 +280,11 @@ sub check_booking {
     if ( $res->valueof('//queryResponse/result')->{size} != 0 )
     {    # found a conflicting booking
 
-        #		open(FH, '>', '/tmp/foo') or die $!;
-        #		print FH Dumper($res);
-        #		print FH Dumper($res->valueof('//queryResponse/result')->{size});
-        #		close(FH) or die $!;
+        	open(FH, '>', '/tmp/foo') or die $!;
+        my $result = $res->envelope->{Body}->{queryResponse}->{result};
+        		print FH Dumper($result);
+        		print FH Dumper($res->valueof('//queryResponse/result')->{size});
+        		close(FH) or die $!;
         warn("booking conflict! ") if DEBUG;
 
         #		warn("res: " . Dumper($res)) if DEBUG;

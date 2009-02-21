@@ -24,12 +24,15 @@
       var Hawaiimap_marker_3 = new GMarker(new GLatLng(20.753799, -155.987262) , icon_palm);
       GEvent.addListener(Hawaiimap_marker_3, "click", function () {  Hawaiimap_marker_3.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000001OhF9AAK"><span style="font-size: 12px">Hana Maui Hotel</span></a><br /><span style="font-size: 12px">Hana, Maui</span><br /><span style="font-size: 12px">Signature Hotel</span></div>'); });
       Hawaiimap.addOverlay(Hawaiimap_marker_3);
-      var Hawaiimap_marker_4 = new GMarker(new GLatLng(20.0010215, -155.6649585) , icon_palm);
+      var Hawaiimap_marker_4 = new GMarker(new GLatLng(20.023926, -155.647357) , icon_palm);
       GEvent.addListener(Hawaiimap_marker_4, "click", function () {  Hawaiimap_marker_4.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a06500000021f6MAAQ"><span style="font-size: 12px">Sleeping Turtle Sanctuary</span></a><br /><span style="font-size: 12px">Kamuela, Big Island</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       Hawaiimap.addOverlay(Hawaiimap_marker_4);
-      var Hawaiimap_marker_5 = new GMarker(new GLatLng(21.883748, -159.467815) , icon_palm);
-      GEvent.addListener(Hawaiimap_marker_5, "click", function () {  Hawaiimap_marker_5.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000002G0hGAAS"><span style="font-size: 12px">Bird of Paradise</span></a><br /><span style="font-size: 12px">Poipu, Kauai</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      var Hawaiimap_marker_5 = new GMarker(new GLatLng(22.21189, -159.479483) , icon_palm);
+      GEvent.addListener(Hawaiimap_marker_5, "click", function () {  Hawaiimap_marker_5.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000002wSRPAA2"><span style="font-size: 12px">Rainbow Terrace</span></a><br /><span style="font-size: 12px">Princeville, Kauai</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
       Hawaiimap.addOverlay(Hawaiimap_marker_5);
+      var Hawaiimap_marker_6 = new GMarker(new GLatLng(21.883748, -159.467815) , icon_palm);
+      GEvent.addListener(Hawaiimap_marker_6, "click", function () {  Hawaiimap_marker_6.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000002G0hGAAS"><span style="font-size: 12px">Bird of Paradise</span></a><br /><span style="font-size: 12px">Poipu, Kauai</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      Hawaiimap.addOverlay(Hawaiimap_marker_6);
     }
 
     //]]>

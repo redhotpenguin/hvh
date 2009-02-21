@@ -13,8 +13,10 @@ my $sf = WWW::Salesforce->login(
     password => 'SaaS69dBfUy0GkDQB7oAdOxu77DJBFt'
 ) or die $!;
 
+my $prop_id = 'a0650000000sarX'; 
+my $prop_name = 'Hideaway Bay';
 
-my ($available, $cin, $cout) = Bookit::check_booking( $sf, $checkin, $checkout );
+my ($available, $cin, $cout) = Bookit::check_booking( $sf, $checkin, $checkout, $prop_id );
 
 if ($available) {
 	print "Available!\n";

@@ -3,7 +3,7 @@
 use strict;
 use warnings FATAL => 'all';
 
-use Test::More tests => 7;                      # last test to print
+use Test::More tests => 2;                      # last test to print
 
 use WWW::Salesforce::Simple;
 
@@ -23,6 +23,12 @@ my $today = DateTime->now->mdy('/');
 ok(! Bookit::check_booking( $Sf, $yesterday, $today, 'not available yesterday'));
 
 
+__END__
+
+FIXME FIXME FIXME
+
+my $prop_id = 'a0650000000sarX'; 
+my $prop_name = 'Hideaway Bay';
 
 my $ci = DateTime->new( year => '2010', day => '01', month => '01')->mdy('/');
 my $co = DateTime->new( year => '2010', day => '07', month => '01')->mdy('/');

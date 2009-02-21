@@ -226,7 +226,7 @@ sub _dbdate {
 }
 
 sub check_booking {
-    my ( $sf, $checkin_date, $checkout_date ) = @_;
+    my ( $sf, $checkin_date, $checkout_date, $prop_id ) = @_;
 
     # sanity check, make sure it is at least 24 hours ahead in time
     my $dt_ci = _dtdate($checkin_date);
@@ -250,13 +250,10 @@ sub check_booking {
 
     warn("checkin date $checkin_date, co $checkout_date");
 
-    my $sql = "Select Id from Booking__c where ";
+    my $sql = "Select Id from Booking__c where Property_name__c = '$prop_id' and ( ";
 
-    $checkin_date = '2010-01-10';
-    $checkout_date = '2010-01-20';
-
-    #$sql .= "( ( Check_out_Date__c < $checkin_date ) and ( Check_in_Date__c > $checkout_date  ) )";
-    # (booked_checkout) (new_checkin) (new_checkout) (booked_checkin)
+#    $checkin_date = '2010-01-10';
+#    $checkout_date = '2010-01-20';
 
     $sql .= "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date) ) ";
     # (booked_checkin) (new_checkin) (new_checkout) (booked_checkout)
@@ -268,9 +265,10 @@ sub check_booking {
     $sql .= " or ( ( Check_in_Date__c > $checkin_date ) and ( Check_out_Date__c > $checkin_date )  and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date ) )";
     # (new_checkin) (booked_checkin)  (new_checkout) (booked_checkout)
 
-    $sql .= " or ( ( Check_in_Date__c > $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c < $checkout_date ) ) ";
+    $sql .= " or ( ( Check_in_Date__c > $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c < $checkout_date ) ) )";
     # (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
 
+    warn("\nsql is $sql\n\n");
     
 
     warn("checking for booking between in $checkin_date and out $checkout_date")
@@ -505,7 +503,8 @@ sub bookit {
     my ( $is_available, $checkin_date, $checkout_date ) = check_booking(
         $sf,
         $q->param('checkin_date'),
-        $q->param('checkout_date')
+        $q->param('checkout_date'),
+	$q->param('prop_id'),
     );
 
     unless ($is_available) {

@@ -9,6 +9,7 @@ use Mail::Mailer        ();
 use Data::FormValidator ();
 use Data::FormValidator::Constraints qw(:closures);
 use Business::PayPal::API   ();
+use Business::PayPal::API::RecurringPayments   ();
 use WWW::Salesforce::Simple ();
 use DateTime                ();
 use CGI::Application::Plugin::Redirect;
@@ -16,13 +17,6 @@ use URI::Escape ();
 use Data::Dumper;
 
 use constant DEBUG => 1;    #$ENV{HVH_DEBUG} || 1;
-
-our $Paypal = Business::PayPal::API->new(
-    Username  => 'mike_api1.hvh.com',
-    Password  => '5Q2XGE9DZA27EFYL',
-    Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
-    sandbox   => 1,
-);
 
 sub setup {
     my $self = shift;
@@ -248,7 +242,7 @@ sub check_booking {
     $checkin_date  = _dbdate($checkin_date);
     $checkout_date = _dbdate($checkout_date);
 
-    warn("checkin date $checkin_date, co $checkout_date");
+   # warn("checkin date $checkin_date, co $checkout_date");
 
     my $sql = "Select Id from Booking__c where Property_name__c = '$prop_id' and ( ";
 
@@ -268,28 +262,30 @@ sub check_booking {
     $sql .= " or ( ( Check_in_Date__c > $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c < $checkout_date ) ) )";
     # (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
 
-    warn("\nsql is $sql\n\n");
+    #warn("\nsql is $sql\n\n");
     
 
-    warn("checking for booking between in $checkin_date and out $checkout_date")
-      if DEBUG;
+    #warn("checking for booking between in $checkin_date and out $checkout_date")
+     # if DEBUG;
     my $res = $sf->query( query => $sql );
 
     if ( $res->valueof('//queryResponse/result')->{size} != 0 )
     {    # found a conflicting booking
 
-        	open(FH, '>', '/tmp/foo') or die $!;
-        my $result = $res->envelope->{Body}->{queryResponse}->{result};
-        		print FH Dumper($result);
-        		print FH Dumper($res->valueof('//queryResponse/result')->{size});
-        		close(FH) or die $!;
-        warn("booking conflict! ") if DEBUG;
 
-        #		warn("res: " . Dumper($res)) if DEBUG;
+        my $result = $res->envelope->{Body}->{queryResponse}->{result};
+      
+	if (DEBUG) { 
+		open(FH, '>', '/tmp/booking_response') or die $!;
+       		print FH Dumper($result);
+       		print FH Dumper($res->valueof('//queryResponse/result')->{size});
+       		close(FH) or die $!;
+        	warn("booking conflict! ");
+	}
         return;
     }
 
-    warn("booking range open") if DEBUG;
+    #warn("booking range open") if DEBUG;
 
     return ( 1, $checkin_date, $checkout_date );
 }
@@ -304,22 +300,36 @@ sub _find_or_create_contact {
         Email             => $q->param('email'),
         FirstName         => $q->param('first_name'),
         LastName          => $q->param('last_name'),
-        MailingStreet     => $q->param('billing_street'),
+        MailingStreet     => $q->param('billing_address'),
         MailingCity       => $q->param('billing_city'),
-        MailingPostalCode => $q->param('billing_zip'),
         MailingCountry    => $q->param('billing_country'),
         MailingState      => $q->param('billing_state'),
         Phone             => $q->param('phone'),
+	Contact_Type__c   => 'Renter',
     );
 
+    if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
+            $contact_args{MailingPostalCode} =
+              $q->param('billing_zip') . '-0000';
+    } else {
+	$contact_args{MailingPostalCode} = $q->param('billing_zip');
+    }
+
+
+    if (DEBUG) {
+    	open(FH, '>', '/tmp/contact_args') or die $!;
+   	 print FH Dumper(\%contact_args);
+    	close(FH) or die $!;
+   }
+
     if ($contact_id) {
+
+	warn("found a contact id $contact_id, updating it") if DEBUG;
 
         # update the contact
         my $res = $sf->update(
             type      => 'Contact',
             ContactId => $contact_id,
-            Name      => $name,
-            Type      => 'Rental Customer',
             %contact_args,
         );
 
@@ -327,27 +337,30 @@ sub _find_or_create_contact {
         die "error updating contact id $contact_id\n"
           unless ( $result->{done} eq 'true' );
 
+	warn("updated contact id $contact_id ok") if DEBUG;
         return $contact_id;
     }
 
     # otherwise create a new contact
     my $r = $sf->create(
         type => 'Contact',
-        Name => $name,
-        Type => 'Rental Customer',
         %contact_args,
     );
-    my $result = $r->envelope->{Body}->{queryResponse}->{result};
+    my $result = $r->envelope->{Body}->{createResponse}->{result};
+
+	if (DEBUG) {
+     open(FH, '>', '/tmp/create_new_contact.txt') or die $!;
+    print FH Dumper($result);
+    close(FH);
+	}
+
     die "error creating contact name $name\n"
-      unless ( $result->{done} eq 'true' );
+      unless ( ($result->{success} eq 'true') && (defined $result->{id}));
 
-    # now grab the id of the new account
-    $account_id = _find_account( $sf, $name );
+    warn("created new contact for name $name, new id " . $result->{id}) if DEBUG;
 
-    return $account_id if $account_id;
-
-    # no contact id after creating one?
-    die "Error creating account $name\n";
+    # return the newly created account id;
+    return $result->{id};
 }
 
 sub _find_contact {
@@ -357,27 +370,33 @@ sub _find_contact {
 SELECT Id from Contact where Name = '$name' and AccountId = '$account_id'
 SQL
 
-    warn("running query\n") if DEBUG;
+    warn("looking for contact name $name and account_id $account_id\n") if DEBUG;
     my $r = $sf->query( query => $sql, limit => '1' )
       or die "SF query failed!: $sql";
 
     # things get ugly here
     my $result = $r->envelope->{Body}->{queryResponse}->{result};
-    warn( "Result is " . Dumper($result) ) if DEBUG;
+
+    if (DEBUG) {
+    open(FH, '>', '/tmp/find_contact_results.txt') or die $!;
+    print FH Dumper($result);
+    close(FH) or die $!;
+  }
+
 
     # size > 0 indicates records returned
     my $size = $result->{size};
     my $contact_id;
     if ( defined $size && ( $size == 1 ) ) {
 
-        warn("Found some records") if DEBUG;
+        warn("Found some records for contact name $name and account_id $account_id") if DEBUG;
 
         # uh huh, just get the first id
         $contact_id = $result->{records}->{Id}->[0];
         return $contact_id;
     }
     else {
-        warn("No records found") if DEBUG;
+        warn("Could not find contact name $name and account id $account_id") if DEBUG;
         return;
     }
 }
@@ -392,23 +411,27 @@ sub _find_or_create_account {
     # return it if it exists
     return $account_id if $account_id;
 
+    warn("could not find account for name $name, creating one");
+
     # otherwise create a new account
     my $r = $sf->create(
         Name => $name,
         Type => 'Rental Customer',
         type => 'Account'
     );
-    my $result = $r->envelope->{Body}->{queryResponse}->{result};
+    my $result = $r->envelope->{Body}->{createResponse}->{result};
+
+    open(FH, '>', '/tmp/create_new_account.txt') or die $!;
+    print FH Dumper($result);
+    close(FH);
+
     die "error creating account name $name\n"
-      unless ( $result->{done} eq 'true' );
+      unless ( ($result->{success} eq 'true') && (defined $result->{id}));
 
-    # now grab the id of the new account
-    $account_id = _find_account( $sf, $name );
+    warn("created new account for name $name, new id " . $result->{id}) if DEBUG;
 
-    return $account_id if $account_id;
-
-    # no account id after creating one?
-    die "Error creating account $name\n";
+    # return the newly created account id;
+    return $result->{id};
 }
 
 sub _find_account {
@@ -418,27 +441,30 @@ sub _find_account {
 SELECT Id from Account where Name = '$name' and Type = 'Rental Customer'
 SQL
 
-    warn("running query\n") if DEBUG;
+    warn("_find_account for name $name\n") if DEBUG;
     my $r = $sforce->query( query => $sql, limit => '1' )
       or die "SF query failed!: $sql";
 
     # things get ugly here
     my $result = $r->envelope->{Body}->{queryResponse}->{result};
-    warn( "Result is " . Dumper($result) ) if DEBUG;
+
+    open(FH, '>', '/tmp/find_account.txt') or die $!;
+    print FH Dumper($result);
+    close(FH);
 
     # size > 0 indicates records returned
     my $size = $result->{size};
     my $account_id;
     if ( defined $size && ( $size == 1 ) ) {
 
-        warn("Found some records") if DEBUG;
+        warn("Found account for name $name") if DEBUG;
 
         # uh huh, just get the first id
         $account_id = $result->{records}->{Id}->[0];
         return $account_id;
     }
     else {
-        warn("No records found") if DEBUG;
+        warn("No account found for name $name") if DEBUG;
         return;
     }
 
@@ -515,38 +541,28 @@ sub bookit {
     warn("booking date available, look for an existing account") if DEBUG;
     my $account_id = _find_or_create_account( $sf, $q );
 
-    warn("now create a contact");
+    warn("now create a contact") if DEBUG;
     my $contact_id = _find_or_create_contact( $sf, $q, $account_id );
 
+    # now make a booking
     my ( $r, %sf_args );
     eval {
         %sf_args = (
             type                          => 'Booking__c',
             Name                          => $name,
-            Booking_Contact_First_Name__c => $q->param('first_name'),
-            Booking_Contact_Last_Name__c  => $q->param('last_name'),
-            Booking_Contact_Email__c      => $q->param('email'),
             Property__c                   => $q->param('prop_name'),
             Check_in_Date__c  => _dbdate( $q->param('checkin_date') ),
             Check_out_Date__c => _dbdate( $q->param('checkout_date') ),
             Booking_Stage__c  => 'Pending',
-            Booking_Contact_Mailing_Address__c => $q->param('billing_address'),
-            Booking_Contact_Phone__c           => $q->param('phone'),
-            Booking_Contact_State__c           => $q->param('billing_state'),
-            Booking_Contact_Postal_Code__c     => $q->param('billing_zip'),
-            Booking_Contact_Country__c         => $q->param('billing_country'),
+	    Contact__c        => $contact_id,
             Booking_Description__c             => $q->param('comments'),
             Payment_Method__c                  => 'PayPal',
         );
 
         if ( $q->param('comments') ) {
-            $sf_args{Booking_Comments__c} = $q->param('comments');
+            $sf_args{Booking_Description__c} = $q->param('comments');
         }
 
-        if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
-            $sf_args{Booking_Contact_Postal_Code__c} =
-              $q->param('billing_zip') . '-0000';
-        }
 
         # hack for salesforce bug
         if ( length( $q->param('guests') ) == 1 ) {
@@ -558,38 +574,59 @@ sub bookit {
     die $@ if $@ or !$r;
 
     my $result = $r->envelope->{Body}->{createResponse}->{result};
-    open( FH, '>/tmp/bar' ) or die $!;
-    print FH Dumper($result);
-    close(FH) or die $!;
 
-    # warn('result is ' . $result->{success});
-    if ( $result->{success} eq 'false' ) {
-        die( "Salesforce failed to create booking: " . Dumper($result) )
-          ;    # . ", args: " . Dumper(\%sf_args));
+    if (DEBUG) {
+	    open( FH, '>/tmp/create_booking' ) or die $!;
+            print FH Dumper($result);
+    	    close(FH) or die $!;
     }
 
-    warn("booking created, sf api call to get payment amounts") if DEBUG;
-    my $query =
-"Select Id, First_Payment_Amount__c, Second_Payment_Amount__c from Booking__c where Name = '"
-      . $name . "'";
+    die "error creating booking\n"
+      unless ( ($result->{success} eq 'true') && (defined $result->{id}));
+
+    my $booking_id = $result->{id};
+   # ok the booking was made ok
+    warn("booking created id $booking_id, sf api call to get payment amounts") if DEBUG;
+
+    my $query = "Select Id, First_Payment_Amount__c, Second_Payment_Amount__c from Booking__c where Id = '$booking_id'";
 
     # get the booking
     my $res = $sf->query( query => $query );
-    my ( $id, $one_payment, $two_payment ) = @{$res};
+    $result = $res->envelope->{Body}->{queryResponse}->{result};
 
-    unless ( $id && $one_payment && $two_payment ) {
-        die(
-"query to created booking fail, id $id, one pay $one_payment, two pay $two_payment"
-        );
+    if (DEBUG) {
+	    open( FH, '>/tmp/select_booking' ) or die $!;
+            print FH Dumper($result);
+    	    close(FH) or die $!;
     }
+	
+    unless ( defined $result->{done} && $result->{done} eq 'true'  ) {
+        die("query to select booking id $booking_id failed\n");
+    }
+    my $one_payment = $result->{records}->{First_Payment_Amount__c};
+    my $two_payment = $result->{records}->{Second_Payment_Amount__c};
 
-    warn("making paypal call") if DEBUG;
+    warn("first payment $one_payment, second $two_payment");
+
+    warn("making paypal call for booking id $booking_id") if DEBUG;
     my %pay_res;
     my $billto_name =
       join( ' ', $q->param('first_name'), $q->param('last_name') );
+
+
+    my ( $year, $month, $day ) = split( /-/, $checkin_date );
+    $checkin_date = DateTime->new( month => $month, year => $year, day => $day);
     if ( $checkin_date->subtract( days => 30 ) < DateTime->now ) {
 
         warn("paypal single payment") if DEBUG;
+
+	my $Paypal = Business::PayPal::API->new(
+    Username  => 'mike_api1.hvh.com',
+    Password  => '5Q2XGE9DZA27EFYL',
+    Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+    sandbox   => 1,
+	);
+
 
         # do one payment
         %pay_res = $Paypal->DoDirectPaymentRequest(
@@ -631,6 +668,14 @@ sub bookit {
 
         warn("paypal double payment") if DEBUG;
 
+	my $Paypal = Business::PayPal::API::RecurringPayments->new(
+    Username  => 'mike_api1.hvh.com',
+    Password  => '5Q2XGE9DZA27EFYL',
+    Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+    sandbox   => 1,
+	);
+
+
         %pay_res = $Paypal->CreateRecurringPaymentsProfile(
             SubscriberName   => $billto_name,
             BillingStartDate => DateTime->now->mdy('-'),
@@ -644,7 +689,7 @@ sub bookit {
             PaymentAmount             => $two_payment,
             PaymentShippingAmount     => 0.0,
             PaymentTaxAmount          => 0.0,
-            ProfileReference          => $id,
+            ProfileReference          => $booking_id,
             InitialAmount             => $one_payment,
             CCPayerName               => $billto_name,
             CCPayer                   => $q->param('email'),
@@ -678,7 +723,7 @@ sub bookit {
         $sf->update(
             type => 'Booking__c',
             {
-                Id               => $id,
+                Id               => $booking_id,
                 Booking_Stage__c => 'Booked - First Payment',
             },
         );

@@ -18,6 +18,13 @@ use Data::Dumper;
 
 use constant DEBUG => 1;    #$ENV{HVH_DEBUG} || 1;
 
+our %Paypal = (
+     Username  => 'mike_api1.hvh.com',
+    Password  => '5Q2XGE9DZA27EFYL',
+    Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+    sandbox   => 1,
+);
+
 sub setup {
     my $self = shift;
     $self->start_mode('bookit');
@@ -620,13 +627,7 @@ sub bookit {
 
         warn("paypal single payment") if DEBUG;
 
-	my $Paypal = Business::PayPal::API->new(
-    Username  => 'mike_api1.hvh.com',
-    Password  => '5Q2XGE9DZA27EFYL',
-    Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
-    sandbox   => 1,
-	);
-
+	my $Paypal = Business::PayPal::API->new( %Paypal );
 
         # do one payment
         %pay_res = $Paypal->DoDirectPaymentRequest(
@@ -668,22 +669,17 @@ sub bookit {
 
         warn("paypal double payment") if DEBUG;
 
-	my $Paypal = Business::PayPal::API::RecurringPayments->new(
-    Username  => 'mike_api1.hvh.com',
-    Password  => '5Q2XGE9DZA27EFYL',
-    Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
-    sandbox   => 1,
-	);
+	my $Paypal = Business::PayPal::API::RecurringPayments->new( %Paypal );
 
-
-        %pay_res = $Paypal->CreateRecurringPaymentsProfile(
+	my %payment_args = (
             SubscriberName   => $billto_name,
             BillingStartDate => DateTime->now->mdy('-'),
             ProfileReference => $q->param('first_name')
               . $q->param('last_name'),
             MaxFailedPayments         => 0,
-            AutoBillOutstandingAmount => 'NoAutoBill',
-            PaymentBillingPeriod      => 'day',
+            AutoBillOutstandingAmount => 'AddToNextBilling',
+            #AutoBillOutstandingAmount => 'NoAutoBill',
+            PaymentBillingPeriod      => 'Day',
             PaymentBillingFrequency   => 30,
             PaymentTotalBillingCycles => 2,
             PaymentAmount             => $two_payment,
@@ -705,7 +701,15 @@ sub bookit {
             ExpMonth                  => $q->param('exp_month'),
             ExpYear                   => $q->param('exp_year'),
             CVV2                      => $q->param('cvc'),
-        );
+	);
+ 
+    if (DEBUG) {
+	    open( FH, '>/tmp/payment_args' ) or die $!;
+            print FH Dumper(\%payment_args);
+    	    close(FH) or die $!;
+    }
+ 
+        %pay_res = $Paypal->CreateRecurringPaymentsProfile( %payment_args );
 
     }
 

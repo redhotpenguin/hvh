@@ -550,7 +550,7 @@ sub bookit {
         %sf_args = (
             type                          => 'Booking__c',
             Name                          => $name,
-            Property__c                   => $q->param('prop_name'),
+            Property_name__c                   => $q->param('prop_id'),
             Check_in_Date__c  => _dbdate( $q->param('checkin_date') ),
             Check_out_Date__c => _dbdate( $q->param('checkout_date') ),
             Booking_Stage__c  => 'Pending',

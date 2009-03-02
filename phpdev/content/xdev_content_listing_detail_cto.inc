@@ -15,7 +15,7 @@ $checkout_date = $_GET['checkout_date'];
 $comments = $_GET['comments'];
 
 $booked = $_GET['booked'];
-
+$payment_errors = $_GET['payment_errors'];
 include "elements/states_array.inc";
 include "elements/country_array.inc";
 
@@ -27,6 +27,14 @@ $get_prop_id = $_GET['prop_id'];
 if ($invalid) {
 $red_msg = 'You are missing some required information needed to submit this form. Missing or invalid fields that are required have been highlighted in red.';
 }
+if ($booked == 1) {
+$booked_msg = 'The check-in and check-out dates that you have requested have already been booked.';
+}
+
+if ($payment_errors == 1) {
+$payment_error_msg = 'There was problem processing your credit card information.';
+}
+
 $cto = $_GET['cto'];
 //foreach ($reds as $red) {
 
@@ -35,6 +43,9 @@ $cto = $_GET['cto'];
 ?>
 	<p>Required fields are marked with an asterisk (*).</p>
 <?php if ($reds) { echo "<p class=error>$red_msg</p>";}  ?>
+
+<?php if ($booked_msg) { echo "<p class=error>$booked_msg</p>"; }?>
+<?php if ($payment_errors == 1) { echo "<p class=error>$payment_error_msg</p>"; }?>
 			<table border="0" width="100%">
 			<tr>
 				<input type=hidden name=prop_id value="<?php echo "$get_prop_id"; ?>">

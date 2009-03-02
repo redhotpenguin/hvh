@@ -354,7 +354,7 @@ sub _find_contact {
 SELECT Id from Contact where Name = '$name'
 SQL
 
-    warn("looking for contact name $name\n") if DEBUG;
+    # warn("looking for contact name $name\n") if DEBUG;
     my $r = $sf->query( query => $sql, limit => '1' )
       or die "SF query failed!: $sql";
 
@@ -372,7 +372,7 @@ SQL
     my $contact_id;
     if ( defined $size && ( $size == 1 ) ) {
 
-        warn("Found some records for contact name $name") if DEBUG;
+        # warn("Found some records for contact name $name") if DEBUG;
 
         # uh huh, just get the first id
         $contact_id = $result->{records}->{Id}->[0];
@@ -452,7 +452,7 @@ sub bookit {
         return $self->redirect($url);
     }
 
-    warn("booking date available") if DEBUG;
+    # warn("booking date available") if DEBUG;
 
     # look for a contact first
     my %contact_args = (

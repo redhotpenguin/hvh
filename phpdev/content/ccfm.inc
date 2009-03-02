@@ -117,8 +117,9 @@ $billing_country = $_GET['billing_country'];
 
                         <select name="billing_country">
                         <option value="">Select a Country</option>
-                        <?php
 
+                        <?php
+			if ($billing_country) { $billing_country = $billing_country; } else { $billing_country = 'United States'; }
                             foreach ($country_array as $country_val) {
 
                                 echo "<option value=\"$country_val\"";

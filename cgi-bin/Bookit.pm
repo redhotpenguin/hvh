@@ -294,12 +294,12 @@ sub _find_or_create_contact {
 
     if ($contact_id) {
 
-        warn("found a contact id $contact_id, updating it") if DEBUG;
+        # warn("found a contact id $contact_id, updating it") if DEBUG;
 
         # update the contact
         my $res = $sf->update(
             type      => 'Contact',
-            ContactId => $contact_id,
+            Id        => $contact_id,
             %{$contact_args},
         );
 

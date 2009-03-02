@@ -8,8 +8,7 @@ use base qw( CGI::Application );
 use Mail::Mailer        ();
 use Data::FormValidator ();
 use Data::FormValidator::Constraints qw(:closures);
-use Business::PayPal::API                    ();
-use Business::PayPal::API::RecurringPayments ();
+use Business::PayPal::API        qw( DirectPayments);
 use WWW::Salesforce::Simple                  ();
 use DateTime                                 ();
 use CGI::Application::Plugin::Redirect;
@@ -22,8 +21,18 @@ our %Paypal = (
     Username  => 'mike_api1.hvh.com',
     Password  => '5Q2XGE9DZA27EFYL',
     Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+);
+
+=cut
+
+our %Paypal = (
+    Username  => 'gunthe_1236035242_biz_api1.yahoo.com',
+    Password  => '1236035264',
+    Signature => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
     sandbox   => 1,
 );
+
+=cut
 
 sub setup {
     my $self = shift;
@@ -53,6 +62,7 @@ sub _gen_redirect {
 
     # add the current field values
     foreach my $invalid ( keys %{ $results->{invalid} } ) {
+	no warnings;
         $url .=
           '&' . $invalid . '=' . URI::Escape::uri_escape( $q->param($invalid) );
     }
@@ -299,15 +309,20 @@ sub _find_or_create_contact {
         # update the contact
         my $res = $sf->update(
             type      => 'Contact',
-            Id        => $contact_id,
-            %{$contact_args},
+            { id        => $contact_id,
+            %{$contact_args}, },
         );
 
-        my $result = $res->envelope->{Body}->{queryResponse}->{result};
+        my $result = $res->envelope->{Body}->{updateResponse}->{result};
+    	if (DEBUG) {
+        	open( FH, '>', '/tmp/contact_update' ) or die $!;
+        	print FH Dumper($result);
+        	close(FH) or die $!;
+    	}
         die "error updating contact id $contact_id\n"
-          unless ( $result->{done} eq 'true' );
+          unless ( $result->{success} eq 'true' );
 
-        warn("updated contact id $contact_id ok") if DEBUG;
+        # warn("updated contact id $contact_id ok") if DEBUG;
         return $contact_id;
     }
 
@@ -419,10 +434,22 @@ sub bookit {
 
     if ( $results->has_missing or $results->has_invalid ) {
 
+=cut
+
+    if (DEBUG) {
+        open( FH, '>/tmp/errors' ) or die $!;
+        print FH Dumper($results);
+        close(FH) or die $!;
+    }
+=cut
+ 
+
+=cut
         warn(   "results:  invalid: "
               . join( ',', keys %{ $results->{invalid} } )
               . ', missing;'
               . join( ',', keys %{ $results->{missing} } ) );
+=cut
 
         my $url = _gen_redirect( $results, $q );
 
@@ -491,10 +518,6 @@ sub bookit {
             Payment_Method__c      => 'PayPal',
         );
 
-        if ( $q->param('comments') ) {
-            $sf_args{Booking_Description__c} = $q->param('comments');
-        }
-
         # hack for salesforce bug
         if ( length( $q->param('guests') ) == 1 ) {
             $sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
@@ -518,8 +541,8 @@ sub bookit {
     my $booking_id = $result->{id};
 
     # ok the booking was made ok
-    warn("booking created id $booking_id, sf api call to get payment amounts")
-      if DEBUG;
+    # warn("booking created id $booking_id, sf api call to get payment amounts")
+    #  if DEBUG;
 
     ######################
     # get the booking details
@@ -543,8 +566,8 @@ sub bookit {
     ###########################################
     # make the paypal payment
     my $payment =
-      $result->{records}->{First_Payment_Amount__c} +
-      $result->{records}->{Second_Payment_Amount__c};
+      $result->{records}->{First_Payment_Amount__c};
+      #$result->{records}->{Second_Payment_Amount__c};
 
     warn("making paypal call for booking id $booking_id") if DEBUG;
     my %pay_res;
@@ -557,8 +580,7 @@ sub bookit {
 
     my $Paypal = Business::PayPal::API->new(%Paypal);
 
-    # do one payment
-    %pay_res = $Paypal->DoDirectPaymentRequest(
+	my %paypal_args = (
         PaymentAction         => 'Sale',
         OrderTotal            => $payment,
         TaxTotal              => 0.0,
@@ -573,22 +595,28 @@ sub bookit {
         FirstName             => $q->param('first_name'),
         LastName              => $q->param('last_name'),
         Street1               => $q->param('billing_address'),
-        Street2               => '',
         CityName              => $q->param('billing_city'),
         StateOrProvince       => $q->param('billing_state'),
         PostalCode            => $q->param('billing_zip'),
         Country               => $q->param('billing_country'),
         Payer                 => $q->param('email'),
-        ShipToName            => $billto_name,
-        ShipToStreet1         => $q->param('billing_address'),
-        ShipToStreet2         => '',
-        ShipToCityName        => $q->param('billing_city'),
-        ShipToStateOrProvince => $q->param('billing_state'),
-        ShipToCountry         => $q->param('billing_country'),
+        CityName        => $q->param('billing_city'),
+        StateOrProvince => $q->param('billing_state'),
+        Country         => $q->param('billing_country'),
         CurrencyID            => 'USD',
-        IPAddress             => $q->param('ip'),
+        IPAddress             => $ENV{'REMOTE_ADDR'},
         MerchantSessionID     => int( rand(100_000) ),
     );
+
+    if (DEBUG) {
+        open( FH, '>/tmp/payment_args' ) or die $!;
+        print FH Dumper( \%paypal_args);
+        close(FH) or die $!;
+    }
+
+
+    # do one payment
+    %pay_res = $Paypal->DoDirectPaymentRequest( %paypal_args );
 
     if (DEBUG) {
         open( FH, '>/tmp/payment' ) or die $!;
@@ -597,7 +625,11 @@ sub bookit {
     }
 
     unless ( $pay_res{Ack} eq 'Success' ) {
-        return $self->redirect('http://www.hvh.com/booking_errors.html');
+
+	$results->{invalid}->{payment_errors} = 1;
+ 
+	my $url = _gen_redirect( $results, $q );
+        return $self->redirect($url);
     }
 
     warn "Successful payment" if DEBUG;

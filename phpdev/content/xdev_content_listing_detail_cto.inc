@@ -31,21 +31,21 @@ if ($booked == 1) {
 $booked_msg = 'The check-in and check-out dates that you have requested have already been booked.';
 }
 
-if ($payment_errors == 1) {
-$payment_error_msg = 'There was problem processing your credit card information.';
+if (in_array('payment_errors', $reds)) { 
+$payment_errors_msg = 'There was problem processing your credit card information.';
 }
 
 $cto = $_GET['cto'];
-//foreach ($reds as $red) {
+// foreach ($reds as $red) {
 
 // echo "$red<br>";
-//}
+// }
 ?>
 	<p>Required fields are marked with an asterisk (*).</p>
 <?php if ($reds) { echo "<p class=error>$red_msg</p>";}  ?>
 
 <?php if ($booked_msg) { echo "<p class=error>$booked_msg</p>"; }?>
-<?php if ($payment_errors == 1) { echo "<p class=error>$payment_error_msg</p>"; }?>
+<?php if ($payment_errors_msg) { echo "<p class=error>$payment_errors_msg</p>"; }?>
 			<table border="0" width="100%">
 			<tr>
 				<input type=hidden name=prop_id value="<?php echo "$get_prop_id"; ?>">

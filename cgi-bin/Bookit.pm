@@ -152,12 +152,6 @@ sub contact {
 
     die $@ if $@;
 
-    #open(FH, '>/tmp/bar') or die $!
-    #
-    #;
-    #print FH Dumper($r);
-    #close(FH);
-    #
     my $uri = $ENV{'HTTP_REFERER'};
     $uri =~ s/cto\=1/cto\=success/;
     return $self->redirect($uri);
@@ -244,8 +238,6 @@ sub check_booking {
 
     }
 
-    #warn("in is " . DateTime->now->mdy('/'));
-    #warn("in " . $dt_ci->epoch . ", tomrrow epoch " . $tomorrow->epoch);
     $checkin_date  = _dbdate($checkin_date);
     $checkout_date = _dbdate($checkout_date);
 
@@ -253,9 +245,6 @@ sub check_booking {
 
     my $sql =
       "Select Id from Booking__c where Property_name__c = '$prop_id' and ( ";
-
-    #    $checkin_date = '2010-01-10';
-    #    $checkout_date = '2010-01-20';
 
     $sql .=
 "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date) ) ";
@@ -277,28 +266,15 @@ sub check_booking {
 
     # (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
 
-    #warn("\nsql is $sql\n\n");
-
-   #warn("checking for booking between in $checkin_date and out $checkout_date")
-   # if DEBUG;
     my $res = $sf->query( query => $sql );
 
     if ( $res->valueof('//queryResponse/result')->{size} != 0 )
     {    # found a conflicting booking
 
-        my $result = $res->envelope->{Body}->{queryResponse}->{result};
+        warn("booking conflict! ") if DEBUG;
 
-        if (DEBUG) {
-            open( FH, '>', '/tmp/booking_response' ) or die $!;
-            print FH Dumper($result);
-            print FH Dumper( $res->valueof('//queryResponse/result')->{size} );
-            close(FH) or die $!;
-            warn("booking conflict! ");
-        }
         return;
     }
-
-    #warn("booking range open") if DEBUG;
 
     return ( 1, $checkin_date, $checkout_date );
 }
@@ -545,10 +521,11 @@ sub bookit {
     warn("booking created id $booking_id, sf api call to get payment amounts")
       if DEBUG;
 
+    ######################
+    # get the booking details
     my $query =
 "Select Id, First_Payment_Amount__c, Second_Payment_Amount__c from Booking__c where Id = '$booking_id'";
 
-    # get the booking
     my $res = $sf->query( query => $query );
     $result = $res->envelope->{Body}->{queryResponse}->{result};
 
@@ -561,10 +538,13 @@ sub bookit {
     unless ( defined $result->{done} && $result->{done} eq 'true' ) {
         die("query to select booking id $booking_id failed\n");
     }
-    my $one_payment = $result->{records}->{First_Payment_Amount__c};
-    my $two_payment = $result->{records}->{Second_Payment_Amount__c};
+    ###########################
 
-    warn("first payment $one_payment, second $two_payment");
+    ###########################################
+    # make the paypal payment
+    my $payment =
+      $result->{records}->{First_Payment_Amount__c} +
+      $result->{records}->{Second_Payment_Amount__c};
 
     warn("making paypal call for booking id $booking_id") if DEBUG;
     my %pay_res;
@@ -574,107 +554,57 @@ sub bookit {
     my ( $year, $month, $day ) = split( /-/, $checkin_date );
     $checkin_date =
       DateTime->new( month => $month, year => $year, day => $day );
-    if ( $checkin_date->subtract( days => 30 ) < DateTime->now ) {
 
-        warn("paypal single payment") if DEBUG;
+    my $Paypal = Business::PayPal::API->new(%Paypal);
 
-        my $Paypal = Business::PayPal::API->new(%Paypal);
+    # do one payment
+    %pay_res = $Paypal->DoDirectPaymentRequest(
+        PaymentAction         => 'Sale',
+        OrderTotal            => $payment,
+        TaxTotal              => 0.0,
+        ShippingTotal         => 0.0,
+        ItemTotal             => 0.0,
+        HandlingTotal         => 0.0,
+        CreditCardType        => ucfirst( $q->param('card_type') ),
+        CreditCardNumber      => $q->param('card_number'),
+        ExpMonth              => $q->param('exp_month'),
+        ExpYear               => $q->param('exp_year'),
+        CVV2                  => $q->param('cvc'),
+        FirstName             => $q->param('first_name'),
+        LastName              => $q->param('last_name'),
+        Street1               => $q->param('billing_address'),
+        Street2               => '',
+        CityName              => $q->param('billing_city'),
+        StateOrProvince       => $q->param('billing_state'),
+        PostalCode            => $q->param('billing_zip'),
+        Country               => $q->param('billing_country'),
+        Payer                 => $q->param('email'),
+        ShipToName            => $billto_name,
+        ShipToStreet1         => $q->param('billing_address'),
+        ShipToStreet2         => '',
+        ShipToCityName        => $q->param('billing_city'),
+        ShipToStateOrProvince => $q->param('billing_state'),
+        ShipToCountry         => $q->param('billing_country'),
+        CurrencyID            => 'USD',
+        IPAddress             => $q->param('ip'),
+        MerchantSessionID     => int( rand(100_000) ),
+    );
 
-        # do one payment
-        %pay_res = $Paypal->DoDirectPaymentRequest(
-            PaymentAction         => 'Sale',
-            OrderTotal            => $one_payment + $two_payment,
-            TaxTotal              => 0.0,
-            ShippingTotal         => 0.0,
-            ItemTotal             => 0.0,
-            HandlingTotal         => 0.0,
-            CreditCardType        => ucfirst( $q->param('card_type') ),
-            CreditCardNumber      => $q->param('card_number'),
-            ExpMonth              => $q->param('exp_month'),
-            ExpYear               => $q->param('exp_year'),
-            CVV2                  => $q->param('cvc'),
-            FirstName             => $q->param('first_name'),
-            LastName              => $q->param('last_name'),
-            Street1               => $q->param('billing_address'),
-            Street2               => '',
-            CityName              => $q->param('billing_city'),
-            StateOrProvince       => $q->param('billing_state'),
-            PostalCode            => $q->param('billing_zip'),
-            Country               => $q->param('billing_country'),
-            Payer                 => $q->param('email'),
-            ShipToName            => $billto_name,
-            ShipToStreet1         => $q->param('billing_address'),
-            ShipToStreet2         => '',
-            ShipToCityName        => $q->param('billing_city'),
-            ShipToStateOrProvince => $q->param('billing_state'),
-            ShipToCountry         => $q->param('billing_country'),
-            CurrencyID            => 'USD',
-            IPAddress             => $q->param('ip'),
-            MerchantSessionID     => int( rand(100_000) ),
-        );
-
+    if (DEBUG) {
+        open( FH, '>/tmp/payment' ) or die $!;
+        print FH Dumper( \%pay_res );
+        close(FH) or die $!;
     }
-    else {
-
-        # do two payments
-
-        warn("paypal double payment") if DEBUG;
-
-        my $Paypal = Business::PayPal::API::RecurringPayments->new(%Paypal);
-
-        my %payment_args = (
-            SubscriberName   => $billto_name,
-            BillingStartDate => DateTime->now->mdy('-'),
-            ProfileReference => $q->param('first_name')
-              . $q->param('last_name'),
-            MaxFailedPayments         => 0,
-            AutoBillOutstandingAmount => 'AddToNextBilling',
-
-            #AutoBillOutstandingAmount => 'NoAutoBill',
-            PaymentBillingPeriod      => 'Day',
-            PaymentBillingFrequency   => 30,
-            PaymentTotalBillingCycles => 2,
-            PaymentAmount             => $two_payment,
-            PaymentShippingAmount     => 0.0,
-            PaymentTaxAmount          => 0.0,
-            ProfileReference          => $booking_id,
-            InitialAmount             => $one_payment,
-            CCPayerName               => $billto_name,
-            CCPayer                   => $q->param('email'),
-            CCPayerStreet1            => $q->param('billing_address'),
-            CCPayerStreet2            => '',
-            CCPayerCityName           => $q->param('billing_city'),
-            CCPayerStateOrProvince    => $q->param('billing_state'),
-            CCPayerCountry            => $q->param('billing_country'),
-            CCPayerPostalCode         => $q->param('billing_zip'),
-            CCPayerPhone              => $q->param('phone'),
-            CreditCardType            => $q->param('card_type'),
-            CreditCardNumber          => $q->param('card_number'),
-            ExpMonth                  => $q->param('exp_month'),
-            ExpYear                   => $q->param('exp_year'),
-            CVV2                      => $q->param('cvc'),
-        );
-
-        if (DEBUG) {
-            open( FH, '>/tmp/payment_args' ) or die $!;
-            print FH Dumper( \%payment_args );
-            close(FH) or die $!;
-        }
-
-        %pay_res = $Paypal->CreateRecurringPaymentsProfile(%payment_args);
-
-    }
-
-    warn( "response: " . Dumper( \%pay_res ) ) if DEBUG;
 
     unless ( $pay_res{Ack} eq 'Success' ) {
-        warn( "errors: " . Dumper( $pay_res{Errors} ) );
         return $self->redirect('http://www.hvh.com/booking_errors.html');
     }
 
-    warn "Successful payment";
+    warn "Successful payment" if DEBUG;
+    ################################################
 
-    # update salesforce
+    ############################
+    # update salesforce booking
     eval {
         $sf->update(
             type => 'Booking__c',
@@ -862,3 +792,4 @@ sub valid_street {
       }
 }
 
+1;

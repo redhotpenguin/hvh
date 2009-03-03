@@ -34,7 +34,7 @@ require_once ('../soapclient/SforcePartnerClient.php');
                 <?php
 				$count = 1;
 				$distinct_vals = array();
-                 while ($count < 100) {
+                 while ($count < 500) {
 
 					$key = "cities|$count";
 					$city = $memcache->get($key);
@@ -71,7 +71,7 @@ require_once ('../soapclient/SforcePartnerClient.php');
                 <?php
 				$count = 1;
 				$distinct_vals = array();
-                 while ($count < 100) {
+                 while ($count < 500) {
 
 					$key = "regions|$count";
 					$region = $memcache->get($key);

@@ -1,6 +1,6 @@
 <?php
 			$country_array = array(
-						"United States",
+						"US",
 						"Afghanistan",
 						"Albania",
 						"Algeria",

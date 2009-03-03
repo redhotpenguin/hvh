@@ -4,7 +4,7 @@ $states_array = array(
 					"Alaska",
 					"Arizona",
 					"Arkansas",
-					"California",
+					"CA",
 					"Colorado",
 					"Connecticut",
 					"Delaware",

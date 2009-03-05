@@ -18,6 +18,7 @@ $booked = $_GET['booked'];
 $payment_errors = $_GET['payment_errors'];
 include "elements/states_array.inc";
 include "elements/country_array.inc";
+include "elements/paypal_cc.inc";
 
 $invalid = $_GET['invalid'];
 

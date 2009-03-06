@@ -17,10 +17,14 @@ use Data::Dumper;
 
 use constant DEBUG => 1;    #$ENV{HVH_DEBUG} || 1;
 
+delete $ENV{$_} for grep { /^(HTTPS|SSL)/ } keys %ENV;
+$ENV{HTTPS_CERT_FILE} = '/etc/pki/tls/cert.pem';
+
 our %Paypal = (
     Username  => 'mike_api1.hvh.com',
     Password  => '5Q2XGE9DZA27EFYL',
     Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+    sandbox   => 0,
 );
 
 =cut
@@ -613,7 +617,7 @@ sub bookit {
         print FH Dumper( \%paypal_args);
         close(FH) or die $!;
     }
-
+       local $IO::Socket::SSL::VERSION = undef;
 
     # do one payment
     %pay_res = $Paypal->DoDirectPaymentRequest( %paypal_args );

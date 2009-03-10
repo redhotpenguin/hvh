@@ -13,7 +13,7 @@ Whether you have a few rooms in a quaint Bed & Breakfast or a hundred rooms in a
 <br><Br>The HVH Hotel and B&B Edition also includes a complete list of functional capabilities:<br><br>
 
 
-Annual Subscription of $885/yr. includes 3 users and unlimited rooms. Integrated Financial Accounting Option is an addtional $995/yr. Additional properties and users are available. <!--To download the US Price List, please click here (back to the webform). Purchase Here (Button to take someones credit card/paypal etc.) Download detailed Product Spec Sheet (Button) Take a Test Drive (www.appexchange.com) Usual Links along the bottom (hvh.com, contact us, love life, HVH Solutions)-->
+Annual Subscription of $595/yr. includes 3 users and unlimited rooms. Integrated Financial Accounting Option is an addtional $595/yr. Additional properties and users are available. <!--To download the US Price List, please click here (back to the webform). Purchase Here (Button to take someones credit card/paypal etc.) Download detailed Product Spec Sheet (Button) Take a Test Drive (www.appexchange.com) Usual Links along the bottom (hvh.com, contact us, love life, HVH Solutions)-->
 <br><Br>
 
 
@@ -34,7 +34,7 @@ Annual Subscription of $885/yr. includes 3 users and unlimited rooms. Integrated
 - Business Process Outsourcing<Br>
 - Free listing on <a href="index.php">HVH.com!</a><br><Br>
 
-Pricing - Annual Subscription of $885/yr includes 3 users and up to 50 properties. Integrated Financial Accounting Option is an addtional $995/yr. Additional properties and users are available to add to the subscription. <!--To download the US Price List, please click here (back to the webform).--> Our services can also be branded to give your customers a unique and personal experience by extending our service as part of a total property management solution for your clients. <!--Click here to become a partner: (Button for HVH.com/Partners) Purchase (Button to take someones credit card/paypal etc.) Product Spec Sheet (Button) Test Drive (www.appexchange.com) Usual Links along the bottom (hvh.com, contact us, love life, HVH Solutions)--></p><br><Br>
+Pricing - Annual Subscription of $595/yr includes 3 users and up to 50 properties. Integrated Financial Accounting Option is an addtional $595/yr. Additional properties and users are available to add to the subscription. <!--To download the US Price List, please click here (back to the webform).--> Our services can also be branded to give your customers a unique and personal experience by extending our service as part of a total property management solution for your clients. <!--Click here to become a partner: (Button for HVH.com/Partners) Purchase (Button to take someones credit card/paypal etc.) Product Spec Sheet (Button) Test Drive (www.appexchange.com) Usual Links along the bottom (hvh.com, contact us, love life, HVH Solutions)--></p><br><Br>
 
 
 </td>

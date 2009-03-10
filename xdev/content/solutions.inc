@@ -17,7 +17,7 @@
 			<tr><Td align=center><font size=4><b><a href="solutions_second_home_owner.php"><font color=black>Second Home</font></a></b></font></td></tr>
 			<tr><td><font size=2>Tailored for the second home owner looking for a simple yet comprehensive system to manage every aspect of renting a property. A second home should be fun, not a hassle!</td></tr>
 			
-			<tr><td align=center><font size=2><b>$295/yr<br>1 Named User<br>1 Property</b></font></td></tr>
+			<tr><td align=center><font size=2><b>$195/yr<br>1 Named User<br>1 Property</b></font></td></tr>
 			</table>
 
 		</td>
@@ -41,7 +41,7 @@
             <tr><Td align=center><font size=4><b><a href="solutions_property_manager.php"><font color=black>Property Management</font></a></b></font></td></tr>
             <tr><td><font size=2>This version allows property managers to track all properties, customers, bookings, owners, activities, and service providers through a single website. Avoid the bloated hardware and software.</td></tr>
             
-            <tr><td align=center><font size=2><b>$885/yr<br>3 Named User<br>100 Properties</b></font></td></tr>
+            <tr><td align=center><font size=2><b>$595/yr<br>3 Named User<br>100 Properties</b></font></td></tr>
             </table>
 
         </td>
@@ -65,7 +65,7 @@
             <tr><Td align=center><font size=4><b><a href="solutions_hotels_inns.php"><font color=black>Hotel</font></a></b></font></td></tr>
             <tr><td><font size=2>Drive business, manage the operation and maintain a satisfied repeat customer base. The Hotel Edition is quaint enough for a B&B and robust enough for hotel.</td></tr>
             
-            <tr><td align=center><font size=2><b>$885/yr<br>3 Named User<br>1 Property</b></font></td></tr>
+            <tr><td align=center><font size=2><b>$595/yr<br>3 Named User<br>1 Property</b></font></td></tr>
             </table>
 
         </td>

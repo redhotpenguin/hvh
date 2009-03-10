@@ -24,14 +24,17 @@ HVH provides everything a property manager needs to increase bookings and reduce
 <li>Free listing on <a href="index.php">HVH.com</a>
 </ul>
 
+
+
 Pricing
 
 <ul>
 <li>Annual Subscription of $595/yr includes 3 users and up to 50 properties.
-<li>Integrated Financial Accounting Option is an addtional $995/yr.
+<li>Integrated Financial Accounting Option is an addtional $595/yr.
 <li>Additional properties and users are available to for an additional fee. 
 <!--Click here to become a partner: (Button for HVH.com/Partners) Purchase (Button to take someones credit card/paypal etc.) Product Spec Sheet (Button) Test Drive (www.appexchange.com) Usual Links along the bottom (hvh.com, contact us, love life, HVH Solutions)--></p><br><Br>
 </ul>
+Our services can also be branded to give your customers a unique and personal experience by extending our service as part of a total property management solution for your clients. <!--Click here to become a partner: (Button for HVH.com/Partners) Purchase (Button to take someones credit card/paypal etc.) Product Spec Sheet (Button) Test Drive (www.appexchange.com) Usual Links along the bottom (hvh.com, contact us, love life, HVH Solutions)--></p><br><Br>
 
 
 </td>

@@ -261,22 +261,22 @@ sub check_booking {
       "Select Id from Booking__c where Property_name__c = '$prop_id' and ( ";
 
     $sql .=
-"( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date) ) ";
+"( ( Check_in_Date__c <= $checkin_date ) and ( Check_out_Date__c >= $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date) ) ";
 
     # (booked_checkin) (new_checkin) (new_checkout) (booked_checkout)
 
     $sql .=
-" or ( ( Check_in_Date__c < $checkin_date ) and (  Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c < $checkout_date ) ) ";
+" or ( ( Check_in_Date__c <= $checkin_date ) and (  Check_out_Date__c >= $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c <= $checkout_date ) ) ";
 
     # (booked_checkin) (new_checkin) (booked_checkout) (new_checkout)
 
     $sql .=
-" or ( ( Check_in_Date__c > $checkin_date ) and ( Check_out_Date__c > $checkin_date )  and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c > $checkout_date ) )";
+" or ( ( Check_in_Date__c >= $checkin_date ) and ( Check_out_Date__c >= $checkin_date )  and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date ) )";
 
     # (new_checkin) (booked_checkin)  (new_checkout) (booked_checkout)
 
     $sql .=
-" or ( ( Check_in_Date__c > $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c < $checkout_date ) ) )";
+" or ( ( Check_in_Date__c >= $checkin_date ) and ( Check_out_Date__c >= $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c <= $checkout_date ) ) )";
 
     # (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
 
@@ -571,7 +571,6 @@ sub bookit {
     # make the paypal payment
     my $payment =
       $result->{records}->{First_Payment_Amount__c};
-      #$result->{records}->{Second_Payment_Amount__c};
 
     warn("making paypal call for booking id $booking_id") if DEBUG;
     my %pay_res;
@@ -684,6 +683,7 @@ sub hold {
         return $self->redirect($url);
     }
 
+
     my $sf = _sf_login();
     my ( $is_available, $checkin_date, $checkout_date ) = check_booking(
         $sf,
@@ -692,7 +692,8 @@ sub hold {
     );
 
     unless ($is_available) {
-        return $self->redirect("https://www.hvh.com/double_booked.html");
+        my $url = _gen_redirect( $results, $q, '&booked=1' );
+        return $self->redirect($url);
     }
 
     # create salesforce inquiry

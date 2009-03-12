@@ -652,7 +652,7 @@ sub bookit {
     die $@ if $@;
 
     my $uri = $ENV{'HTTP_REFERER'};
-    $uri =~ s/bkt\=1/bkt\=success/;
+    $uri =~ s/bkt\=1/bktcc\=1/;
     return $self->redirect($uri);
 }
 
@@ -696,34 +696,77 @@ sub hold {
         return $self->redirect($url);
     }
 
-    # create salesforce inquiry
-    my $r;
+
+    my $name = join( ' ',
+        $q->param('first_name'),
+        $q->param('last_name'),
+        int( rand(100_000) ),
+    );
+
+
+    # look for a contact first
+    my %contact_args = (
+        Email           => $q->param('email'),
+        FirstName       => $q->param('first_name'),
+        LastName        => $q->param('last_name'),
+        MailingStreet   => $q->param('billing_address'),
+        MailingCity     => $q->param('billing_city'),
+        MailingCountry  => $q->param('billing_country'),
+        MailingState    => $q->param('billing_state'),
+        Phone           => $q->param('phone'),
+        Contact_Type__c => 'Renter',
+    );
+
+    if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
+        $contact_args{MailingPostalCode} = $q->param('billing_zip') . '-0000';
+    }
+    else {
+        $contact_args{MailingPostalCode} = $q->param('billing_zip');
+    }
+    my $contact_id = _find_or_create_contact( $sf, \%contact_args );
+
+
+    # now make a booking
+    my ( $r, %sf_args );
     eval {
+        %sf_args = (
 
-        # the required args
-        my %sf_args = (
-            type => 'Inquiry__c',
-            Name =>
-              join( ' ', $q->param('first_name'), $q->param('last_name'), ),
-
-            Inquiry_First_Name__c => $q->param('first_name'),
-            Inquiry_Last_Name__c  => $q->param('last_name'),
-            Inquiry_Email__c      => $q->param('email'),
-            Property__c           => $q->param('prop_id'),
-            Check_in_Date__c      => _dbdate( $q->param('checkin_date') ),
-            Check_out_Date__c     => _dbdate( $q->param('checkout_date') ),
-            Inquiry_Stage__c      => '48 Hour Hold'
+            type                   => 'Booking__c',
+            Name                   => $name,
+            Property_name__c       => $q->param('prop_id'),
+            Check_in_Date__c       => _dbdate( $q->param('checkin_date') ),
+            Check_out_Date__c      => _dbdate( $q->param('checkout_date') ),
+            Booking_Stage__c       => '48 Hour Hold',
+            Contact__c             => $contact_id,
+            Booking_Description__c => $q->param('comments'),
+            Payment_Method__c      => '',
         );
 
-        _add_optional_args( $q, \%Inquiry, \%sf_args );
-
-        # fixup the request
-        _hack_the_soap( $q, \%sf_args );
+        # hack for salesforce bug
+        if ( length( $q->param('guests') ) == 1 ) {
+            $sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
+        }
 
         $r = $sf->create(%sf_args);
     };
+    die $@ if $@ or !$r;
 
-    die $@ if $@;
+    my $result = $r->envelope->{Body}->{createResponse}->{result};
+
+    if (DEBUG) {
+        open( FH, '>/tmp/create_booking' ) or die $!;
+        print FH Dumper($result);
+        close(FH) or die $!;
+    }
+
+    die "error creating booking\n"
+      unless ( ( $result->{success} eq 'true' ) && ( defined $result->{id} ) );
+
+    my $booking_id = $result->{id};
+
+    # ok the booking was made ok
+    # warn("booking created id $booking_id, sf api call to get payment amounts")
+    #  if DEBUG;
 
     my $uri = $ENV{'HTTP_REFERER'};
     $uri =~ s/fhh\=1/fhh\=success/;

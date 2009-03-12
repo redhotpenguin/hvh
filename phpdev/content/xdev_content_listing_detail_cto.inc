@@ -48,8 +48,10 @@ $cto = $_GET['cto'];
 <?php if ($booked_msg) { echo "<p class=error>$booked_msg</p>"; }?>
 <?php if ($payment_errors_msg) { echo "<p class=error>$payment_errors_msg</p>"; }?>
 			<table border="0" width="100%">
+			<input type=hidden name=prop_id value="<?php echo "$get_prop_id"; ?>">
+
+<?php if ($bktcc != 1) { ?>
 			<tr>
-				<input type=hidden name=prop_id value="<?php echo "$get_prop_id"; ?>">
 				<?php if (in_array('first_name', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
                 <td class="<?php echo "$check_class"; ?>">*First Name:</td>
                 <td class="entry_desc"><input type="text" name="first_name" class=full value="<?php echo "$first_name"; ?>"></td>
@@ -100,19 +102,21 @@ $cto = $_GET['cto'];
         <td class="entry_desc"><input  id="checkout_date" name="checkout_date" maxlength="10" size="10" type="text" value="<?php echo "$checkout_date"; ?>"/> ( MM/DD/YYYY )</span><br></td>
 
         </tr> 
-           
+          
+<? } ?> 
 <?php 
-if ($bkt == 1)  { 
+if ($bktcc == 1)  { 
 include "../phpdev/content/ccfm.inc"; 
 } 
 ?>
+<?php if ($bktcc != 1) { ?>
 			<tr>
                 <td class="entry_desc" valign="top" colspan="2">
                     <br>Comments:<br>
                     <textarea name="comments" rows="7" class=cto><?php echo "$comments"; ?></textarea>
                <br><span class="footer">(250 characters max, please)</span></td>
 			</tr>
-            
+<? } ?>    
     </table>
 	<?php
 	$pname = $listing_obj->fields->Name;

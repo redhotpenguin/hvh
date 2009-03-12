@@ -33,6 +33,7 @@ $listing_obj = new SObject($get_result);
 $cto = $_GET['cto'];
 $fhh = $_GET['fhh'];
 $bkt = $_GET['bkt'];
+$bktcc = $_GET['bktcc'];
 $customer = $listing_obj->fields->Solutions_Customer__c;
 
 // $props = mysql_query("select * from property where id='$prop_id' limit 1");

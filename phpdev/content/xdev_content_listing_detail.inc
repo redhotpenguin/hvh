@@ -235,7 +235,7 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 		}
 	}
 	if ($bkt == 'success') {
-		echo "<div class=success>Property successfully booked.</div>";
+		echo "<div class=success>An email confirmation will be sent to the email address provided.  If you have any questions or need anything whatsoever, please don't hesitate to call HVH at 888-858-6562. <br><Br>Enjoy your vacation!!</div><br>";
 	}
 	
 if (($bkt == 1) || ($fhh == 1) || ($cto == 1)) { $hide_content = 1; }

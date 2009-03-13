@@ -172,9 +172,38 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 		echo "<form name=bkt action='https://www.hvh.com/cgi-bin/bookit.cgi' method=post>";
 		echo "<input type='hidden' name='rm' value='bookit'>";
 		echo "<tr><Td colspan=3><hr noshade size=1 color=\"#e2e2e1\"></td></tr>";
-		echo "<tr><td copy colspan=3 class=entry_desc>To <b><i>book your vacation</i></b> at  ";
-		echo $listing_obj->fields->Name;
-		echo ", please fill out the form below and click the 'Book it!' button at the bottom of the page.</td></tr>";
+		echo "<tr><td copy colspan=3 class=entry_desc>";
+		if ($bktcc == 1) {
+
+			$nightly_rate = $_GET['nightly_rate'];
+			$num_nights = $_GET['num_nights'];
+			$rental_subtotal = $_GET['rental_subtotal'];
+			$local_tax = $_GET['local_tax'];
+			$rental_total = $_GET['rental_total'];
+			$deposit = $_GET['deposit'];
+			$cleaning_fee = $_GET['cleaning_fee'];
+			$second_charge_date = $_GET['second_charge_date'];
+			echo "To complete your booking at " .$listing_obj->fields->Name.", please provide your credit card and billing information below.  Your card will be charged immediately for half the total rental amount plus the full deposit*.  For your stay, those fees are:";
+
+			echo "<Br><Br>Nightly Rate: $$nightly_rate";
+			echo "<br>Number of Nights: $$num_nights";
+			echo "<br>Rental Subtotal: $$rental_subtotal";
+			echo "<br>Local Accommodations Tax (rate%): $local_tax";
+			echo "<br>Total Rental Amount: $$rental_total";
+			echo "<br>Deposit Amount: $$deposit";
+			$second_payment = ($rental_total * .5);	
+			$first_payment = ($second_payment + $deposit);
+			echo "<br><br>First Payment Charged Immediately: $$first_payment";
+			echo "<Br>Second Payment Charged on $second_charge_date: $$second_payment";
+			
+			echo "<br><br>A cleaning fee of $$cleaning_fee will be deducted from the deposit which will be returned 30 days after your stay provided there are no damages or additional fees ";
+
+		} else {
+			echo "To <b><i>book your vacation</i></b> at  ";
+			echo $listing_obj->fields->Name;
+			echo ", please fill out the form below and click the 'Book it!' button at the bottom of the page.";
+		}
+		echo "</td></tr>";
 		echo "<tr><Td colspan=3><hr noshade size=1 color=\"#e2e2e1\"></td></tr>";
 
 		echo "<tr><td colspan=3>";

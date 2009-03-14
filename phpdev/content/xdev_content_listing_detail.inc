@@ -183,7 +183,7 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 			$deposit = $_GET['deposit'];
 			$cleaning_fee = $_GET['cleaning_fee'];
 			$second_charge_date = $_GET['second_charge_date'];
-			echo "To complete your booking at " .$listing_obj->fields->Name.", please provide your credit card and billing information below.  Your card will be charged immediately for half the total rental amount plus the full deposit*.  For your stay, those fees are:";
+			echo "To complete your booking at " .$listing_obj->fields->Name.", please provide your credit card and billing information below. Your card will be charged immediately for half the total rental amount plus the full deposit. For your stay, those fees are as follows:";
 			echo "<br><Br>";
 
 			echo "<table border=0 cellpadding=0 cellspacing=0 width=\"86%\" align=center>";

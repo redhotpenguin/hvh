@@ -410,7 +410,7 @@ sub bookit {
 
     my $q = $self->query;
 
-    if ($q->param('bktcc') && ($q->param('bktcc') == 1)) {
+    if ($q->param('bktcc_next') && ($q->param('bktcc_next') == 1)) {
 
 	return $self->_payment($q);
 
@@ -428,7 +428,7 @@ sub _payment {
       phone checkin_date checkout_date exp_month exp_year
       cvc card_type card_number billing_address billing_city
       billing_state billing_zip billing_country email guests
-      first_payment booking_id
+      first_payment booking_id bktcc_next
     );
 
     my %profile = (
@@ -455,6 +455,7 @@ sub _payment {
 
     if ( $results->has_missing or $results->has_invalid ) {
 
+	warn("missing are " . join(',', keys %{$results->{missing}}, keys %{$results->{invalid}}));
         my $url = _gen_redirect( $results, $q );
 
         return $self->redirect($url);
@@ -467,11 +468,6 @@ sub _payment {
     my %pay_res;
     my $billto_name =
       join( ' ', $q->param('first_name'), $q->param('last_name') );
-
- #   my ( $year, $month, $day ) = split( /-/, $q->param('checkin_date'));
- #   $checkin_date =
- #     DateTime->new( month => $month, year => $year, day => $day );
-
 
     my %billing_args = (
         MailingStreet   => $q->param('billing_address'),
@@ -543,7 +539,7 @@ sub _payment {
         return $self->redirect($url);
     }
 
-    warn "Successful payment" if DEBUG;
+    warn "Successful payment for amount " . $q->param('first_payment') . " and booking id " . $q->param('booking_id') if DEBUG;
     ################################################
 
     ############################
@@ -556,7 +552,7 @@ sub _payment {
         $sf->update(
             type => 'Booking__c',
             {
-                Id               => $q->param('booking_id'),
+            id               => $q->param('booking_id'),
                 Booking_Stage__c => 'Booked - First Payment',
             },
         );

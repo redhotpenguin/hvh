@@ -35,7 +35,7 @@ $fhh = $_GET['fhh'];
 $bkt = $_GET['bkt'];
 $bktcc = $_GET['bktcc'];
 $customer = $listing_obj->fields->Solutions_Customer__c;
-
+$get_booking_id = $_GET['booking_id'];
 // $props = mysql_query("select * from property where id='$prop_id' limit 1");
 
 
@@ -171,6 +171,8 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 		echo "<table border=0 cellpadding=1 cellspacing=0 width=\"100%\">";
 		echo "<form name=bkt action='https://www.hvh.com/cgi-bin/bookit.cgi' method=post>";
 		echo "<input type='hidden' name='rm' value='bookit'>";
+		echo "<input type=hidden name=booking_id value=\"$get_booking_id\">";
+	
 		echo "<tr><Td colspan=3><hr noshade size=1 color=\"#e2e2e1\"></td></tr>";
 		echo "<tr><td copy colspan=3 class=entry_desc>";
 		if ($bktcc == 1) {
@@ -199,7 +201,7 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 			$total_tax = number_format($total_tax, 2, '.', '');	
 			echo "To complete your booking at " .$listing_obj->fields->Name.", please provide your credit card and billing information below. Your card will be charged immediately for half the total rental amount plus the full deposit. For your stay, those fees are as follows:";
 			echo "<br><Br>";
-
+			echo "<input type=hidden name=first_payment value=\"$first_payment\">";
 			echo "<table border=0 cellpadding=0 cellspacing=0 width=\"86%\" align=center>";
 		
 			echo "<tr><td class=entry_desc>Nightly Rate:</td><td class=entry_desc align=right><b>$$nightly_rate</b></td></tr>";

@@ -223,7 +223,9 @@ $get_booking_id = $_GET['booking_id'];
 		}
 		echo "</td></tr>";
 		echo "<tr><Td colspan=3><hr noshade size=1 color=\"#e2e2e1\"></td></tr>";
-
+		echo "<tr><td colspan=3>";
+		include "../xdev/elements/paypal_logo_code.inc";
+		echo "</td></tr>";
 		echo "<tr><td colspan=3>";
 		include "../phpdev/content/xdev_content_listing_detail_cto.inc";
 

@@ -107,6 +107,8 @@ $cto = $_GET['cto'];
 <?php 
 if ($bktcc == 1)  { 
 include "../phpdev/content/ccfm.inc"; 
+include "../phpdev/content/xdev_content_listing_detail_cto_hidden.inc";
+
 } 
 ?>
 <?php if ($bktcc != 1) { ?>

@@ -403,16 +403,33 @@ SQL
     }
 }
 
+
+
 sub bookit {
     my $self = shift;
 
     my $q = $self->query;
 
+    if ($q->param('bktcc') && ($q->param('bktcc') == 1)) {
+
+	return $self->_payment($q);
+
+    } else {
+
+	return $self->_reserve($q);
+
+    }
+}
+
+sub _payment {
+    my ($self, $q) = @_;
+
     my @required = qw( prop_name first_name last_name
-      email guests
       phone checkin_date checkout_date exp_month exp_year
       cvc card_type card_number billing_address billing_city
-      billing_state billing_zip billing_country );
+      billing_state billing_zip billing_country email guests
+      first_payment booking_id
+    );
 
     my %profile = (
         required           => \@required,
@@ -438,22 +455,142 @@ sub bookit {
 
     if ( $results->has_missing or $results->has_invalid ) {
 
-=cut
+        my $url = _gen_redirect( $results, $q );
+
+        return $self->redirect($url);
+    }
+
+    ###########################################
+    # make the paypal payment
+
+    warn("making paypal call for booking id " . $q->param("booking_id")) if DEBUG;
+    my %pay_res;
+    my $billto_name =
+      join( ' ', $q->param('first_name'), $q->param('last_name') );
+
+ #   my ( $year, $month, $day ) = split( /-/, $q->param('checkin_date'));
+ #   $checkin_date =
+ #     DateTime->new( month => $month, year => $year, day => $day );
+
+
+    my %billing_args = (
+        MailingStreet   => $q->param('billing_address'),
+        MailingCity     => $q->param('billing_city'),
+        MailingCountry  => $q->param('billing_country'),
+        MailingState    => $q->param('billing_state'),
+    );
+
+    if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
+        $billing_args{MailingPostalCode} = $q->param('billing_zip') . '-0000';
+    }
+    else {
+        $billing_args{MailingPostalCode} = $q->param('billing_zip');
+    }
+
+
+
+    my $Paypal = Business::PayPal::API->new(%Paypal);
+
+	my %paypal_args = (
+        PaymentAction         => 'Sale',
+        OrderTotal            => $q->param('first_payment'),
+        TaxTotal              => 0.0,
+        ShippingTotal         => 0.0,
+        ItemTotal             => 0.0,
+        HandlingTotal         => 0.0,
+        CreditCardType        => ucfirst( $q->param('card_type') ),
+        CreditCardNumber      => $q->param('card_number'),
+        ExpMonth              => $q->param('exp_month'),
+        ExpYear               => $q->param('exp_year'),
+        CVV2                  => $q->param('cvc'),
+        FirstName             => $q->param('first_name'),
+        LastName              => $q->param('last_name'),
+        Street1               => $q->param('billing_address'),
+        CityName              => $q->param('billing_city'),
+        StateOrProvince       => $q->param('billing_state'),
+        PostalCode            => $q->param('billing_zip'),
+        Country               => $q->param('billing_country'),
+        Payer                 => $q->param('email'),
+        CityName        => $q->param('billing_city'),
+        StateOrProvince => $q->param('billing_state'),
+        Country         => $q->param('billing_country'),
+        CurrencyID            => 'USD',
+        IPAddress             => $ENV{'REMOTE_ADDR'},
+        MerchantSessionID     => int( rand(100_000) ),
+    );
 
     if (DEBUG) {
-        open( FH, '>/tmp/errors' ) or die $!;
-        print FH Dumper($results);
+        open( FH, '>/tmp/payment_args' ) or die $!;
+        print FH Dumper( \%paypal_args);
         close(FH) or die $!;
     }
-=cut
- 
+       local $IO::Socket::SSL::VERSION = undef;
 
-=cut
-        warn(   "results:  invalid: "
-              . join( ',', keys %{ $results->{invalid} } )
-              . ', missing;'
-              . join( ',', keys %{ $results->{missing} } ) );
-=cut
+    # do one payment
+    %pay_res = $Paypal->DoDirectPaymentRequest( %paypal_args );
+
+    if (DEBUG) {
+        open( FH, '>/tmp/payment' ) or die $!;
+        print FH Dumper( \%pay_res );
+        close(FH) or die $!;
+    }
+
+    unless ( $pay_res{Ack} eq 'Success' ) {
+
+	$results->{invalid}->{payment_errors} = 1;
+ 
+	my $url = _gen_redirect( $results, $q );
+        return $self->redirect($url);
+    }
+
+    warn "Successful payment" if DEBUG;
+    ################################################
+
+    ############################
+
+    my $sf = eval { _sf_login() };
+    die $@ if $@;
+
+    # update salesforce booking
+    eval {
+        $sf->update(
+            type => 'Booking__c',
+            {
+                Id               => $q->param('booking_id'),
+                Booking_Stage__c => 'Booked - First Payment',
+            },
+        );
+    };
+    die $@ if $@;
+
+    my $uri = $ENV{'HTTP_REFERER'};
+    $uri =~ s/bkt\=1/bkt\=success/;
+    return $self->redirect($uri);
+}
+
+
+
+sub _reserve {
+    my ($self, $q) = @_;
+
+    my @required = qw( prop_name first_name last_name
+      phone checkin_date checkout_date email guests );
+
+    my %profile = (
+        required           => \@required,
+        optional           => [qw( guests )],
+        constraint_methods => {
+            email           => email(),
+            phone           => phone(),
+            first_name      => valid_first(),
+            last_name       => valid_last(),
+            checkin_date    => valid_date(),
+            checkout_date   => valid_date(),
+        }
+    );
+    my $results = Data::FormValidator->check( $q, \%profile );
+
+    if ( $results->has_missing or $results->has_invalid ) {
 
         my $url = _gen_redirect( $results, $q );
 
@@ -490,20 +627,11 @@ sub bookit {
         Email           => $q->param('email'),
         FirstName       => $q->param('first_name'),
         LastName        => $q->param('last_name'),
-        MailingStreet   => $q->param('billing_address'),
-        MailingCity     => $q->param('billing_city'),
-        MailingCountry  => $q->param('billing_country'),
-        MailingState    => $q->param('billing_state'),
         Phone           => $q->param('phone'),
         Contact_Type__c => 'Renter',
     );
 
-    if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
-        $contact_args{MailingPostalCode} = $q->param('billing_zip') . '-0000';
-    }
-    else {
-        $contact_args{MailingPostalCode} = $q->param('billing_zip');
-    }
+
     my $contact_id = _find_or_create_contact( $sf, \%contact_args );
 
     # now make a booking
@@ -567,94 +695,23 @@ sub bookit {
     }
     ###########################
 
-    ###########################################
-    # make the paypal payment
-    my $payment =
-      $result->{records}->{First_Payment_Amount__c};
 
-    warn("making paypal call for booking id $booking_id") if DEBUG;
-    my %pay_res;
-    my $billto_name =
-      join( ' ', $q->param('first_name'), $q->param('last_name') );
+    my $first_payment = $result->{records}->{First_Payment_Amount__c};
+    my $second_payment = $result->{records}->{Second_Payment_Amount__c};
+    my $num_nights = $result->{records}->{Number_of_Nights_c};
+    my $local_taxes = $result->{records}->{Local_Taxes__c};
+    my $cleaning_fee = $result->{records}->{Cleaning_Fee__c};
+    my $nightly_rate = $result->{records}->{Nightly_Rate__c};
 
-    my ( $year, $month, $day ) = split( /-/, $checkin_date );
-    $checkin_date =
-      DateTime->new( month => $month, year => $year, day => $day );
 
-    my $Paypal = Business::PayPal::API->new(%Paypal);
+    # redirect to cc page
+    my $url = _gen_redirect( $results, $q,
+	    "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate" );
 
-	my %paypal_args = (
-        PaymentAction         => 'Sale',
-        OrderTotal            => $payment,
-        TaxTotal              => 0.0,
-        ShippingTotal         => 0.0,
-        ItemTotal             => 0.0,
-        HandlingTotal         => 0.0,
-        CreditCardType        => ucfirst( $q->param('card_type') ),
-        CreditCardNumber      => $q->param('card_number'),
-        ExpMonth              => $q->param('exp_month'),
-        ExpYear               => $q->param('exp_year'),
-        CVV2                  => $q->param('cvc'),
-        FirstName             => $q->param('first_name'),
-        LastName              => $q->param('last_name'),
-        Street1               => $q->param('billing_address'),
-        CityName              => $q->param('billing_city'),
-        StateOrProvince       => $q->param('billing_state'),
-        PostalCode            => $q->param('billing_zip'),
-        Country               => $q->param('billing_country'),
-        Payer                 => $q->param('email'),
-        CityName        => $q->param('billing_city'),
-        StateOrProvince => $q->param('billing_state'),
-        Country         => $q->param('billing_country'),
-        CurrencyID            => 'USD',
-        IPAddress             => $ENV{'REMOTE_ADDR'},
-        MerchantSessionID     => int( rand(100_000) ),
-    );
-
-    if (DEBUG) {
-        open( FH, '>/tmp/payment_args' ) or die $!;
-        print FH Dumper( \%paypal_args);
-        close(FH) or die $!;
-    }
-       local $IO::Socket::SSL::VERSION = undef;
-
-    # do one payment
-    %pay_res = $Paypal->DoDirectPaymentRequest( %paypal_args );
-
-    if (DEBUG) {
-        open( FH, '>/tmp/payment' ) or die $!;
-        print FH Dumper( \%pay_res );
-        close(FH) or die $!;
-    }
-
-    unless ( $pay_res{Ack} eq 'Success' ) {
-
-	$results->{invalid}->{payment_errors} = 1;
- 
-	my $url = _gen_redirect( $results, $q );
-        return $self->redirect($url);
-    }
-
-    warn "Successful payment" if DEBUG;
-    ################################################
-
-    ############################
-    # update salesforce booking
-    eval {
-        $sf->update(
-            type => 'Booking__c',
-            {
-                Id               => $booking_id,
-                Booking_Stage__c => 'Booked - First Payment',
-            },
-        );
-    };
-    die $@ if $@;
-
-    my $uri = $ENV{'HTTP_REFERER'};
-    $uri =~ s/bkt\=1/bktcc\=1/;
-    return $self->redirect($uri);
+    return $self->redirect($url);
 }
+    
+
 
 sub hold {
     my $self = shift;

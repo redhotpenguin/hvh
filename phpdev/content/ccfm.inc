@@ -138,4 +138,4 @@ $billing_country = $_GET['billing_country'];
                 </td>
             </tr>
 
-
+	<input type=hidden name=bktcc_next value=1>

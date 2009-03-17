@@ -679,7 +679,7 @@ sub _reserve {
     ######################
     # get the booking details
     my $query =
-"Select Id, First_Payment_Amount__c, Second_Payment_Amount__c from Booking__c where Id = '$booking_id'";
+"Select Id, Security_Deposit_Amount__c, First_Payment_Amount__c, Second_Payment_Amount__c, Number_of_Nights__c, Tax_Rate__c, Cleaning_Fee__c, Nightly_List_Price__c from Booking__c where Id = '$booking_id'";
 
     my $res = $sf->query( query => $query );
     $result = $res->envelope->{Body}->{queryResponse}->{result};
@@ -695,18 +695,31 @@ sub _reserve {
     }
     ###########################
 
-
+	
     my $first_payment = $result->{records}->{First_Payment_Amount__c};
     my $second_payment = $result->{records}->{Second_Payment_Amount__c};
-    my $num_nights = $result->{records}->{Number_of_Nights_c};
-    my $local_taxes = $result->{records}->{Local_Taxes__c};
+    my $num_nights = $result->{records}->{Number_of_Nights__c};
+    my $local_taxes = $result->{records}->{Tax_Rate__c};
     my $cleaning_fee = $result->{records}->{Cleaning_Fee__c};
-    my $nightly_rate = $result->{records}->{Nightly_Rate__c};
+    my $nightly_rate = $result->{records}->{Nightly_List_Price__c};
+    my $deposit = $result->{records}->{Security_Deposit_Amount__c};
+   
 
+   my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date'));
+   my $second_charge_date =
+      DateTime->new( month => $month, year => $year, day => $day )
+	->subtract(days => 30)->mdy('/');
+
+    my $rental_subtotal = $num_nights * $nightly_rate;
+    $local_taxes =~ s/\%$//;
+    my $total_rental_amount = $rental_subtotal * ( 1 + $local_taxes/100 );
+
+    # recalc second payment
+    $second_payment = $total_rental_amount + $deposit - $first_payment;
 
     # redirect to cc page
     my $url = _gen_redirect( $results, $q,
-	    "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate" );
+	    "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount" );
 
     return $self->redirect($url);
 }

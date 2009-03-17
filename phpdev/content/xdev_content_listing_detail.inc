@@ -178,11 +178,25 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 			$nightly_rate = $_GET['nightly_rate'];
 			$num_nights = $_GET['num_nights'];
 			$rental_subtotal = $_GET['rental_subtotal'];
-			$local_tax = $_GET['local_tax'];
-			$rental_total = $_GET['rental_total'];
+			$local_tax = $_GET['local_taxes'];
+			$rental_total = $_GET['total_rental_amount'];
 			$deposit = $_GET['deposit'];
 			$cleaning_fee = $_GET['cleaning_fee'];
+			$first_payment = $_GET['first_payment'];
+			$second_payment = $_GET['second_payment'];
 			$second_charge_date = $_GET['second_charge_date'];
+
+			$num_nights = number_format($num_nights, 0, '.', '');
+			$nightly_rate = number_format($nightly_rate, 2, '.', '');
+			$rental_subtotal = number_format($rental_subtotal, 2, '.', '');
+			$rental_total = number_format($rental_total, 2, '.', '');
+			$deposit = number_format($deposit, 2, '.', '');
+            $second_payment = number_format($second_payment, 2, '.', '');
+            $first_payment = number_format($first_payment, 2, '.', '');
+			$cleaning_fee = number_format($cleaning_fee, 2, '.', '');
+			$tax_fix = ($local_tax / 100);
+			$total_tax = ($rental_subtotal * $tax_fix);
+			$total_tax = number_format($total_tax, 2, '.', '');	
 			echo "To complete your booking at " .$listing_obj->fields->Name.", please provide your credit card and billing information below. Your card will be charged immediately for half the total rental amount plus the full deposit. For your stay, those fees are as follows:";
 			echo "<br><Br>";
 
@@ -191,18 +205,14 @@ $customer = $listing_obj->fields->Solutions_Customer__c;
 			echo "<tr><td class=entry_desc>Nightly Rate:</td><td class=entry_desc align=right><b>$$nightly_rate</b></td></tr>";
 			echo "<tr><td class=entry_desc>Number of Nights:</td><td class=entry_desc align=right><b>$num_nights</b></td></tr>";
 			echo "<tr><td class=entry_desc>Rental Subtotal:</td><td class=entry_desc align=right><b>$$rental_subtotal</b></td></tr>";
-			echo "<tr><td class=entry_desc>Local Accommodations Tax (<b>$local_tax%</b>):</td><td class=entry_desc align=right><b>$local_tax</b></td></tr>";
+			echo "<tr><td class=entry_desc>Local Accommodations Tax (<b>$local_tax%</b>):</td><td class=entry_desc align=right><b>$$total_tax</b></td></tr>";
 			echo "<tr><td class=entry_desc>Total Rental Amount:</td><td class=entry_desc align=right><b>$$rental_total</b></td></tr>";
 			echo "<tr><td class=entry_desc>Deposit Amount:</td><td class=entry_desc align=right><B>$$deposit</b></td></tr>";
-			$second_payment = ($rental_total * .5);	
-			$second_payment = number_format($second_payment, 2, '.', '');
-			$first_payment = ($second_payment + $deposit);
-			$first_payment = number_format($first_payment, 2, '.', '');
 			echo "<tr><td class=entry_desc colspan=2>&nbsp;</td></tr>";	
 			echo "<tr><td class=entry_desc>First Payment Charged Immediately:</td><td class=entry_desc align=right><b>$$first_payment</b>";
 			echo "<tr><td class=entry_desc>Second Payment Charged on $second_charge_date:</td><td class=entry_desc align=right><b>$$second_payment</b></td></tr>";
 			echo "</table>";
-			echo "<br><br>A cleaning fee of $$cleaning_fee will be deducted from the deposit which will be returned 30 days after your stay provided there are no damages or additional fees (i.e. pay-per-view movies).";
+			echo "<br><br>A cleaning fee of <b>$$cleaning_fee</b> will be deducted from the deposit which will be returned 30 days after your stay provided there are no damages or additional fees (i.e. pay-per-view movies).";
 
 		} else {
 			echo "To <b><i>book your vacation</i></b> at  ";

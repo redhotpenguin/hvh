@@ -25,7 +25,7 @@ $billing_country = $_GET['billing_country'];
 			<option value="mastercard" <?php if ($card_type == 'mastercard') { echo ' SELECTED'; } ?>>MasterCard</option>
 			<option value="amex" <?php if ($card_type == 'amex') { echo ' SELECTED'; } ?>>American Express</option>
 		</select></td>
-		<td><img src="img/ccpic.gif"></td>
+		<td></td>
 	</tr>
 	</table>
 		
@@ -139,3 +139,12 @@ $billing_country = $_GET['billing_country'];
             </tr>
 
 	<input type=hidden name=bktcc_next value=1>
+	<input type=hidden name=nightly_rate value="<?php echo "$nightly_rate"; ?>">
+	<input type=hidden name=num_nights value="<?php echo "$num_nights"; ?>">
+	<input type=hidden name=rental_subtotal value="<?php echo "$rental_subtotal"; ?>">
+<input type=hidden name=local_taxes value="<?php echo "$local_tax"; ?>">
+<input type=hidden name=rental_total value="<?php echo "$rental_total"; ?>">
+<input type=hidden name=deposit value="<?php echo "$deposit"; ?>">
+<input type=hidden name=first_payment value="<?php echo "$first_payment"; ?>">
+<input type=hidden name=second_payment value="<?php echo "$second_payment"; ?>">
+<input type=hidden name=cleaning_fee value="<?php echo "$cleaning_fee"; ?>">

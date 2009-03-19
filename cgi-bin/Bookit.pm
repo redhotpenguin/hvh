@@ -452,11 +452,36 @@ sub _payment {
         }
     );
     my $results = Data::FormValidator->check( $q, \%profile );
+	
+    my $first_payment = $q->param('first_payment');
+    my $second_payment = $q->param('second_payment');;
+    my $num_nights = $q->param('num_nights');
+    my $local_taxes = $q->param('local_taxes');
+    my $cleaning_fee = $q->param('cleaning_fee');
+    my $nightly_rate = $q->param('nightly_rate');
+    my $deposit = $q->param('deposit');
+    my $booking_id = $q->param('booking_id');
+   
+
+   my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date'));
+   my $second_charge_date =
+      DateTime->new( month => $month, year => $year, day => $day )
+	->subtract(days => 30)->mdy('/');
+
+    my $rental_subtotal = $num_nights * $nightly_rate;
+    $local_taxes =~ s/\%$//;
+    my $total_rental_amount = $rental_subtotal * ( 1 + $local_taxes/100 );
+
+    # recalc second payment
+    $second_payment = $total_rental_amount + $deposit - $first_payment;
+
 
     if ( $results->has_missing or $results->has_invalid ) {
 
 	warn("missing are " . join(',', keys %{$results->{missing}}, keys %{$results->{invalid}}));
-        my $url = _gen_redirect( $results, $q );
+      my $url = _gen_redirect( $results, $q,
+	    "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount" );
+
 
         return $self->redirect($url);
     }

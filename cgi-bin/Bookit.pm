@@ -512,31 +512,28 @@ sub _payment {
 
     my $Paypal = Business::PayPal::API->new(%Paypal);
 
-	my %paypal_args = (
+    my %paypal_args = (
         PaymentAction         => 'Sale',
-        OrderTotal            => $q->param('first_payment'),
-        TaxTotal              => 0.0,
-        ShippingTotal         => 0.0,
-        ItemTotal             => 0.0,
-        HandlingTotal         => 0.0,
-        CreditCardType        => ucfirst( $q->param('card_type') ),
-        CreditCardNumber      => $q->param('card_number'),
-        ExpMonth              => $q->param('exp_month'),
-        ExpYear               => $q->param('exp_year'),
-        CVV2                  => $q->param('cvc'),
-        FirstName             => $q->param('first_name'),
-        LastName              => $q->param('last_name'),
-        Street1               => $q->param('billing_address'),
-        CityName              => $q->param('billing_city'),
-        StateOrProvince       => $q->param('billing_state'),
-        PostalCode            => $q->param('billing_zip'),
-        Country               => $q->param('billing_country'),
-        Payer                 => $q->param('email'),
-        CityName        => $q->param('billing_city'),
-        StateOrProvince => $q->param('billing_state'),
-        Country         => $q->param('billing_country'),
+        OrderTotal            => $q->param('first_payment') || 'oops',
+        TaxTotal              => '0.00',
+        ShippingTotal         => '0.00',
+        ItemTotal             => '0.00',
+        HandlingTotal         => '0.00',
+        CreditCardType        => ucfirst( $q->param('card_type') ) || 'oops',
+        CreditCardNumber      => $q->param('card_number') || 'oops',
+        ExpMonth              => $q->param('exp_month') || 'oops',
+        ExpYear               => $q->param('exp_year') || 'oops',
+        CVV2                  => $q->param('cvc') || 'oops',
+        FirstName             => $q->param('first_name') || 'oops',
+        LastName              => $q->param('last_name') || 'oops',
+        Street1               => $q->param('billing_address') || 'oops',
+        CityName              => $q->param('billing_city') || 'oops',
+        StateOrProvince       => $q->param('billing_state') || 'oops',
+        PostalCode            => $q->param('billing_zip') || 'oops',
+        Payer                 => $q->param('email') || 'oops',
+        Country               => $q->param('billing_country') || 'oops',
         CurrencyID            => 'USD',
-        IPAddress             => $ENV{'REMOTE_ADDR'},
+        IPAddress             => $ENV{'REMOTE_ADDR'} || 'oops',
         MerchantSessionID     => int( rand(100_000) ),
     );
 
@@ -545,7 +542,7 @@ sub _payment {
         print FH Dumper( \%paypal_args);
         close(FH) or die $!;
     }
-       local $IO::Socket::SSL::VERSION = undef;
+    local $IO::Socket::SSL::VERSION = undef;
 
     # do one payment
     %pay_res = $Paypal->DoDirectPaymentRequest( %paypal_args );
@@ -559,8 +556,10 @@ sub _payment {
     unless ( $pay_res{Ack} eq 'Success' ) {
 
 	$results->{invalid}->{payment_errors} = 1;
+
  
-	my $url = _gen_redirect( $results, $q );
+	my $url = _gen_redirect( $results, $q,"&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount" );
+
         return $self->redirect($url);
     }
 
@@ -577,7 +576,7 @@ sub _payment {
         $sf->update(
             type => 'Booking__c',
             {
-            id               => $q->param('booking_id'),
+            	id               => $q->param('booking_id'),
                 Booking_Stage__c => 'Booked - First Payment',
             },
         );

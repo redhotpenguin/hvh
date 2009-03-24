@@ -1,1 +1,1 @@
-<div id="Alaska" style="width: 100%; height: 450px"></div>
+<div id="Alaska" style="width: 398px; height: 220px"></div>

@@ -16,10 +16,10 @@
       icon_palm.image = "http://www.hvh.com/img/lonepalm.outlinr.png";
 
       var Europemap_marker_1 = new GMarker(new GLatLng(53.344104, -6.2674937) , icon_palm);
-      GEvent.addListener(Europemap_marker_1, "click", function () {  Europemap_marker_1.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000002bIekAAE"><span style="font-size: 12px">dylan Dublin</span></a><br /><span style="font-size: 12px">Dublin, Ireland</span><br /><span style="font-size: 12px">Premier Hotel</span></div>'); });
+      GEvent.addListener(Europemap_marker_1, "click", function () {  Europemap_marker_1.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002bIekAAE"><span style="font-size: 12px">dylan Dublin</span></a><br /><span style="font-size: 12px">Dublin, Ireland</span><br /><span style="font-size: 12px">Premier Hotel</span></div>'); });
       Europemap.addOverlay(Europemap_marker_1);
-      var Europemap_marker_2 = new GMarker(new GLatLng(51.4984927, -0.1460277) , icon_palm);
-      GEvent.addListener(Europemap_marker_2, "click", function () {  Europemap_marker_2.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/phpdev/listing.php?prop_id=a0650000002bIepAAE"><span style="font-size: 12px">41</span></a><br /><span style="font-size: 12px">London, London City</span><br /><span style="font-size: 12px">Premier Hotel</span></div>'); });
+      var Europemap_marker_2 = new GMarker(new GLatLng(51.4971789, -0.1460208) , icon_palm);
+      GEvent.addListener(Europemap_marker_2, "click", function () {  Europemap_marker_2.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002bIepAAE"><span style="font-size: 12px">41</span></a><br /><span style="font-size: 12px">London, London City</span><br /><span style="font-size: 12px">Premier Hotel</span></div>'); });
       Europemap.addOverlay(Europemap_marker_2);
     }
 

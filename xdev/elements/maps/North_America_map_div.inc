@@ -1,1 +1,1 @@
-<div id="North_America" style="width: 100%; height: 450"></div>
+<div id="North_America" style="width: 398px; height: 270px"></div>

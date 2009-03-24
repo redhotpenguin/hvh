@@ -128,7 +128,7 @@ foreach my $display_map ( keys %map_zones ) {
         $map->add_marker(
             point => $address,
             html  => 
-'<a href="/phpdev/listing.php?prop_id=' .
+'<a href="/xdev/listing.php?prop_id=' .
 		$row->{Id}->[0] . '"><span style="font-size: 12px">' . $row->{Name} . '</span></a><br />' .
 	'<span style="font-size: 12px">' . $row->{City__c} . ', ' . $row->{Location__c} . '</span>' .
 	'<br /><span style="font-size: 12px">' . $category .  '</span>',
@@ -149,7 +149,7 @@ foreach my $display_map ( keys %map_zones ) {
 
     foreach my $part ( keys %map_hash ) {
 
-      my $filename = "./maps/" . $display_map . "_" . $part . ".inc";
+      my $filename = "./xdev/elements/maps/" . $display_map . "_" . $part . ".inc";
       print "Filename is $filename\n" if DEBUG;
         my $part = $map_hash{$part};
         open( FH, '>', $filename ) or die $!;

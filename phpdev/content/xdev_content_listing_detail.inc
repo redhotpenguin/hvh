@@ -76,8 +76,11 @@ $get_booking_id = $_GET['booking_id'];
 	echo "<table border=0 cellpadding=0 cellspacing=0 width=\"100%\">";
 	echo "<tr><td><a href=\"listing.php?prop_id=$get_prop_id&cto=1\"><img src=\"img/cto_off.gif\" border=0></a></td>";
 	echo "<td align=center><a href=\"listing.php?prop_id=$get_prop_id&fhh=1\"><img src=\"img/hold_off.gif\" border=0 hspace=3></a></td>";
+	if ($customer == 'true') {
 	echo "<td align=right><a href=\"listing.php?prop_id=$get_prop_id&bkt=1\"><img src=\"img/bkt_off.gif\" border=0></a></td>";
-	
+	} else {
+	echo "<td align=right><a href=\"listing.php?prop_id=$get_prop_id&cto=1&nobkt=1\"><img src=\"img/bkt_off.gif\" border=0></a></td>";
+	}
 	echo "</tr>";
 	 echo "<tr><td colspan=3 bgcolor=\"#ffffff\"><img src=\"img/clear.gif\" width=1 height=2></td></tr>";
 	if (($cto == 1) || ($cto == 'success')) {
@@ -96,6 +99,13 @@ $get_booking_id = $_GET['booking_id'];
 	echo "<tR><td colspan=3><img src=\"img/clear.gif\" width=1 height=12></td></tr>";
 	echo "</table>";
 	if ($cto == 1) {
+		$nobkt = $_GET['nobkt'];
+
+		if ($nobkt == 1) {
+
+echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is currently working with this location to complete the automated booking    s process.  For now, please populate the \"Contact the Owner\" form below.  In the comments section, please note your request to place a 48 hour hold on the proper    ty for the selected dates.  Someone will respond to your request as soon as possible.  Thanks for using HVH!<br><br>";
+
+		}
 		echo "<script>setTimeout(\"document.cto.fname.focus()\",10);</script>";
         echo "<span class=detail_header>".$listing_obj->fields->Name."</span>";
         echo "<span class=entry_loc> - ".$listing_obj->fields->City__c.", ".$listing_obj->fields->Location__c."</span></a>";

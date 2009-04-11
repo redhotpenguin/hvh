@@ -77,7 +77,10 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 			</tr>
 			</table>
 			<!-- LEFT PAGE ELEMENTS LISTED UNDERNEATH SEARCH BOX -->
+
 			<?php include "left_columns/$left_cols.inc";  ?>	
+
+
 			</td></tr>
 			</table>
 

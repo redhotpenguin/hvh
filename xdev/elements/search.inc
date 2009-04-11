@@ -11,9 +11,22 @@ require_once ('../soapclient/SforcePartnerClient.php');
 
 
 
+
 <!-- BEGIN SEARCH -->
 <img src="img/clear.gif" width=1 height=3><bR>
 <table border=0 cellpadding=0 cellspacing=0>
+
+<tr><td>
+<form action="http://www.google.com/cse" id="cse-search-box">
+<input type="hidden" name="cx" value="008563546325721658501:ty76vbgkwp0" />
+<input type="hidden" name="ie" value="UTF-8" />
+&nbsp;&nbsp;&nbsp;<input type="text" name="q" size="27" />
+<input type="submit" name="sa" value="Search" />
+
+
+</form>
+</td></tr>
+
 <tr><td valign=top>
     <table border0 cellpadding=0 cellspacing=0 width="100%">
     <tr>

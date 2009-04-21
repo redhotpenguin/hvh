@@ -17,16 +17,20 @@ require_once ('../soapclient/SforcePartnerClient.php');
 <table border=0 cellpadding=0 cellspacing=0>
 
 <tr><td>
-<!--<form action="http://www.hvh.com/xdev/sresults.php" id="cse-search-box">-->
-<form action="http://www.google.com/cse" id="cse-search-box">
-<input type="hidden" name="cx" value="008563546325721658501:ty76vbgkwp0" />
-<!--<input type="hidden" name="cof" value="FORID:11" />-->
-<input type="hidden" name="ie" value="UTF-8" />
-&nbsp;&nbsp;&nbsp;<input type="text" name="q" size="27" />
-<input type="submit" name="sa" value="Search" />
 
+<form action="http://www.hvh.com/xdev/gsearch.php" id="cse-search-box">
+  <div>
+    <input type="hidden" name="cx" value="008563546325721658501:ty76vbgkwp0" />
+    <input type="hidden" name="cof" value="FORID:11;NB:1" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input type="text" name="q" size="27" />
+    <input type="submit" name="sa" value="Search" />
 
+  </div>
 </form>
+
+
+
 </td></tr>
 
 <tr><td valign=top>

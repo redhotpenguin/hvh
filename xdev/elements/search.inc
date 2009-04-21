@@ -22,7 +22,7 @@ require_once ('../soapclient/SforcePartnerClient.php');
 <tr><td width=16><img src="img/clear.gif" width=16 height=1></td><td class=search>
 <form action="http://www.hvh.com/xdev/gsearch.php" id="cse-search-box">
   <div>
-    <input type="hidden" name="cx" value="008563546325721658501:ty76vbgkwp0" />
+<input type="hidden" name="cx" value="008563546325721658501:ic2lrvldrhu" />
     <input type="hidden" name="cof" value="FORID:11;NB:1" />
     <input type="hidden" name="ie" value="UTF-8" />
     <input type="text" name="q" size="25" />

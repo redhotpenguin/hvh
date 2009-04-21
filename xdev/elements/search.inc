@@ -16,20 +16,24 @@ require_once ('../soapclient/SforcePartnerClient.php');
 <img src="img/clear.gif" width=1 height=3><bR>
 <table border=0 cellpadding=0 cellspacing=0>
 
-<tr><td>
-
+<tr><td class=search>
+<table border=0 cellpadding=0 cellspacing=0 width="100%">
+<tr><td width=16><img src="img/clear.gif" width=16 height=1></td><td class=search>Search by keyword.</td></tr>
+<tr><td width=16><img src="img/clear.gif" width=16 height=1></td><td class=search>
 <form action="http://www.hvh.com/xdev/gsearch.php" id="cse-search-box">
   <div>
     <input type="hidden" name="cx" value="008563546325721658501:ty76vbgkwp0" />
     <input type="hidden" name="cof" value="FORID:11;NB:1" />
     <input type="hidden" name="ie" value="UTF-8" />
-    <input type="text" name="q" size="27" />
-    <input type="submit" name="sa" value="Search" />
+    <input type="text" name="q" size="25" />
+    &nbsp;<input type="submit" name="sa" value="Search" />
 
   </div>
 </form>
-
-
+</td></tr>
+<tr><td width=16><img src="img/clear.gif" width=16 height=1></td><td class=search><font size=4><B>Or</b></font>, <i>Search by city or region.</i></td></tr>
+</table>
+<Br>
 
 </td></tr>
 

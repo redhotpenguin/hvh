@@ -291,8 +291,12 @@ if ($hide_content != 1) {
 
         $img_array = array("Image_URL_2__c","Image_URL_3__c","Image_URL_4__c","Image_URL_5__c","Image_URL_6__c","Image_URL_7__c","Image_URL_8__c");
         foreach ($img_array as $img) {
+				$img_loc = $listing_obj->fields->$img;
+	
                 if (strlen($listing_obj->fields->$img) > 3) {
+					if (@fclose(@fopen("$img_loc", "r"))) {
                         echo "<img width=\"216\" height=\"152\" src=\"".$listing_obj->fields->$img."\"><br><img src=\"img/clear.gif\" width=1 height=6><br>";
+					}
                 }
         }
     echo "</td>";

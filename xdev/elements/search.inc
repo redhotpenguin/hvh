@@ -22,7 +22,9 @@ require_once ('../soapclient/SforcePartnerClient.php');
 <tr><td width=16><img src="img/clear.gif" width=16 height=1></td><td class=search>
 <form action="http://www.hvh.com/xdev/gsearch.php" id="cse-search-box">
   <div>
-<input type="hidden" name="cx" value="008563546325721658501:ic2lrvldrhu" />
+<!--<input type="hidden" name="cx" value="008563546325721658501:ic2lrvldrhu" />-->
+    <input type="hidden" name="cx" value="008563546325721658501:ty76vbgkwp0" />
+
     <input type="hidden" name="cof" value="FORID:11;NB:1" />
     <input type="hidden" name="ie" value="UTF-8" />
     <input type="text" name="q" size="25" />
@@ -122,6 +124,27 @@ require_once ('../soapclient/SforcePartnerClient.php');
 				<tr><td colspan=2><img src="img/clear.gif" width=1 height=8></td></tr>
 				<Tr><td width=16></td><td valign=top class=search><font size=4><b>Or</b></font>, click the map icon below to search our properties using google maps.</td></tr>
 				<tr><td valign=top colspan=2><a href="map.php?map=na"><img src="img/map_blue.gif" hspace=16 border=0 vspace=10></td></tr>
+
+				</table>
+					
+				<table border=0 cellspacing=0 cellpadding=0 width="100%">
+				<tr><td colspan=2><img src="img/clear.gif" width=1 height=8></td></tr>
+				<tr><Td colspan=2 height=1 bgcolor="#999999"><img src="img/clear.gif" width=1 height=1></td></tr>
+				<tr><td colspan=2><img src="img/clear.gif" width=1 height=4></td></tr>
+				<Tr><td valign=top class=search align=center><font size=4 color="#666666"><b>HVH Technology Partners</b></font></td></tr>
+				<tr><td colspan=2><img src="img/clear.gif" width=1 height=4></td></tr>
+				<tr><Td colspan=2 height=1 bgcolor="#999999"><img src="img/clear.gif" width=1 height=1></td></tr>
+				<tr><td colspan=2><img src="img/clear.gif" width=1 height=6></td></tr>
+				<tr><td valign=top colspan=2 align=center>
+						<table border=0 cellpadding=0 cellspacing=0>
+						<tr><td><img src="img/pay_pal_f.gif" border=0></td>
+							 <td><img src="img/intuit_f.gif" border=0></td></tr>
+						<tr><td colspan=2><img src="img/force_f.gif" border=0></td></tr>
+						<tr><td colspan=2><img src="img/quickbooks_f.gif" border=0></td></tr>
+						<tr><td colspan=2><img src="img/godaddy_f.gif" border=0></td></tr>
+						</table>
+				
+				</td></tr>
 
 				</table>
 				</span>

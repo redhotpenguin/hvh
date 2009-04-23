@@ -127,26 +127,6 @@ require_once ('../soapclient/SforcePartnerClient.php');
 
 				</table>
 					
-				<table border=0 cellspacing=0 cellpadding=0 width="100%">
-				<tr><td colspan=2><img src="img/clear.gif" width=1 height=8></td></tr>
-				<tr><Td colspan=2 height=1 bgcolor="#999999"><img src="img/clear.gif" width=1 height=1></td></tr>
-				<tr><td colspan=2><img src="img/clear.gif" width=1 height=4></td></tr>
-				<Tr><td valign=top class=search align=center><font size=4 color="#666666"><b>HVH Technology Partners</b></font></td></tr>
-				<tr><td colspan=2><img src="img/clear.gif" width=1 height=4></td></tr>
-				<tr><Td colspan=2 height=1 bgcolor="#999999"><img src="img/clear.gif" width=1 height=1></td></tr>
-				<tr><td colspan=2><img src="img/clear.gif" width=1 height=6></td></tr>
-				<tr><td valign=top colspan=2 align=center>
-						<table border=0 cellpadding=0 cellspacing=0>
-						<tr><td><img src="img/pay_pal_f.gif" border=0></td>
-							 <td><img src="img/intuit_f.gif" border=0></td></tr>
-						<tr><td colspan=2><img src="img/force_f.gif" border=0></td></tr>
-						<tr><td colspan=2><img src="img/quickbooks_f.gif" border=0></td></tr>
-						<tr><td colspan=2><img src="img/godaddy_f.gif" border=0></td></tr>
-						</table>
-				
-				</td></tr>
-
-				</table>
 				</span>
 				</form>
 			</td></tr>

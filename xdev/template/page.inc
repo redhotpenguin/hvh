@@ -112,7 +112,7 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 	<tr><td colspan=4 height=1 bgcolor="#0166a9"><img src="img/clear.gif" width=1 height=1></td></tr>
 
 
-	<tr><td colspan=4 align=center><img src="img/pt_logos.gif" border=0></td></tr>
+	<tr><td colspan=4 align=center><img src="img/pt_logos.gif" border=0 vspace=10></td></tr>
 
 	<tr><td colspan=4 align=center class=footer>Copyright &copy; 2009 Hideaway Vacation Homes, Inc. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;Privacy Policy&nbsp;&nbsp;|&nbsp;&nbsp;Terms of Use&nbsp;&nbsp;|&nbsp;&nbsp;<a href="mailto:thomas@hvh.com">thomas@hvh.com</a>&nbsp;&nbsp;|&nbsp;&nbsp;888-858-6562</td></tr>
 	</table>

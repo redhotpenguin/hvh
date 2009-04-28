@@ -553,7 +553,7 @@ sub _payment {
         close(FH) or die $!;
     }
 
-    unless ( $pay_res{Ack} eq 'Success' ) {
+    unless ( $pay_res && ($pay_res{Ack} eq 'Success' )) {
 
 	$results->{invalid}->{payment_errors} = 1;
 

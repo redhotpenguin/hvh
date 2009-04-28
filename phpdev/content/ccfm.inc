@@ -20,10 +20,10 @@ $billing_country = $_GET['billing_country'];
 	<td class=entry_desc>
 	<table border=0 cellpadding=0 cellspacing=0 width="100%">
 	<tr><Td><select class="left" name="card_type">
-			<option value="cardtype">Select a card type</option>
-			<option value="visa" <?php if ($card_type == 'visa') { echo ' SELECTED'; } ?>>Visa</option>
-			<option value="mastercard" <?php if ($card_type == 'mastercard') { echo ' SELECTED'; } ?>>MasterCard</option>
-			<option value="amex" <?php if ($card_type == 'amex') { echo ' SELECTED'; } ?>>American Express</option>
+			<option value="">Select a card type</option>
+			<option value="Visa" <?php if ($card_type == 'Visa') { echo ' SELECTED'; } ?>>Visa</option>
+			<option value="MasterCard" <?php if ($card_type == 'MasterCard') { echo ' SELECTED'; } ?>>MasterCard</option>
+			<option value="Amex" <?php if ($card_type == 'Amex') { echo ' SELECTED'; } ?>>American Express</option>
 		</select></td>
 		<td></td>
 	</tr>

@@ -41,9 +41,9 @@ if ($param) {
         $total_key = "count|city|$value";
         $total_objs = $memcache->get($total_key);
 		
+	//echo "$total_objs";
     }
 }
-
 
 
 

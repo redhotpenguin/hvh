@@ -15,7 +15,7 @@ use CGI::Application::Plugin::Redirect;
 use URI::Escape ();
 use Data::Dumper;
 
-use constant DEBUG => 1;    #$ENV{HVH_DEBUG} || 1;
+use constant DEBUG => $ENV{HVH_DEBUG} || 0;
 
 delete $ENV{$_} for grep { /^(HTTPS|SSL)/ } keys %ENV;
 $ENV{HTTPS_CERT_FILE} = '/etc/pki/tls/cert.pem';
@@ -478,7 +478,7 @@ sub _payment {
 
     if ( $results->has_missing or $results->has_invalid ) {
 
-	warn("missing are " . join(',', keys %{$results->{missing}}, keys %{$results->{invalid}}));
+#	warn("missing are " . join(',', keys %{$results->{missing}}, keys %{$results->{invalid}}));
       my $url = _gen_redirect( $results, $q,
 	    "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount" );
 
@@ -553,7 +553,7 @@ sub _payment {
         close(FH) or die $!;
     }
 
-    unless ( $pay_res && ($pay_res{Ack} eq 'Success' )) {
+    unless ( keys %pay_res && ($pay_res{Ack} eq 'Success' )) {
 
 	$results->{invalid}->{payment_errors} = 1;
 
@@ -571,6 +571,8 @@ sub _payment {
     my $sf = eval { _sf_login() };
     die $@ if $@;
 
+    my $card =  $q->param('card_number');
+    my $exp = join('/', $q->param('exp_month'),$q->param('exp_year'));
     # update salesforce booking
     eval {
         $sf->update(
@@ -578,6 +580,10 @@ sub _payment {
             {
             	id               => $q->param('booking_id'),
                 Booking_Stage__c => 'Booked - First Payment',
+		Credit_Card_Last_Four__c =>  substr($card, length($card)-4),
+		Credit_Card_Exp_Date__c => $exp,
+		X1st_Payment__c         => $first_payment,
+	        First_Payment_Received__c => DateTime->now->mdy('/'), 
             },
         );
     };

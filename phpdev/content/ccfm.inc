@@ -36,7 +36,7 @@ $billing_country = $_GET['billing_country'];
 	<td class=entry_desc>
 
 		<table border=0 cellpadding=0 cellspacing=0 width="100%">
-		<Tr><td><input class=full maxlength="16" name="card_number" type="text" value="<?php echo "$card_number"; ?>"/></td>
+		<Tr><td><input class=full maxlength="20" name="card_number" type="text" value="<?php echo "$card_number"; ?>"/></td>
 <?php if (in_array('cvc', $reds)) { $check_class='entry_red'; } else { $check_class = 'entry_desc';} ?>
 		<td class="<?php echo "$check_class"; ?>" width=1>&nbsp;&nbsp;*CVC&nbsp;</td><td width=1><input maxlength="4" type="text" name="cvc" value="<?php echo "$cvc"; ?>" size=4/></td></tr>
 		<Tr><Td class=entry_desc colspan=3><i>Numbers Only, No Spaces</i></td></tr>

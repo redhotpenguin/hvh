@@ -573,17 +573,19 @@ sub _payment {
 
     my $card =  $q->param('card_number');
     my $exp = join('/', $q->param('exp_month'),$q->param('exp_year'));
+    my $date = DateTime->now->mdy('/');
     # update salesforce booking
     eval {
         $sf->update(
             type => 'Booking__c',
             {
-            	id               => $q->param('booking_id'),
-                Booking_Stage__c => 'Booked - First Payment',
-		Credit_Card_Last_Four__c =>  substr($card, length($card)-4),
-		Credit_Card_Exp_Date__c => $exp,
-		X1st_Payment__c         => $first_payment,
-	        First_Payment_Received__c => DateTime->now->mdy('/'), 
+            	id               		=> $q->param('booking_id'),
+                Booking_Stage__c 		=> 'Booked - First Payment',
+		Credit_Card_Last_Four__c 	=>  substr($card, length($card)-4),
+		Credit_Card_Exp_Date__c 	=> $exp,
+		X1st_Payment__c         	=> $first_payment,
+	        First_Payment_Received__c 	=> $date,
+		Date__c 			=> $date,
             },
         );
     };

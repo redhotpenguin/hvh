@@ -37,6 +37,16 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 	</table>
 	<table border=0 cellpadding=0 cellspacing=0 width=1000>
 	<tr><td width=1 bgcolor="#0166a9"><img src="img/clear.gif" width=1 height=1></td>
+
+
+
+
+		<? if (	($my_page != 'solutions_second_home_owner.php') && 
+				($my_page != 'solutions_property_manager.php') && 
+				($my_page != 'solutions_hotels_inns.php') && 
+				($my_page != 'solutions.php')
+			)  { ?>
+
 		<td width=250 valign=top bgcolor="#ffffff">
 			<table border=0 cellpadding=0 cellspacing=0 width="100%" id=fullheight>
 			<tr><td valign=top>
@@ -86,6 +96,14 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 
 		</td>
 		<td width=1 bgcolor="#cccccc"><img src="img/clear.gif" width=1 height=1></td>
+
+
+		<? } ?>
+
+
+
+
+
 		<td valign=top>
 			<table border=0 cellpadding=0 cellspacing=0 width="100%">
 <!--			<tr><Td bgcolor="#508fc4" height=42>
@@ -112,12 +130,15 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 	<tr><td colspan=4 height=1 bgcolor="#0166a9"><img src="img/clear.gif" width=1 height=1></td></tr>
 
 
-	<tr><td colspan=4 align=center><img src="img/pt_logos.gif" border=0 vspace=10></td></tr>
-
-	<tr><td colspan=4 align=center class=footer>Copyright &copy; 2009 Hideaway Vacation Homes, Inc. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;Privacy Policy&nbsp;&nbsp;|&nbsp;&nbsp;Terms of Use&nbsp;&nbsp;|&nbsp;&nbsp;<a href="mailto:thomas@hvh.com">thomas@hvh.com</a>&nbsp;&nbsp;|&nbsp;&nbsp;888-858-6562</td></tr>
+	<tr><td colspan=4 align=center class=footer><br>Copyright &copy; 2009 Hideaway Vacation Homes, Inc. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;Privacy Policy&nbsp;&nbsp;|&nbsp;&nbsp;Terms of Use&nbsp;&nbsp;|&nbsp;&nbsp;<a href="mailto:thomas@hvh.com">thomas@hvh.com</a>&nbsp;&nbsp;|&nbsp;&nbsp;888-858-6562</td></tr>
 	</table>
 
-
+    <tr><td bgcolor="#ffffff" colspan=4><img src="img/clear.gif" width=1 height=30></td></tr>
+    <tr><td bgcolor="#0166a9" colspan=4><img src="img/clear.gif" width=1 height=1></td></tr>
+    <tr><td bgcolor="#49a9e2" colspan=4><img src="img/clear.gif" width=1 height=10></td></tr>
+    <tr><td bgcolor="#0166a9" colspan=4><img src="img/clear.gif" width=1 height=1></td></tr>
+    <tr><td colspan=4 align=center><img src="img/pt_logos.gif" border=0 vspace=6></td></tr>
+    <tr><td bgcolor="#0166a9" colspan=4><img src="img/clear.gif" width=1 height=350></td></tr>
 
 	</td></tr>
 	</table>

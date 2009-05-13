@@ -18,7 +18,7 @@
 	</td>
 	<td valign=top class=entry_desc align=center>
 
-		<img src="img/chart_force.gif" vspace=10 hspace=10>
+		<a href="solutions_force.php"><img src="img/chart_force.gif" vspace=10 hspace=10 border=0></a>
 		<br>Bookings, Pricing, Rental Agreements, Marketing, Inquiries, Property Management
 	</td>
 	<td align=right>

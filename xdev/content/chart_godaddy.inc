@@ -18,7 +18,7 @@
 	</td>
 	<td valign=top class=entry_desc align=center>
 
-		<img src="img/chart_godaddy.gif" vspace=10 hspace=10>
+		<a href="solutions_godaddy.php"><img src="img/chart_godaddy.gif" vspace=10 hspace=10 border=0></a>
 		<br>Domains, Wesites, Email
 	</td>
 	<td align=right>

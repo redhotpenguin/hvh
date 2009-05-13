@@ -18,7 +18,7 @@
 	</td>
 	<td valign=top class=entry_desc align=center>
 
-		<img src="img/chart_paypal.gif" vspace=10 hspace=10>
+		<a href="solutions_paypal.php"><img src="img/chart_paypal.gif" vspace=10 hspace=10 border=0></a>
 		<br>Secure Payments, Credit Card Processing, Banking
 	</td>
 	<td align=right>

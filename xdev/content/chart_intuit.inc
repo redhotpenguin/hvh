@@ -18,7 +18,7 @@
 	</td>
 	<td valign=top class=entry_desc align=center>
 
-		<img src="img/chart_intuit.gif" vspace=10 hspace=10>
+		<a href="solutions_intuit.php"><img src="img/chart_intuit.gif" vspace=10 hspace=10 border=0></a>
 		<br>Revenue, Expenses, Financial Accounting
 	</td>
 	<td align=right>

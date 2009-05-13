@@ -43,7 +43,12 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 
 		<? if (	($my_page != 'solutions_second_home_owner.php') && 
 				($my_page != 'solutions_property_manager.php') && 
-				($my_page != 'solutions_hotels_inns.php') && 
+				($my_page != 'solutions_hotels_inns.php') &&
+				($my_page != 'solutions_force.php') &&
+				($my_page != 'solutions_godaddy.php') &&
+				($my_page != 'solutions_google.php') &&
+				($my_page != 'solutions_intuit.php') &&
+				($my_page != 'solutions_paypal.php') && 
 				($my_page != 'solutions.php')
 			)  { ?>
 

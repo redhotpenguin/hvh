@@ -585,7 +585,7 @@ sub _payment {
 		Credit_Card_Exp_Date__c 	=> $exp,
 		X1st_Payment__c         	=> $first_payment,
 	        First_Payment_Received__c 	=> $date,
-		Date__c 			=> $dat,
+		Date__c 			=> $date,
 		Second_Payment_Due_Date__c	=> $second_charge_date,	
             },
         );

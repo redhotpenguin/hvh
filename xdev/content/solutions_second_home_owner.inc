@@ -2,7 +2,7 @@
 <! -- BEGIN SOLUTIONS 2ND HOME OWNER CONTENT - NOTHING ABOVE THIS LINE -->
 
 <table border=0 cellpadding=0 cellspacing=0 width="100%">
-<tr><td align=center valign=top>
+<tr><td align=center valign=top bgcolor=white>
 
 <table border=0 cellpadding=30 cellspacing=0 width="100%">
 <Tr><td valign=top>

@@ -362,7 +362,7 @@ if ($hide_content != 1) {
 
 
 	foreach ($amenities_array as $amenity) {
-   	   	if ($listing_obj->fields->$amenity) {
+   	   	if ($listing_obj->fields->$amenity =='true') {
         	echo "<hr noshade size=1 color=\"#e2e2e1\">".$amenities_hash[$amenity];
     		}
    	}

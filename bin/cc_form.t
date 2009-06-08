@@ -31,7 +31,7 @@ $mech->submit_form( form_number => 2, fields => {
 	guests     => '2',
 	checkin_date => '1/1/2010',
 	checkout_date => '1/10/2010',
-	card_type  => 'visa',
+	card_type  => 'Visa',
 	card_number => '3106547872286615',
 	exp_month   => '12',
 	exp_year    => '12',

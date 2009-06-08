@@ -5,7 +5,8 @@ include("./phpdev/util/bin_connect.inc");
 
 // DATA FOR AUTO POPULATING CITY SEARCH // ------------------------------------------------------------------------
 
-$cities_query = "SELECT City__c from Property__c order by City__c asc";
+$cities_query = "SELECT City__c from Property__c where Available_to_the_Public__c=true order by City__c asc";
+
 $cities_results = $mySforceConnection->query($cities_query);
 $cities = $cities_results->records;
 

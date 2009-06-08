@@ -5,7 +5,6 @@ use warnings;
 
 use base qw( CGI::Application );
 
-use Mail::Mailer        ();
 use Data::FormValidator ();
 use Data::FormValidator::Constraints qw(:closures);
 use Business::PayPal::API        qw( DirectPayments);

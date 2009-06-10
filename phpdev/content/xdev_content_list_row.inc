@@ -47,12 +47,11 @@ if ($param) {
 
 
 
-
 $count_it = 1;
-while ($count_it < $total_objs) {
-
+while ($count_it <= $total_objs) {
     $key = "$search_cat|$count_it";
     $get_result = $memcache->get($key);
+
 
 
 

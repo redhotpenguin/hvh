@@ -14,38 +14,50 @@ include("./phpdev/util/bin_connect.inc");
 	echo "getting records\n";
 
 	$props = $query_results->records;
-	
+
 	$memcache = new Memcache;
 	$memcache->connect('localhost', 11211) or die ("Could not connect");
 
 	$count_it = 1;
 
+        // zero out the city list
+        foreach ($props as $prop) {
+		$prop_obj = new SObject($prop);
+		$prop_obj_city = $prop_obj->fields->City__c;
 
+		$count_key = "count|city|$prop_obj_city";
+
+		// echo "flushing cache for $count_key\n";
+		$memcache->set($count_key,
+			       0,
+			       MEMCACHE_COMPRESSED, 0)
+		       or die ("Failed to save data at the server");
+        }
+
+
+        // now build the new cache
 	foreach ($props AS $prop) {
 
 		$prop_obj = new SObject($prop);
 		$prop_obj_city = $prop_obj->fields->City__c;
 
-        if ("$prop_obj_city" != "$prop_obj_city_check") {
+		$count_key = "count|city|$prop_obj_city";
+		$current_count = $memcache->get($count_key);
 
-    		$count_key = "count|city|$prop_obj_city_check";
-    		$memcache->set($count_key, $count_it, MEMCACHE_COMPRESSED, 0) or die ("Failed to save data at the server");
-			$count_check = $memcache->get($count_key);
-		
-	        $count_it = 1;
-        }
+		// echo "count for city $prop_obj_city is $current_count\n";
 
-		$key = "city|$prop_obj_city|$count_it";
-		
-		error_log("$key\n");
+		// up the count
+		$current_count++;
+		$memcache->set($count_key,
+			       $current_count,
+			       MEMCACHE_COMPRESSED, 0)
+		       or die ("Failed to save data at the server");
 
-		$memcache->set($key, $prop, MEMCACHE_COMPRESSED, 0) or die ("Failed to save data at the server");
-
-		$get_result = $memcache->get($key);
-		$sObject = new SObject($get_result);
-
-		$count_it++;
-		$prop_obj_city_check = $prop_obj_city;
+		// add the object
+		$prop_key = "city|$prop_obj_city|$current_count";
+		$memcache->set($prop_key, $prop,
+			       MEMCACHE_COMPRESSED, 0)
+		       or die ("Failed to save data at the server");
 
 	}	
 ?>    

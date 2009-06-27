@@ -7,9 +7,9 @@ use base qw( CGI::Application );
 
 use Data::FormValidator ();
 use Data::FormValidator::Constraints qw(:closures);
-use Business::PayPal::API        qw( DirectPayments);
-use WWW::Salesforce::Simple                  ();
-use DateTime                                 ();
+use Business::PayPal::API qw( DirectPayments);
+use WWW::Salesforce::Simple ();
+use DateTime                ();
 use CGI::Application::Plugin::Redirect;
 use URI::Escape ();
 use Data::Dumper;
@@ -26,31 +26,28 @@ our %Paypal;
 if (DEBUG) {
 
     %Paypal = (
-	Username  => 'gunthe_1236035242_biz_api1.yahoo.com',
-	Password  => '1236035264',
-	Signature => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
-	sandbox   => 1,
+        Username  => 'gunthe_1236035242_biz_api1.yahoo.com',
+        Password  => '1236035264',
+        Signature => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
+        sandbox   => 1,
     );
 
-} else {
+}
+else {
 
     %Paypal = (
-	Username  => 'mike_api1.hvh.com',
-	Password  => '5Q2XGE9DZA27EFYL',
-	Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
-	sandbox   => 0,
+        Username  => 'mike_api1.hvh.com',
+        Password  => '5Q2XGE9DZA27EFYL',
+        Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+        sandbox   => 0,
     );
 }
-
-
 
 sub setup {
     my $self = shift;
     $self->start_mode('bookit');
     $self->run_modes( [qw( bookit contact hold )] );
 }
-
-
 
 our %Inquiry = (
     address  => 'Inquiry_Address_1__c',
@@ -63,7 +60,7 @@ our %Inquiry = (
     comments => 'Inquiry_Comments__c',
 );
 
-
+# there's a better way to do this
 
 sub _gen_redirect {
     my ( $results, $q, $extra ) = @_;
@@ -76,7 +73,7 @@ sub _gen_redirect {
 
     # add the current field values
     foreach my $invalid ( keys %{ $results->{invalid} } ) {
-	no warnings;
+        no warnings;
         $url .=
           '&' . $invalid . '=' . URI::Escape::uri_escape( $q->param($invalid) );
     }
@@ -95,6 +92,8 @@ sub _gen_redirect {
 
     return $url;
 }
+
+# handles form submissions for the contact page
 
 sub contact {
     my ($self) = @_;
@@ -180,6 +179,7 @@ sub contact {
     $uri =~ s/cto\=1/cto\=success/;
     return $self->redirect($uri);
 }
+
 
 # fixes up our SOAP request the hard way
 sub _hack_the_soap {
@@ -268,7 +268,7 @@ sub check_booking {
     # warn("checkin date $checkin_date, co $checkout_date");
 
     my $sql =
-      "Select Id from Booking__c where (Booking_Stage__c != 'Dead' and Booking_Stage__c != 'Pending')  and Property_name__c = '$prop_id' and ( ";
+"Select Id from Booking__c where (Booking_Stage__c != 'Dead' and Booking_Stage__c != 'Pending')  and Property_name__c = '$prop_id' and ( ";
 
     $sql .=
 "( ( Check_in_Date__c <= $checkin_date ) and ( Check_out_Date__c >= $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date) ) ";
@@ -322,17 +322,19 @@ sub _find_or_create_contact {
 
         # update the contact
         my $res = $sf->update(
-            type      => 'Contact',
-            { id        => $contact_id,
-            %{$contact_args}, },
+            type => 'Contact',
+            {
+                id => $contact_id,
+                %{$contact_args},
+            },
         );
 
         my $result = $res->envelope->{Body}->{updateResponse}->{result};
-    	if (DEBUG) {
-        	open( FH, '>', '/tmp/contact_update' ) or die $!;
-        	print FH Dumper($result);
-        	close(FH) or die $!;
-    	}
+        if (DEBUG) {
+            open( FH, '>', '/tmp/contact_update' ) or die $!;
+            print FH Dumper($result);
+            close(FH) or die $!;
+        }
         die "error updating contact id $contact_id\n"
           unless ( $result->{success} eq 'true' );
 
@@ -415,24 +417,28 @@ SQL
 
 
 
+
 sub bookit {
     my $self = shift;
 
     my $q = $self->query;
 
-    if ($q->param('bktcc_next') && ($q->param('bktcc_next') == 1)) {
+    if ( $q->param('bktcc_next') && ( $q->param('bktcc_next') == 1 ) ) {
 
-	return $self->_payment($q);
+        return $self->_payment($q);
 
-    } else {
+    }
+    else {
 
-	return $self->_reserve($q);
+        return $self->_reserve($q);
 
     }
 }
 
+
+
 sub _payment {
-    my ($self, $q) = @_;
+    my ( $self, $q ) = @_;
 
     my @required = qw( prop_name first_name last_name
       phone checkin_date checkout_date exp_month exp_year
@@ -447,6 +453,7 @@ sub _payment {
         constraint_methods => {
             email           => email(),
             billing_zip     => zip(),
+
             phone           => phone(),
             first_name      => valid_first(),
             last_name       => valid_last(),
@@ -462,36 +469,34 @@ sub _payment {
         }
     );
     my $results = Data::FormValidator->check( $q, \%profile );
-	
+
     my $first_payment  = $q->param('first_payment');
-    my $second_payment = $q->param('second_payment');;
+    my $second_payment = $q->param('second_payment');
     my $num_nights     = $q->param('num_nights');
     my $local_taxes    = $q->param('local_taxes');
     my $cleaning_fee   = $q->param('cleaning_fee');
     my $nightly_rate   = $q->param('nightly_rate');
     my $deposit        = $q->param('deposit');
     my $booking_id     = $q->param('booking_id');
-   
 
-   my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date'));
-   my $second_charge_date =
+    my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date') );
+    my $second_charge_date =
       DateTime->new( month => $month, year => $year, day => $day )
-	->subtract(days => 30)->mdy('/');
+      ->subtract( days => 30 )->mdy('/');
 
     my $rental_subtotal = $num_nights * $nightly_rate;
     $local_taxes =~ s/\%$//;
-    my $total_rental_amount = $rental_subtotal * ( 1 + $local_taxes/100 );
+    my $total_rental_amount = $rental_subtotal * ( 1 + $local_taxes / 100 );
 
     # recalc second payment
     $second_payment = $total_rental_amount + $deposit - $first_payment;
 
-
     if ( $results->has_missing or $results->has_invalid ) {
 
 #	warn("missing are " . join(',', keys %{$results->{missing}}, keys %{$results->{invalid}}));
-      my $url = _gen_redirect( $results, $q,
-	    "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount" );
-
+        my $url = _gen_redirect( $results, $q,
+"&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount"
+        );
 
         return $self->redirect($url);
     }
@@ -499,16 +504,16 @@ sub _payment {
     ###########################################
     # make the paypal payment
 
-    warn("making paypal call for booking id " . $q->param("booking_id")) if DEBUG;
-    my %pay_res;
+    warn( "making paypal call for booking id " . $q->param("booking_id") )
+      if DEBUG;
     my $billto_name =
       join( ' ', $q->param('first_name'), $q->param('last_name') );
 
     my %billing_args = (
-        MailingStreet   => $q->param('billing_address'),
-        MailingCity     => $q->param('billing_city'),
-        MailingCountry  => $q->param('billing_country'),
-        MailingState    => $q->param('billing_state'),
+        MailingStreet  => $q->param('billing_address'),
+        MailingCity    => $q->param('billing_city'),
+        MailingCountry => $q->param('billing_country'),
+        MailingState   => $q->param('billing_state'),
     );
 
     if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
@@ -518,44 +523,44 @@ sub _payment {
         $billing_args{MailingPostalCode} = $q->param('billing_zip');
     }
 
-
-
-    my $Paypal = Business::PayPal::API->new(%Paypal);
+#    my $Paypal = Business::PayPal::API->new(%Paypal);
+    my $Paypal = Business::PayPal::API::RecurringPayments->new(%Paypal);
 
     my %paypal_args = (
-        PaymentAction         => 'Sale',
-        OrderTotal            => $q->param('first_payment') || 'oops',
-        TaxTotal              => '0.00',
-        ShippingTotal         => '0.00',
-        ItemTotal             => '0.00',
-        HandlingTotal         => '0.00',
-        CreditCardType        => ucfirst( $q->param('card_type') ) || 'oops',
-        CreditCardNumber      => $q->param('card_number') || 'oops',
-        ExpMonth              => $q->param('exp_month') || 'oops',
-        ExpYear               => $q->param('exp_year') || 'oops',
-        CVV2                  => $q->param('cvc') || 'oops',
-        FirstName             => $q->param('first_name') || 'oops',
-        LastName              => $q->param('last_name') || 'oops',
-        Street1               => $q->param('billing_address') || 'oops',
-        CityName              => $q->param('billing_city') || 'oops',
-        StateOrProvince       => $q->param('billing_state') || 'oops',
-        PostalCode            => $q->param('billing_zip') || 'oops',
-        Payer                 => $q->param('email') || 'oops',
-        Country               => $q->param('billing_country') || 'oops',
-        CurrencyID            => 'USD',
-        IPAddress             => $ENV{'REMOTE_ADDR'} || 'oops',
-        MerchantSessionID     => int( rand(100_000) ),
+        PaymentAction     => 'Sale',
+        OrderTotal        => $q->param('first_payment') || 'oops',
+        TaxTotal          => '0.00',
+        ShippingTotal     => '0.00',
+        ItemTotal         => '0.00',
+        HandlingTotal     => '0.00',
+        CreditCardType    => ucfirst( $q->param('card_type') ) || 'oops',
+        CreditCardNumber  => $q->param('card_number') || 'oops',
+        ExpMonth          => $q->param('exp_month') || 'oops',
+        ExpYear           => $q->param('exp_year') || 'oops',
+        CVV2              => $q->param('cvc') || 'oops',
+        FirstName         => $q->param('first_name') || 'oops',
+        LastName          => $q->param('last_name') || 'oops',
+        Street1           => $q->param('billing_address') || 'oops',
+        CityName          => $q->param('billing_city') || 'oops',
+        StateOrProvince   => $q->param('billing_state') || 'oops',
+        PostalCode        => $q->param('billing_zip') || 'oops',
+        Payer             => $q->param('email') || 'oops',
+        Country           => $q->param('billing_country') || 'oops',
+        CurrencyID        => 'USD',
+        IPAddress         => $ENV{'REMOTE_ADDR'} || 'oops',
+        MerchantSessionID => int( rand(100_000) ),
     );
 
     if (DEBUG) {
         open( FH, '>/tmp/payment_args' ) or die $!;
-        print FH Dumper( \%paypal_args);
+        print FH Dumper( \%paypal_args );
         close(FH) or die $!;
     }
     local $IO::Socket::SSL::VERSION = undef;
 
     # do one payment
-    %pay_res = $Paypal->DoDirectPaymentRequest( %paypal_args );
+#    my %pay_res = $Paypal->DoDirectPaymentRequest(%paypal_args);
+    my %pay_res = $Paypal->CreateRecurrentPaymentsProfile(%paypal_args);
 
     if (DEBUG) {
         open( FH, '>/tmp/payment' ) or die $!;
@@ -563,18 +568,22 @@ sub _payment {
         close(FH) or die $!;
     }
 
-    unless ( keys %pay_res && ($pay_res{Ack} eq 'Success' )) {
+    unless ( keys %pay_res && ( $pay_res{Ack} eq 'Success' ) ) {
 
-	$results->{invalid}->{payment_errors} = 1;
+        $results->{invalid}->{payment_errors} = 1;
 
- 
-	my $url = _gen_redirect( $results, $q,"&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount" );
+        my $url = _gen_redirect( $results, $q,
+"&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount"
+        );
 
         return $self->redirect($url);
     }
 
-    warn "Successful payment for amount " . $q->param('first_payment') . 
-	" and booking id " . $q->param('booking_id') if DEBUG;
+    warn "Successful payment for amount "
+      . $q->param('first_payment')
+      . " and booking id "
+      . $q->param('booking_id')
+      if DEBUG;
     ################################################
 
     ############################
@@ -582,22 +591,23 @@ sub _payment {
     my $sf = eval { _sf_login() };
     die $@ if $@;
 
-    my $card =  $q->param('card_number');
-    my $exp = join('/', $q->param('exp_month'),$q->param('exp_year'));
+    my $card = $q->param('card_number');
+    my $exp  = join( '/', $q->param('exp_month'), $q->param('exp_year') );
     my $date = DateTime->now->mdy('/');
+
     # update salesforce booking
     eval {
         $sf->update(
             type => 'Booking__c',
             {
-            	id               		=> $q->param('booking_id'),
-                Booking_Stage__c 		=> 'Booked - First Payment',
-		Credit_Card_Last_Four__c 	=>  substr($card, length($card)-4),
-		Credit_Card_Exp_Date__c 	=> $exp,
-		X1st_Payment__c         	=> $first_payment,
-	        First_Payment_Received__c 	=> $date,
-		Date__c 			=> $date,
-		Second_Payment_Due_Date__c	=> $second_charge_date,	
+                id                        => $q->param('booking_id'),
+                Booking_Stage__c          => 'Booked - First Payment',
+                Credit_Card_Last_Four__c  => substr( $card, length($card) - 4 ),
+                Credit_Card_Exp_Date__c   => $exp,
+                X1st_Payment__c           => $first_payment,
+                First_Payment_Received__c => $date,
+                Date__c                   => $date,
+                Second_Payment_Due_Date__c => $second_charge_date,
             },
         );
     };
@@ -608,10 +618,8 @@ sub _payment {
     return $self->redirect($uri);
 }
 
-
-
 sub _reserve {
-    my ($self, $q) = @_;
+    my ( $self, $q ) = @_;
 
     my @required = qw( prop_name first_name last_name
       phone checkin_date checkout_date email guests );
@@ -620,12 +628,12 @@ sub _reserve {
         required           => \@required,
         optional           => [qw( guests )],
         constraint_methods => {
-            email           => email(),
-            phone           => phone(),
-            first_name      => valid_first(),
-            last_name       => valid_last(),
-            checkin_date    => valid_date(),
-            checkout_date   => valid_date(),
+            email         => email(),
+            phone         => phone(),
+            first_name    => valid_first(),
+            last_name     => valid_last(),
+            checkin_date  => valid_date(),
+            checkout_date => valid_date(),
         }
     );
     my $results = Data::FormValidator->check( $q, \%profile );
@@ -670,7 +678,6 @@ sub _reserve {
         Phone           => $q->param('phone'),
         Contact_Type__c => 'Renter',
     );
-
 
     my $contact_id = _find_or_create_contact( $sf, \%contact_args );
 
@@ -735,36 +742,33 @@ sub _reserve {
     }
     ###########################
 
-	
-    my $first_payment = $result->{records}->{First_Payment_Amount__c};
+    my $first_payment  = $result->{records}->{First_Payment_Amount__c};
     my $second_payment = $result->{records}->{Second_Payment_Amount__c};
-    my $num_nights = $result->{records}->{Number_of_Nights__c};
-    my $local_taxes = $result->{records}->{Tax_Rate__c};
-    my $cleaning_fee = $result->{records}->{Cleaning_Fee__c};
-    my $nightly_rate = $result->{records}->{Nightly_List_Price__c};
-    my $deposit = $result->{records}->{Security_Deposit_Amount__c};
-   
+    my $num_nights     = $result->{records}->{Number_of_Nights__c};
+    my $local_taxes    = $result->{records}->{Tax_Rate__c};
+    my $cleaning_fee   = $result->{records}->{Cleaning_Fee__c};
+    my $nightly_rate   = $result->{records}->{Nightly_List_Price__c};
+    my $deposit        = $result->{records}->{Security_Deposit_Amount__c};
 
-   my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date'));
-   my $second_charge_date =
+    my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date') );
+    my $second_charge_date =
       DateTime->new( month => $month, year => $year, day => $day )
-	->subtract(days => 30)->mdy('/');
+      ->subtract( days => 30 )->mdy('/');
 
     my $rental_subtotal = $num_nights * $nightly_rate;
     $local_taxes =~ s/\%$//;
-    my $total_rental_amount = $rental_subtotal * ( 1 + $local_taxes/100 );
+    my $total_rental_amount = $rental_subtotal * ( 1 + $local_taxes / 100 );
 
     # recalc second payment
     $second_payment = $total_rental_amount + $deposit - $first_payment;
 
     # redirect to cc page
     my $url = _gen_redirect( $results, $q,
-	    "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount" );
+"&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount"
+    );
 
     return $self->redirect($url);
 }
-    
-
 
 sub hold {
     my $self = shift;
@@ -793,7 +797,6 @@ sub hold {
         return $self->redirect($url);
     }
 
-
     my $sf = _sf_login();
     my ( $is_available, $checkin_date, $checkout_date ) = check_booking(
         $sf,
@@ -806,13 +809,11 @@ sub hold {
         return $self->redirect($url);
     }
 
-
     my $name = join( ' ',
         $q->param('first_name'),
         $q->param('last_name'),
         int( rand(100_000) ),
     );
-
 
     # look for a contact first
     my %contact_args = (
@@ -834,7 +835,6 @@ sub hold {
         $contact_args{MailingPostalCode} = $q->param('billing_zip');
     }
     my $contact_id = _find_or_create_contact( $sf, \%contact_args );
-
 
     # now make a booking
     my ( $r, %sf_args );

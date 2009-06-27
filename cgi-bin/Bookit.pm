@@ -16,32 +16,41 @@ use Data::Dumper;
 
 use constant DEBUG => $ENV{HVH_DEBUG} || 0;
 
+# don't touch this
 delete $ENV{$_} for grep { /^(HTTPS|SSL)/ } keys %ENV;
 $ENV{HTTPS_CERT_FILE} = '/etc/pki/tls/cert.pem';
 
-our %Paypal = (
-    Username  => 'mike_api1.hvh.com',
-    Password  => '5Q2XGE9DZA27EFYL',
-    Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
-    sandbox   => 0,
-);
+our %Paypal;
 
-=cut
+# don't touch this either, unless you need to get a new api token
+if (DEBUG) {
 
-our %Paypal = (
-    Username  => 'gunthe_1236035242_biz_api1.yahoo.com',
-    Password  => '1236035264',
-    Signature => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
-    sandbox   => 1,
-);
+    %Paypal = (
+	Username  => 'gunthe_1236035242_biz_api1.yahoo.com',
+	Password  => '1236035264',
+	Signature => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
+	sandbox   => 1,
+    );
 
-=cut
+} else {
+
+    %Paypal = (
+	Username  => 'mike_api1.hvh.com',
+	Password  => '5Q2XGE9DZA27EFYL',
+	Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+	sandbox   => 0,
+    );
+}
+
+
 
 sub setup {
     my $self = shift;
     $self->start_mode('bookit');
     $self->run_modes( [qw( bookit contact hold )] );
 }
+
+
 
 our %Inquiry = (
     address  => 'Inquiry_Address_1__c',
@@ -53,6 +62,8 @@ our %Inquiry = (
     guests   => 'Number_of_Guests__c',
     comments => 'Inquiry_Comments__c',
 );
+
+
 
 sub _gen_redirect {
     my ( $results, $q, $extra ) = @_;
@@ -452,14 +463,14 @@ sub _payment {
     );
     my $results = Data::FormValidator->check( $q, \%profile );
 	
-    my $first_payment = $q->param('first_payment');
+    my $first_payment  = $q->param('first_payment');
     my $second_payment = $q->param('second_payment');;
-    my $num_nights = $q->param('num_nights');
-    my $local_taxes = $q->param('local_taxes');
-    my $cleaning_fee = $q->param('cleaning_fee');
-    my $nightly_rate = $q->param('nightly_rate');
-    my $deposit = $q->param('deposit');
-    my $booking_id = $q->param('booking_id');
+    my $num_nights     = $q->param('num_nights');
+    my $local_taxes    = $q->param('local_taxes');
+    my $cleaning_fee   = $q->param('cleaning_fee');
+    my $nightly_rate   = $q->param('nightly_rate');
+    my $deposit        = $q->param('deposit');
+    my $booking_id     = $q->param('booking_id');
    
 
    my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date'));
@@ -562,7 +573,8 @@ sub _payment {
         return $self->redirect($url);
     }
 
-    warn "Successful payment for amount " . $q->param('first_payment') . " and booking id " . $q->param('booking_id') if DEBUG;
+    warn "Successful payment for amount " . $q->param('first_payment') . 
+	" and booking id " . $q->param('booking_id') if DEBUG;
     ################################################
 
     ############################

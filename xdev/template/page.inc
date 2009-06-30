@@ -10,6 +10,25 @@ $my_page = basename($_SERVER['REQUEST_URI']);
 if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 
 ?>
+
+<script>
+<!--
+function wopen(url, name, w, h)
+{
+// Fudge factors for window decoration space.
+ // In my tests these work well on all platforms & browsers.
+w += 32;
+h += 96;
+ var win = window.open(url,
+  name,
+  'width=' + w + ', height=' + h + ', ' +
+  'location=no, menubar=no, ' +
+  'status=no, toolbar=no, scrollbars=no, resizable=no');
+ win.resizeTo(w, h);
+ win.focus();
+}
+// -->
+</script> 
 </head>
 
 <body rightmargin='0' leftmargin='0' topmargin='0' bottommargin='0' marginheight='0' marginwidth='0' background="img/bg.gif">
@@ -28,8 +47,21 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
             <Tr><td><img src="img/hvh_top.gif">
             </tr>
 			<Tr><Td><?php include "template/navs/top_nav.inc"; ?></td></tr>
-			<tr><Td><?php include "banners/$banner"; ?></td></tr>
+			
+		<? if (	($my_page != 'solutions_second_home_owner.php') && 
+				($my_page != 'solutions_property_manager.php') && 
+				($my_page != 'solutions_hotels_inns.php') &&
+				($my_page != 'solutions_force.php') &&
+				($my_page != 'solutions_godaddy.php') &&
+				($my_page != 'solutions_google.php') &&
+				($my_page != 'solutions_intuit.php') &&
+				($my_page != 'solutions_paypal.php') && 
+				($my_page != 'listing2.php') &&
+				($my_page != 'solutions.php')
+			)  { ?>
 
+			<tr><Td><?php include "banners/$banner"; ?></td></tr>
+		<? } ?>
 
 			</table>
 		</td>
@@ -49,6 +81,7 @@ if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 				($my_page != 'solutions_google.php') &&
 				($my_page != 'solutions_intuit.php') &&
 				($my_page != 'solutions_paypal.php') && 
+				($my_page != 'listing2.php') &&
 				($my_page != 'solutions.php')
 			)  { ?>
 

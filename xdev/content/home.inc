@@ -8,7 +8,15 @@
 <tr><Td class=reg_copy>
 <table border=0 cellpadding=0 cellspacing=0 width="100%">
 <tr><td class=reg_copy>
-<h2>Welcome to HVH!</h2>
+<table border=0 cellpadding=0 width="100%">
+<tr><Td><h2>Welcome to HVH!</h2></td>
+	<Td align=right>
+
+
+<a href="page.html" target="popup" onClick="wopen('intro.html', 'popup', 470, 355); return false;">View The Demo!</a> 
+	</td>
+	</tr>
+</table>
 
 Your single-site resource for comprehensive services across the entire vacation rental industry.  Our mission is to connect <b>travelers</b> with <B>property owners</b> and to provide both with unique services that truly foster a '<B>vacation community</b>'. 
 <br><Br>

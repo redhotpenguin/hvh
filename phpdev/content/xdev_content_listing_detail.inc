@@ -215,8 +215,11 @@ echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is
 			echo "<table border=0 cellpadding=0 cellspacing=2 width=\"86%\" align=center>";
 			echo "<tr><Td  bgcolor=\"#e2e2e1\" class=entry_desc>Fee Summary</td><td width=1 bgcolor=black><img src=\"img/clear.gif\" width=1 height=1></td><td bgcolor=\"#999999\" class=entry_desc align=center><font color=white>Amount</font></td>";	
 			echo "<tr><td class=entry_desc>Nightly Rate:</td><td rowspan=16 width=1 bgcolor=red><img src=\"img/clear.gif\" width=1 height=1></td><td class=entry_desc align=right><b>$$nightly_rate</b></td></tr>";
+
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
+
 			echo "<tr><td class=entry_desc>Number of Nights:</td><td class=entry_desc align=right><b>$num_nights</b></td></tr>";
+
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
 			echo "<tr><td class=entry_desc>Rental Subtotal:</td><td class=entry_desc align=right><b>$$rental_subtotal</b></td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";

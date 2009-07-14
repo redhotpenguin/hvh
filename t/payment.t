@@ -7,16 +7,16 @@ use Test::More tests => 2;
 
 BEGIN {
     use_ok('Bookit');
-    can_ok(qw( _payment ));
+    can_ok('Bookit', qw( _payment ));
 }
 
 my %param = (
-    prop_name       => 'Hideaway Bay',
+    prop_name       => 'Kamala',
     first_name      => 'Foo',
     last_name       => 'McGoo',
     phone           => '415.720.2103',
-    checkin_date    => '06/01/12',
-    checkout_date   => '06/10/12',
+    checkin_date    => '07/15/2009',
+    checkout_date   => '07/16/2009',
     exp_month       => '05',
     exp_year        => '2012',
     cvc             => '420',
@@ -29,15 +29,15 @@ my %param = (
     billing_country => 'US',
     email           => 'fred@redhotpenguin.com',
     guests          => 2,
-    first_payment   => 120,
-    second_payment  => 120,
+    first_payment   => 1,
+    second_payment  => 1,
     booking_id      => 1234,
     bktcc_next      => 1,
     num_nights      => 4,
-    local_taxes     => '12%',
-    cleaning_fee    => 200,
-    nightly_rate    => 100,
-    deposit         => 100,
+    local_taxes     => '10%',
+    cleaning_fee    => 1,
+    nightly_rate    => 1,
+    deposit         => 1,
 );
 
 use CGI;

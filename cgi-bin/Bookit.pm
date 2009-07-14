@@ -16,9 +16,10 @@ use Data::Dumper;
 
 use constant DEBUG => $ENV{HVH_DEBUG} || 0;
 
+use constant KALAMA => 'a0650000003DhL8AAK';
+
 # don't touch this
 delete $ENV{$_} for grep { /^(HTTPS|SSL)/ } keys %ENV;
-
 
 # don't touch this either, unless you need to get a new api token
 if (DEBUG) {
@@ -35,20 +36,18 @@ my $branch = DEBUG ? 'test' : 'live';
 
 our %Paypal = (
     test => {
-        user  => 'gunthe_1236035242_biz_api1.yahoo.com',
+        user => 'gunthe_1236035242_biz_api1.yahoo.com',
         pwd  => '1236035264',
-        sig => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
+        sig  => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
     },
 
     live => {
-        user  => 'mike_api1.hvh.com',
+        user => 'mike_api1.hvh.com',
         pwd  => '5Q2XGE9DZA27EFYL',
-        sig => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+        sig  => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
     },
-  branch => $branch,
+    branch => $branch,
 );
-
-
 
 sub setup {
     my $self = shift;
@@ -90,8 +89,9 @@ sub _gen_redirect {
         $url .= '&' . $param . '=' . URI::Escape::uri_escape( $params{$param} );
     }
 
-    my ($lead) =
-      $ENV{'HTTP_REFERER'} =~ m/^(.*?prop_id=\w+\&(?:bkt|fhh|cto)=1)/;
+    my ($lead) = $ENV{'HTTP_REFERER'} || '';
+
+    ($lead) =~ m/^(.*?prop_id=\w+\&(?:bkt|fhh|cto)=1)/;
 
     $url = $lead . $url;
 
@@ -482,6 +482,7 @@ sub _payment {
     my $booking_id     = $q->param('booking_id');
 
     my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date') );
+
     my $second_charge_date =
       DateTime->new( month => $month, year => $year, day => $day )
       ->subtract( days => 30 )->mdy('/');
@@ -556,22 +557,38 @@ sub _payment {
         IPAddress         => $ENV{'REMOTE_ADDR'} || 'oops',
         MerchantSessionID => int( rand(100_000) ),
     );
-    $DB::single     = 1;
+
+    #$DB::single = 1;
+
     # recurring args
+
+
+    my $thirty = DateTime->now->add( days => 30 );
+    my $thirty_before_checkin =
+      DateTime->new( month => $month, year => $year, day => $day )
+      ->subtract( days => 30 );
+
+    my $cmp = DateTime->compare( $thirty, $thirty_before_checkin );
+
+    if ( ( $cmp == 1 ) or ( $cmp == 0 ) ) {
+        $first_payment += $second_payment;
+    }
+
+
     %paypal_args = (
         SubscriberName   => $billto_name,
-        BillingStartDate => DateTime->now->mdy,
+        ProfileStartDate => $thirty->mdy,
         ProfileReference => $booking_id,
 
-        TrialBillingPeriod      => 'Day',
-        TrialBillingFrequency   => 30,
-        TrialTotalBillingCycles => 1,
-        TrialAmount             => $q->param('first_payment'),
+        #        TrialBillingPeriod      => 'Day',
+        #        TrialBillingFrequency   => 30,
+        #        TrialTotalBillingCycles => 1,
+        #        TrialAmount             => $q->param('first_payment'),
 
-        PaymentBillingPeriod      => 'Day',
-        PaymentBilllingFrequency  => 30,
-        PaymentTotalBillingCycles => 1,
-        PaymentAmount             => $second_payment,
+        BillingPeriod      => 'Month',
+        BilllingFrequency  => '1',
+        TotalBillingCycles => '2',
+        AMT                => $second_payment,
 
         Payer                => $q->param('email'),
         PayerName            => $billto_name,
@@ -583,11 +600,11 @@ sub _payment {
         PayerPostalCode      => $q->param('billing_zip'),
         PayerPhone           => $q->param('phone'),
 
-        CreditCardType => ucfirst($q->param('card_type')),
+        CreditCardType   => ucfirst( $q->param('card_type') ),
         CreditCardNumber => $q->param('card_number'),
-        ExpMonth => $q->param('exp_month'),
-        ExpYear => $q->param('exp_year'),
-        CVV2    => $q->param('cvc'),
+        ExpMonth         => $q->param('exp_month'),
+        ExpYear          => $q->param('exp_year'),
+        CVV2             => $q->param('cvc'),
     );
 
     if (DEBUG) {
@@ -598,51 +615,42 @@ sub _payment {
     local $IO::Socket::SSL::VERSION = undef;
 
     my %ucargs;
-    foreach my $key (keys %paypal_args ) {
-      $ucargs{uc($key)} = $paypal_args{$key};
+    foreach my $key ( keys %paypal_args ) {
+        $ucargs{ uc($key) } = $paypal_args{$key};
 
     }
-    $DB::single = 1;
 
     my %agreement = $Paypal->SetCustomerBillingAgreement(
-                                                         RETURNURL => 'http://www.hvh.com/',
-                                                         CANCELURL => 'http://www.hvh.com/',
-                                                         BILLINGTYPE => 'RecurringPayments',
-                                                         BILLINGAGREEMENTDESCRIPTION => 'foo',
-
+        RETURNURL                   => 'http://www.hvh.com/',
+        CANCELURL                   => 'http://www.hvh.com/',
+        BILLINGTYPE                 => 'RecurringPayments',
+        BILLINGAGREEMENTDESCRIPTION => 'Hvh.com Property Rental',
 
     );
 
-    $DB::single;
+    warn( sprintf( "got token %s", $agreement{TOKEN} ) ) if DEBUG;
 
-    my %pay_res = $Paypal->SetExpressCheckout( 
-
-          InvoiceID => $booking_id,
-          Name => $billto_name,
-          Street1 => $q->param('billing_address'),
-          CityName => $q->param('billing_city'),
-          StateOrProvince => $q->param('billing_state'),
-          PostalCode => $q->param('billing_zip'),
-          Country => $q->param('billing_country'),
-          BillingType => 'MerchantInitiatedBilling',
-          ORDERTOTAL => '$0.00',
-          ReturnURL => '',
-          CancelURL => '',
-   );
-
-
-
-    # do one payment
     $DB::single = 1;
-#    my %pay_res = $Paypal->CreateRecurringPaymentsProfile(%ucargs);
-    $DB::single = 1;
-    if (DEBUG) {
-        open( FH, '>/tmp/payment' ) or die $!;
-        print FH Dumper( \%pay_res );
-        close(FH) or die $!;
-    }
 
-    unless ( keys %pay_res && ( $pay_res{Ack} eq 'Success' ) ) {
+    # do the first payment
+    my $return = $ENV{'HTTP_REFERER'} || 'http://www.hvh.com/';
+    my %pay_res = $Paypal->SetExpressCheckout(
+        InvoiceID       => $booking_id,
+        Name            => $billto_name,
+        Street1         => $q->param('billing_address'),
+        CityName        => $q->param('billing_city'),
+        StateOrProvince => $q->param('billing_state'),
+        PostalCode      => $q->param('billing_zip'),
+        Country         => $q->param('billing_country'),
+        BillingType     => 'MerchantInitiatedBilling',
+        AMT             => $q->param('first_payment'),
+        ReturnURL       => $return,
+        CancelURL       => $return,
+    );
+
+    if ( $pay_res{ACK} eq 'Failure' ) {
+
+        warn( "express checkout failed: " . Dumper( \%pay_res ) ) if DEBUG;
 
         $results->{invalid}->{payment_errors} = 1;
 
@@ -653,11 +661,45 @@ sub _payment {
         return $self->redirect($url);
     }
 
-    warn "Successful payment for amount "
-      . $q->param('first_payment')
-      . " and booking id "
-      . $q->param('booking_id')
-      if DEBUG;
+    warn( "first payment returned token " . $pay_res{TOKEN} ) if DEBUG;
+
+   $DB::single = 1;
+
+    if ( $cmp == -1 ) {
+
+        # do second payment
+
+
+        %pay_res =
+          $Paypal->CreateRecurringPaymentsProfile( %ucargs,
+            TOKEN => $pay_res{TOKEN}, );
+
+        $DB::single = 1;
+
+        if (DEBUG) {
+            open( FH, '>/tmp/payment' ) or die $!;
+            print FH Dumper( \%pay_res );
+            close(FH) or die $!;
+        }
+
+        unless ( keys %pay_res && ( $pay_res{Ack} eq 'Success' ) ) {
+
+            $results->{invalid}->{payment_errors} = 1;
+
+            my $url = _gen_redirect( $results, $q,
+"&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount"
+            );
+
+            return $self->redirect($url);
+        }
+
+        warn "Successful payment for amount "
+          . $q->param('first_payment')
+          . " and booking id "
+          . $q->param('booking_id')
+          if DEBUG;
+
+    }
     ################################################
 
     ############################

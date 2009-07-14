@@ -24,8 +24,7 @@ delete $ENV{$_} for grep { /^(HTTPS|SSL)/ } keys %ENV;
 # don't touch this either, unless you need to get a new api token
 if (DEBUG) {
 
-    $ENV{HTTPS_CERT_FILE} = '/etc/pki/tls/cert.pem';
-    #$ENV{HTTPS_CERT_FILE} = './conf/cert.pem';
+    $ENV{HTTPS_CERT_FILE} = './conf/cert.pem';
 
 }
 else {

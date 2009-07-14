@@ -24,7 +24,8 @@ delete $ENV{$_} for grep { /^(HTTPS|SSL)/ } keys %ENV;
 # don't touch this either, unless you need to get a new api token
 if (DEBUG) {
 
-    $ENV{HTTPS_CERT_FILE} = './conf/cert.pem';
+    $ENV{HTTPS_CERT_FILE} = '/etc/pki/tls/cert.pem';
+    #$ENV{HTTPS_CERT_FILE} = './conf/cert.pem';
 
 }
 else {
@@ -634,7 +635,9 @@ sub _payment {
 
     # do the first payment
     my $return = $ENV{'HTTP_REFERER'} || 'http://www.hvh.com/';
-    my %pay_res = $Paypal->SetExpressCheckout(
+    my $cancel = 'http://www.hvh.com/';
+
+   my %ex_args = (
         InvoiceID       => $booking_id,
         Name            => $billto_name,
         Street1         => $q->param('billing_address'),
@@ -643,11 +646,13 @@ sub _payment {
         PostalCode      => $q->param('billing_zip'),
         Country         => $q->param('billing_country'),
         BillingType     => 'MerchantInitiatedBilling',
-        AMT             => $q->param('first_payment'),
+        AMT             => $first_payment,
         ReturnURL       => $return,
-        CancelURL       => $return,
+        CancelURL       => $cancel,
     );
 
+     warn( "express checkout args: " . Dumper( \%ex_args ) ) if DEBUG;
+    my %pay_res = $Paypal->SetExpressCheckout(%ex_args);
     if ( $pay_res{ACK} eq 'Failure' ) {
 
         warn( "express checkout failed: " . Dumper( \%pay_res ) ) if DEBUG;
@@ -718,9 +723,9 @@ sub _payment {
             {
                 id                        => $q->param('booking_id'),
                 Booking_Stage__c          => 'Booked - First Payment',
-                Credit_Card_Last_Four__c  => substr( $card, length($card) - 4 ),
+                Credit_Card_Last_4__c  => substr( $card, length($card) - 4 ),
                 Credit_Card_Exp_Date__c   => $exp,
-                X1st_Payment__c           => $first_payment,
+                X1st_Payment__c           => $first_payment,  # this is not an error
                 First_Payment_Received__c => $date,
                 Date__c                   => $date,
                 Second_Payment_Due_Date__c => $second_charge_date,

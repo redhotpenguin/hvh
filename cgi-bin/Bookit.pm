@@ -7,7 +7,7 @@ use base qw( CGI::Application );
 
 use Data::FormValidator ();
 use Data::FormValidator::Constraints qw(:closures);
-use Business::PayPal::API qw( DirectPayments);
+use Business::PayPal::NVP;
 use WWW::Salesforce::Simple ();
 use DateTime                ();
 use CGI::Application::Plugin::Redirect;
@@ -18,30 +18,37 @@ use constant DEBUG => $ENV{HVH_DEBUG} || 0;
 
 # don't touch this
 delete $ENV{$_} for grep { /^(HTTPS|SSL)/ } keys %ENV;
-$ENV{HTTPS_CERT_FILE} = '/etc/pki/tls/cert.pem';
 
-our %Paypal;
 
 # don't touch this either, unless you need to get a new api token
 if (DEBUG) {
 
-    %Paypal = (
-        Username  => 'gunthe_1236035242_biz_api1.yahoo.com',
-        Password  => '1236035264',
-        Signature => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
-        sandbox   => 1,
-    );
+    $ENV{HTTPS_CERT_FILE} = './conf/cert.pem';
 
 }
 else {
 
-    %Paypal = (
-        Username  => 'mike_api1.hvh.com',
-        Password  => '5Q2XGE9DZA27EFYL',
-        Signature => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
-        sandbox   => 0,
-    );
+    $ENV{HTTPS_CERT_FILE} = '/etc/pki/tls/cert.pem';
 }
+
+my $branch = DEBUG ? 'test' : 'live';
+
+our %Paypal = (
+    test => {
+        user  => 'gunthe_1236035242_biz_api1.yahoo.com',
+        pwd  => '1236035264',
+        sig => 'AOkez-Qt58iwz5J-Ge-o4XsPgbKKA3zrI4VO4HHiPGu3RXI0TB7343YC',
+    },
+
+    live => {
+        user  => 'mike_api1.hvh.com',
+        pwd  => '5Q2XGE9DZA27EFYL',
+        sig => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEOrqYMCSxLRpjsqiednmuLG7h7t',
+    },
+  branch => $branch,
+);
+
+
 
 sub setup {
     my $self = shift;
@@ -179,7 +186,6 @@ sub contact {
     $uri =~ s/cto\=1/cto\=success/;
     return $self->redirect($uri);
 }
-
 
 # fixes up our SOAP request the hard way
 sub _hack_the_soap {
@@ -415,9 +421,6 @@ SQL
     }
 }
 
-
-
-
 sub bookit {
     my $self = shift;
 
@@ -435,8 +438,6 @@ sub bookit {
     }
 }
 
-
-
 sub _payment {
     my ( $self, $q ) = @_;
 
@@ -444,16 +445,16 @@ sub _payment {
       phone checkin_date checkout_date exp_month exp_year
       cvc card_type card_number billing_address billing_city
       billing_state billing_zip billing_country email guests
-      first_payment booking_id bktcc_next
+      first_payment booking_id bktcc_next second_payment
+      num_nights local_taxes cleaning_fee nightly_rate deposit
     );
 
     my %profile = (
         required           => \@required,
-        optional           => [qw( guests )],
+        optional           => [qw( )],
         constraint_methods => {
             email           => email(),
             billing_zip     => zip(),
-
             phone           => phone(),
             first_name      => valid_first(),
             last_name       => valid_last(),
@@ -465,7 +466,8 @@ sub _payment {
             checkout_date   => valid_date(),
             billing_address => valid_street(),
             card_type       => cc_type(),
-            card_number     => cc_number( { fields => ['card_type'] } ),
+
+            #    card_number     => cc_number( { fields => ['card_type'] } ),
         }
     );
     my $results = Data::FormValidator->check( $q, \%profile );
@@ -493,7 +495,12 @@ sub _payment {
 
     if ( $results->has_missing or $results->has_invalid ) {
 
-#	warn("missing are " . join(',', keys %{$results->{missing}}, keys %{$results->{invalid}}));
+        warn(
+            "missing are "
+              . join( ',',
+                keys %{ $results->{missing} },
+                keys %{ $results->{invalid} } )
+        ) if DEBUG;
         my $url = _gen_redirect( $results, $q,
 "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount"
         );
@@ -523,8 +530,7 @@ sub _payment {
         $billing_args{MailingPostalCode} = $q->param('billing_zip');
     }
 
-#    my $Paypal = Business::PayPal::API->new(%Paypal);
-    my $Paypal = Business::PayPal::API::RecurringPayments->new(%Paypal);
+    my $Paypal = Business::PayPal::NVP->new(%Paypal);
 
     my %paypal_args = (
         PaymentAction     => 'Sale',
@@ -550,6 +556,39 @@ sub _payment {
         IPAddress         => $ENV{'REMOTE_ADDR'} || 'oops',
         MerchantSessionID => int( rand(100_000) ),
     );
+    $DB::single     = 1;
+    # recurring args
+    %paypal_args = (
+        SubscriberName   => $billto_name,
+        BillingStartDate => DateTime->now->mdy,
+        ProfileReference => $booking_id,
+
+        TrialBillingPeriod      => 'Day',
+        TrialBillingFrequency   => 30,
+        TrialTotalBillingCycles => 1,
+        TrialAmount             => $q->param('first_payment'),
+
+        PaymentBillingPeriod      => 'Day',
+        PaymentBilllingFrequency  => 30,
+        PaymentTotalBillingCycles => 1,
+        PaymentAmount             => $second_payment,
+
+        Payer                => $q->param('email'),
+        PayerName            => $billto_name,
+        PayerStreet1         => $q->param('billing_address'),
+        PayerStreet2         => '',
+        PayerCityname        => $q->param('billing_city'),
+        PayerStateOrProvince => $q->param('billing_state'),
+        PayerCountry         => $q->param('billing_country'),
+        PayerPostalCode      => $q->param('billing_zip'),
+        PayerPhone           => $q->param('phone'),
+
+        CreditCardType => ucfirst($q->param('card_type')),
+        CreditCardNumber => $q->param('card_number'),
+        ExpMonth => $q->param('exp_month'),
+        ExpYear => $q->param('exp_year'),
+        CVV2    => $q->param('cvc'),
+    );
 
     if (DEBUG) {
         open( FH, '>/tmp/payment_args' ) or die $!;
@@ -558,10 +597,45 @@ sub _payment {
     }
     local $IO::Socket::SSL::VERSION = undef;
 
-    # do one payment
-#    my %pay_res = $Paypal->DoDirectPaymentRequest(%paypal_args);
-    my %pay_res = $Paypal->CreateRecurrentPaymentsProfile(%paypal_args);
+    my %ucargs;
+    foreach my $key (keys %paypal_args ) {
+      $ucargs{uc($key)} = $paypal_args{$key};
 
+    }
+    $DB::single = 1;
+
+    my %agreement = $Paypal->SetCustomerBillingAgreement(
+                                                         RETURNURL => 'http://www.hvh.com/',
+                                                         CANCELURL => 'http://www.hvh.com/',
+                                                         BILLINGTYPE => 'RecurringPayments',
+                                                         BILLINGAGREEMENTDESCRIPTION => 'foo',
+
+
+    );
+
+    $DB::single;
+
+    my %pay_res = $Paypal->SetExpressCheckout( 
+
+          InvoiceID => $booking_id,
+          Name => $billto_name,
+          Street1 => $q->param('billing_address'),
+          CityName => $q->param('billing_city'),
+          StateOrProvince => $q->param('billing_state'),
+          PostalCode => $q->param('billing_zip'),
+          Country => $q->param('billing_country'),
+          BillingType => 'MerchantInitiatedBilling',
+          ORDERTOTAL => '$0.00',
+          ReturnURL => '',
+          CancelURL => '',
+   );
+
+
+
+    # do one payment
+    $DB::single = 1;
+#    my %pay_res = $Paypal->CreateRecurringPaymentsProfile(%ucargs);
+    $DB::single = 1;
     if (DEBUG) {
         open( FH, '>/tmp/payment' ) or die $!;
         print FH Dumper( \%pay_res );

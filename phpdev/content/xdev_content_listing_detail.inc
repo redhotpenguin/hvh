@@ -251,11 +251,13 @@ echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is
 		include "../phpdev/content/xdev_content_listing_detail_cto.inc";
 
 		echo "</td></tr>";
-		echo "<tr><td colspan=3 class=reg_copy><input type=image src=\"img/bkt_off.gif\" vspace=4 onclick=\"this.disabled='disabled'\"></td></tr>";
+		echo "<tr><td colspan=3 class=reg_copy><input type=\"submit\" name=\"bookit\" value=\"Book It\">";
 		echo "</form>";
 		echo "</table><br>";
 		} else {
 			echo "Thank you for your interest in ".$listing_obj->fields->Name.".  HVH is currently working with this location to complete the automated bookings process.  For now, please populate the \"Contact the Owner\" form below.  In the comments section, please note your request to book the property for the selected dates.  Someone will contact you as soon as possible to complete the booking.  Thanks for using HVH and enjoy your vacation!<br><br>";
+
+
 			
 		echo "<table border=0 cellpadding=1 cellspacing=0 width=\"100%\">";
 		echo "<form name='cto' action='https://www.hvh.com/cgi-bin/bookit.cgi' method=post>";
@@ -270,7 +272,7 @@ echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is
 		echo "<tr><td colspan=3>";
 		include "../phpdev/content/xdev_content_listing_detail_cto.inc";
 		echo "</td></tr>";
-		echo "<tr><td colspan=3 class=reg_copy><input type=image src=\"img/cto_off.gif\" vspace=4 onclick=\"this.disabled='disabled'\"></td></tr>";
+		echo "<tr><td colspan=3 class=reg_copy><input type=\"submit\" name=\"bookit\" value=\"Book It\">";
 		echo "</form>";
 		echo "</table><br>";
 		}
@@ -281,12 +283,16 @@ echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is
 	
 if (($bkt == 1) || ($fhh == 1) || ($cto == 1)) { $hide_content = 1; }
 
+        $desc_yo = nl2br($listing_obj->fields->Description__c);
+        $teaser_yo = nl2br($listing_obj->fields->Teaser__c);
+
 if ($hide_content != 1) {
+
     echo "<span class=detail_header>".$listing_obj->fields->Name."</span> - ";
 	echo "<span class=entry_loc>".$listing_obj->fields->City__c.", ".$listing_obj->fields->Location__c."</span></a><Br>";
 	echo "<hr noshade size=1 color=\"#e2e2e1\">";
 //  echo "<span class=entry_loc>Property Address: ".$listing_obj->fields->Property_Address__c."</span></a><br><Br>";
-    echo "<span class=entry_desc>".$listing_obj->fields->Description__c."</span><br>";
+        echo "<span class=entry_desc>".$teaser_yo."<br><Br>".$desc_yo."</span>";
 }
     echo "</td>";
 

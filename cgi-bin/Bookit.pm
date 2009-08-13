@@ -253,10 +253,10 @@ sub _dbdate {
 sub check_booking {
     my ( $sf, $checkin_date, $checkout_date, $prop_id ) = @_;
 
-    # sanity check, make sure it is at least 24 hours ahead in time
     my $dt_ci = _dtdate($checkin_date);
     my $dt_co = _dtdate($checkout_date);
 
+    # allow up to a week of back booking
     my $tomorrow = DateTime->now->subtract( weeks => 1 );
 
     if (   ( $dt_ci->epoch < $tomorrow->epoch )
@@ -974,6 +974,7 @@ sub hold {
     my $contact_id = _find_or_create_contact( $sf, \%contact_args );
 
     # now make a booking
+    my $date = DateTime->now->mdy('/');
     my ( $r, %sf_args );
     eval {
         %sf_args = (
@@ -987,6 +988,7 @@ sub hold {
             Contact__c             => $contact_id,
             Booking_Description__c => $q->param('comments'),
             Payment_Method__c      => '',
+            Date__c                   => $date,
         );
 
         # hack for salesforce bug

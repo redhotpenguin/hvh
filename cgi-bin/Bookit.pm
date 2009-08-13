@@ -619,17 +619,6 @@ sub _payment {
         $ucargs{ uc($key) } = $paypal_args{$key};
 
     }
-
-    my %agreement = $Paypal->SetCustomerBillingAgreement(
-        RETURNURL                   => 'http://www.hvh.com/',
-        CANCELURL                   => 'http://www.hvh.com/',
-        BILLINGTYPE                 => 'RecurringPayments',
-        BILLINGAGREEMENTDESCRIPTION => 'Hvh.com Property Rental',
-
-    );
-
-    warn( sprintf( "got token %s", $agreement{TOKEN} ) ) if DEBUG;
-
     $DB::single = 1;
 
     # do the first payment
@@ -651,10 +640,36 @@ sub _payment {
     );
 
      warn( "express checkout args: " . Dumper( \%ex_args ) ) if DEBUG;
-    my %pay_res = $Paypal->SetExpressCheckout(%ex_args);
+
+    my %pay_args = (
+	PAYMENTACTION => 'sale',
+	IPADDRESS => $ENV{REMOTE_ADDR} || '127.0.0.1',
+        CREDITCARDTYPE => ucfirst( $q->param('card_type') ),
+        ACCT => $q->param('card_number'),
+        EXPDATE         => $q->param('exp_month') . $q->param('exp_year'),
+        CVV2             => $q->param('cvc'),
+	PAYERID => $booking_id,
+        EMAIL => $q->param('email'),
+	PAYERSTATUS => 'verified',
+	COUNTRYCODE => 'US',
+	BUSINESS => $billto_name,
+	AMT => $first_payment,
+	STREET => $q->param('billing_address'),
+	CITY => $q->param('billing_city'),
+	STATE => $q->param('billing_state'),
+	ZIP => $q->param('billing_zip'),
+	FIRSTNAME =>	$q->param('first_name'),
+	LASTNAME =>  $q->param('last_name'),
+    );
+
+	
+     warn( "pay args: " . Dumper( \%pay_args ) );
+
+    my %pay_res = $Paypal->DoDirectPayment( %pay_args );
+
     if ( $pay_res{ACK} eq 'Failure' ) {
 
-        warn( "express checkout failed: " . Dumper( \%pay_res ) ) if DEBUG;
+        warn( "express checkout failed: " . Dumper( \%pay_res ) );
 
         $results->{invalid}->{payment_errors} = 1;
 
@@ -667,8 +682,10 @@ sub _payment {
 
     warn( "first payment returned token " . $pay_res{TOKEN} ) if DEBUG;
 
+
    $DB::single = 1;
 
+=cut
     if ( $cmp == -1 ) {
 
         # do second payment
@@ -697,6 +714,7 @@ sub _payment {
             return $self->redirect($url);
         }
 
+
         warn "Successful payment for amount "
           . $q->param('first_payment')
           . " and booking id "
@@ -707,6 +725,7 @@ sub _payment {
     ################################################
 
     ############################
+=cut
 
     my $sf = eval { _sf_login() };
     die $@ if $@;
@@ -770,7 +789,6 @@ sub _reserve {
     my $name = join( ' ',
         $q->param('first_name'),
         $q->param('last_name'),
-        int( rand(100_000) ),
     );
 
     my $sf = eval { _sf_login() };
@@ -932,7 +950,6 @@ sub hold {
     my $name = join( ' ',
         $q->param('first_name'),
         $q->param('last_name'),
-        int( rand(100_000) ),
     );
 
     # look for a contact first

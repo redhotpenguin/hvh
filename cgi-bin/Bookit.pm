@@ -988,7 +988,7 @@ sub hold {
             Contact__c             => $contact_id,
             Booking_Description__c => $q->param('comments'),
             Payment_Method__c      => '',
-            Date__c                   => $date,
+            Date__c                   => _dbdate($date),
         );
 
         # hack for salesforce bug

@@ -44,7 +44,7 @@ h += 96;
         <td width=1000 bgcolor=white>
             <!-- BEGIN TOP NAV -->
             <table border=0 cellpadding=0 cellspacing=0 width=1000>
-            <Tr><td><img src="img/hvh_top.gif">
+            <Tr><td><img src="img/nhvhlogo.gif"></td>
             </tr>
 			<Tr><Td><?php include "template/navs/top_nav.inc"; ?></td></tr>
 			

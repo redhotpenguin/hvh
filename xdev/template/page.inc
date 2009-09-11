@@ -149,7 +149,7 @@ h += 96;
 			<?php // include "template/navs/blank.inc"; ?>
 
 			</td></tr>-->
-			<tr><td valign=top bgcolor="#ffffff">
+			<tr><Td width=1 bgcolor=white><img src="img/clear.gif" width=1 height=600></td><td valign=top bgcolor="#ffffff">
 			<!-- WHAT CONTENT DO WE PASS -->
 			<?php include "$content.inc"; ?>
 			

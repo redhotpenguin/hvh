@@ -31,7 +31,7 @@ h += 96;
 </script> 
 </head>
 
-<body rightmargin='0' leftmargin='0' topmargin='0' bottommargin='0' marginheight='0' marginwidth='0' background="img/bg.gif">
+<body rightmargin='0' leftmargin='0' topmargin='0' bottommargin='0' marginheight='0' marginwidth='0' bgcolor="#e2e2e1">
 <script type="text/javascript" src="js/wz_tooltip.js"></script>
 <script type="text/javascript" src="js/tip_balloon.js"></script>
 
@@ -171,12 +171,11 @@ h += 96;
 	<tr><td colspan=4 align=center class=footer><br>Copyright &copy; 2009 Hideaway Vacation Homes, Inc. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;Privacy Policy&nbsp;&nbsp;|&nbsp;&nbsp;Terms of Use&nbsp;&nbsp;|&nbsp;&nbsp;<a href="mailto:thomas@hvh.com">thomas@hvh.com</a>&nbsp;&nbsp;|&nbsp;&nbsp;888-858-6562</td></tr>
 	</table>
 
-    <tr><td bgcolor="#ffffff" colspan=4><img src="img/clear.gif" width=1 height=30></td></tr>
-    <tr><td bgcolor="#0166a9" colspan=4><img src="img/clear.gif" width=1 height=1></td></tr>
-    <tr><td bgcolor="#49a9e2" colspan=4><img src="img/clear.gif" width=1 height=10></td></tr>
-    <tr><td bgcolor="#0166a9" colspan=4><img src="img/clear.gif" width=1 height=1></td></tr>
-    <tr><td colspan=4 align=center><img src="img/pt_logos.gif" border=0 vspace=6></td></tr>
-    <tr><td bgcolor="#0166a9" colspan=4><img src="img/clear.gif" width=1 height=350></td></tr>
+    <tr><td bgcolor="#e2e2e1" colspan=4><img src="img/clear.gif" width=1 height=30></td></tr>
+    <tr><td bgcolor="#999999" colspan=4><img src="img/clear.gif" width=1 height=1></td></tr>
+    <tr><td colspan=4 align=center bgcolor=white><img src="img/pt_logos.gif" border=0 vspace=6></td></tr>
+    <tr><td bgcolor="#999999" colspan=4><img src="img/clear.gif" width=1 height=1></td></tr>
+    <tr><td bgcolor="#e2e2e1" colspan=4><img src="img/clear.gif" width=1 height=350></td></tr>
 
 	</td></tr>
 	</table>

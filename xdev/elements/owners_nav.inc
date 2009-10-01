@@ -1,43 +1,42 @@
 <table border=0 cellpadding=0 cellspacing=0 width="100%">
 <tr>
-    <Td bgcolor="#e2e2e1" align=center class=right_header><img src="img/clear.gif" width=1 height=3><br><a href="solutions.php" class=cat_header><font color=black>Owners and Managers</font></a><br><img src="img/clear.gif" width=1 height=3></td></tr>
-
-<tr>
-    <Td bgcolor="#496b97" align=center class=right_header>
-        <img src="img/clear.gif" width=1 height=5><br>
-        <a href="contact_us.php"><img src="img/scroll_white.gif" border=0 width=50 height=44 vspace=8></a>
+    <Td bgcolor="#ffffff" align=center class=right_header><img src="img/clear.gif" width=1 height=3><br><br><a href="solutions.php" class=cat_header><font color=black><b>Owners and Managers</b></font></a><br><img src="img/clear.gif" width=1 height=3></td></tr>
+    <Td bgcolor="#ffffff" align=center class=search>
+<table border=0 cellpadding=0 cellspacing=0 width="90%">
+<tr><Td class=search align=center><br>
+Ready to maximize bookings, maintain satisfied return customers, and streamline your entire rental operation? <p><a href="contact_us.php" class=cat_header><font color=black><u>LIST your property on hvh.com</u></font></a>, then check out <a href="solutions.php" class=cat_header><font color=black><u>HVH MANAGEMENT SOLUTIONS</u></font></a> and become part of an industry revolution. Nothing is simpler, more effective or more affordable at any level.   
+<p></td>
+</tr>
+</table>
+      <img src="img/clear.gif" width=1 height=5><br>
+        <a href="contact_us.php"><img src="img/scroll_white.gif" border=0 width=50 height=44 vspace=2></a>
         <br>
-        <a href="contact_us.php" class=cat_header><font color=white>List Your Property</font color=white></a><Br>
+        <a href="contact_us.php"><font color="#333333">List Your Property</font color=white></a><Br>
         <img rc="img/clear.gif" width=1 height=5><br>
     </td>
 </tr>
 <tr>
-    <Td bgcolor="#92cbee" align=center class=right_header><img src="img/clear.gif" width=1 height=3><Br><a href="solutions.php" class=cat_header><font color=black>Management Solutions</font></a><br><img src="img/clear.gif" width=1 height=3></td></tr>
-<tr><td height=1 bgcolor="#496b97" colspan=2><img src="img/clear.gif" width=1 height=1></td></tr>
-<tr>
-    <Td align=center bgcolor="#d2eefe" class=right_header>
+    <Td align=center bgcolor="#ffffff" class=search>
         <img rc="img/clear.gif" width=1 height=5><br>
-        <a href="solutions_second_home_owner.php"><img src="img/red_house_white.gif" border=0 vspace=8></a>
+        <a href="solutions_second_home_owner.php"><img src="img/red_house_white.gif" border=0 vspace=2></a>
         <br>
-        <a href="solutions_second_home_owner.php" class=cat_header>2nd Home Owner</a>
+        <a href="solutions_second_home_owner.php"><font color="#333333">2nd Home Owner</font></a>
         <br><img src="img/clear.gif" width=1 height=5><br>
     </td>
 </tr>
-<tr><td colspan=2 height=1 bgcolor="#496b97"><img src="img/clear.gif" width=1 height=1></td></tr>
 <tr>
-    <Td bgcolor="#d2eefe" align=center class=right_header>
+    <Td bgcolor="#ffffff" align=center class=search>
         <img rc="img/clear.gif" width=1 height=5><br>
-        <a href="solutions_property_manager.php"><img src="img/lil_guy_white.gif" border=0 vspace=8></a>
+        <a href="solutions_property_manager.php"><img src="img/lil_guy_white.gif" border=0 vspace=2></a>
         <br>
         <a href="solutions_property_manager.php" class=cat_header>Property Manager</a>
         <br><img src="img/clear.gif" width=1 height=5><br>
     </td>
 </tr>
-<tr><td colspan=2 height=1 bgcolor="#496b97"><img src="img/clear.gif" width=1 height=1></td></tr>
 <Tr>
-    <Td bgcolor="#d2eefe" align=center class=right_header>
+    <Td bgcolor="#ffffff" align=center class=search>
         <img rc="img/clear.gif" width=1 height=5><br>
-        <a href="solutions_hotels_inns.php"><img src="img/house_white.gif" border=0 width=50 height=44 vspace=8></a>
+        <a href="solutions_hotels_inns.php"><img src="img/house_white.gif" border=0 width=50 height=44 vspace=2></a>
         <br>
         <a href="solutions_hotels_inns.php" class=cat_header>Hotels and Huts</a>
 	<Br><img src="img/clear.gif" width=1 height=5>

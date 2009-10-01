@@ -53,7 +53,7 @@ Annual Subscription of $595/yr. includes 3 users and unlimited rooms. Integrated
 
 <a href="contact_us.php" class=download_link>Download the Product Spec Sheet<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
 <a href="contact_us.php" class=download_link>Download the Company Overview<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
-<a href="contact_us.php" class=download_link>See a demo of the 2nd Home Edition<img src="img/pdf_ico_small.gif" hspace=6 border=0></a></br>
+<a href="contact_us.php" class=download_link>Demo of the 2nd Home Edition<img src="img/pdf_ico_small.gif" hspace=6 border=0></a></br>
 
 </td>
 </tr>
@@ -63,8 +63,8 @@ Annual Subscription of $595/yr. includes 3 users and unlimited rooms. Integrated
 </table>
 
 </td>
-<td width=1 bgcolor="#496b97"><img src="img/clear.gif" width=1 height=1></td>
-<td valign=top bgcolor="#d2eefe" width=165 align=center>
+<td width=1 bgcolor="#cccccc"><img src="img/clear.gif" width=1 height=1></td>
+<td valign=top bgcolor="#ffffff" width=215 align=center>
 
 
 <?php include "elements/owners_nav.inc"; ?>

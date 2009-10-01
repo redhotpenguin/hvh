@@ -23,6 +23,10 @@ We deliver an end-to-end business solution including the following capabilities:
 <li>Free listing on <a href="index.html">HVH.com</a>
 </ul>
 Pricing - Annual subscription of $195/yr for a single user with one property. <!--Additional users and properties are available and described in US Price List (Button: download here to the Price List) Button (purchase here) (link to credit card acceptance form) Button (download the product spec sheet) Take a test drive (www.appexchange.com)--></p><br><Br>
+
+<br><br><Br><Br><br>
+<br><br><Br><Br><br>
+<br><br><Br><Br><br>
 </td>
 
 <td width=10><img src="img/clear.gif" width=10 height=1></td>
@@ -39,7 +43,7 @@ Pricing - Annual subscription of $195/yr for a single user with one property. <!
 
 <a href="contact_us.php" class=download_link>Download the Product Spec Sheet<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
 <a href="contact_us.php" class=download_link>Download the Company Overview<img src="img/pdf_ico_small.gif" hspace=6 border=0></a><br/>
-<a href="contact_us.php" class=download_link>See a demo of the 2nd Home Edition<img src="img/pdf_ico_small.gif" hspace=6 border=0></a></br>
+<a href="contact_us.php" class=download_link>Demo of the 2nd Home Edition<img src="img/pdf_ico_small.gif" hspace=6 border=0></a></br>
 
 </td>
 </tr>
@@ -51,8 +55,8 @@ Pricing - Annual subscription of $195/yr for a single user with one property. <!
 
 </td>
 
-<td width=1 bgcolor="#496b97"><img src="img/clear.gif" width=1 height=1></td>
-<td valign=top bgcolor="#d2eefe" width=165 align=center>
+<td width=1 bgcolor="#cccccc"><img src="img/clear.gif" width=1 height=1></td>
+<td valign=top bgcolor="#ffffff" width=215 align=center>
 
 
 <?php include "elements/owners_nav.inc"; ?>

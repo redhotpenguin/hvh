@@ -29,7 +29,7 @@ Ready to maximize bookings, maintain satisfied return customers, and streamline 
         <img rc="img/clear.gif" width=1 height=5><br>
         <a href="solutions_property_manager.php"><img src="img/lil_guy_white.gif" border=0 vspace=2></a>
         <br>
-        <a href="solutions_property_manager.php" class=cat_header>Property Manager</a>
+        <a href="solutions_property_manager.php"><font color="#333333">Property Manager</font></a>
         <br><img src="img/clear.gif" width=1 height=5><br>
     </td>
 </tr>
@@ -38,7 +38,7 @@ Ready to maximize bookings, maintain satisfied return customers, and streamline 
         <img rc="img/clear.gif" width=1 height=5><br>
         <a href="solutions_hotels_inns.php"><img src="img/house_white.gif" border=0 width=50 height=44 vspace=2></a>
         <br>
-        <a href="solutions_hotels_inns.php" class=cat_header>Hotels and Huts</a>
+        <a href="solutions_hotels_inns.php"><font color="#333333">Hotels and Huts</font></a>
 	<Br><img src="img/clear.gif" width=1 height=5>
     </td>
 </tr>

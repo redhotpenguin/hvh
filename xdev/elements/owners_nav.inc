@@ -4,8 +4,9 @@
     <Td bgcolor="#ffffff" align=center class=search>
 <table border=0 cellpadding=0 cellspacing=0 width="90%">
 <tr><Td class=search align=center><br>
-Ready to maximize bookings, maintain satisfied return customers, and streamline your entire rental operation? <p><a href="contact_us.php" class=cat_header><font color=black><u>LIST your property on hvh.com</u></font></a>, then check out <a href="solutions.php" class=cat_header><font color=black><u>HVH MANAGEMENT SOLUTIONS</u></font></a> and become part of an industry revolution. Nothing is simpler, more effective or more affordable at any level.   
-<p></td>
+Maximize Bookings, Cultivate Customers, and run a better business.
+<p>
+<a href="solutions.php" class=cat_header><font color=black><u>HVH MANAGEMENT SOLUTIONS</u></font></a><p></td>
 </tr>
 </table>
       <img src="img/clear.gif" width=1 height=5><br>
@@ -42,4 +43,9 @@ Ready to maximize bookings, maintain satisfied return customers, and streamline 
 	<Br><img src="img/clear.gif" width=1 height=5>
     </td>
 </tr>
+</table>
+<table border=0 cellpadding=0 cellspacing=0 width="90%">
+<tr><Td class=search align=center><br>
+Nothing is simpler, more effective or more affordable. 
+</td></tr>
 </table>

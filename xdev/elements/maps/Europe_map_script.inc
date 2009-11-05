@@ -3,7 +3,7 @@
 
     if (GBrowserIsCompatible()) {
       var Europemap = new GMap2(document.getElementById("Europe"));
-      Europemap.setCenter(new GLatLng(, ));
+      Europemap.setCenter(new GLatLng(52.5234051, 13.4113999));
       Europemap.setZoom(5);
       Europemap.setMapType(G_NORMAL_MAP);
       Europemap.addControl(new GSmallMapControl());

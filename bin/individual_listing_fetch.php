@@ -33,7 +33,16 @@ foreach ($prop_array as $prop) {
 	"Video_Library__c", "Bath_Towels__c", "Bed_Linens__c", "Washer_Dryer__c",
 	"Refrigerator__c", "Dishwasher__c", "Oven__c",
 	"Microwave__c", "Air_Conditioning__c",
-	"Full_Kitchen__c", "Cooking_Utensils__c", "Barbecue__c", "Hair_Dryer__c" );
+	"Full_Kitchen__c", "Cooking_Utensils__c", "Barbecue__c", "Hair_Dryer__c",
+	"Extremely_Private__c", "Large_Yard__c", "Outdoor_Shower__c", "Hammock__c",
+	"Patio_Lanai__c", "Tennis_Courts__c", "Basketball_Hoop__c", "Volleyball_Court__c",
+	"Fireplace__c", "Kid_Friendly__c", "No_Smoking__c",
+	"Pets_Allowed__c", "Waterfront__c", "Views__c",
+	"Ocean_View__c", "Mountain_View__c",
+	"Unlimited_Domestic_Long_Distance__c", "Cable_Satellite_TV__c", "Telephone__c", "Computer__c",
+	"Crib__c", "Jets_in_Bathtub__c", "Ice_Maker__c", "Blender__c",
+	"Garage_Parking__c", "Street_Parking__c" 	 
+	 );
 
 
 	$q_fields = "";
@@ -42,7 +51,7 @@ foreach ($prop_array as $prop) {
         }
 #	error_log("\nQ Fields is $q_fields");
 
-	$single_query = "SELECT Id, Name, Property_Calendar_Code__c, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, Image_URL_1__c, Image_URL_2__c, Image_URL_3__c, Image_URL_4__c, Image_URL_5__c, Image_URL_6__c, Image_URL_7__c, Image_URL_8__c, City__c $q_fields, Special_Amenities__c, Solutions_Customer__c, Check_in_Time__c, Check_out_Time__c, Nightly_Rate_List_Price__c, Local_Tax_Rate__c, Security_Deposit__c, Housekeeping_Fee__c, Website__c from Property__c where Id='$prop_obj->Id' limit 1";
+	$single_query = "SELECT Id, Name, Property_Calendar_Code__c, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, Image_URL_1__c, Image_URL_2__c, Image_URL_3__c, Image_URL_4__c, Image_URL_5__c, Image_URL_6__c, Image_URL_7__c, Image_URL_8__c, City__c $q_fields, Special_Amenities__c, Solutions_Customer__c, Check_in_Time__c, Check_out_Time__c, Nightly_Rate_List_Price__c, Local_Tax_Rate__c, Security_Deposit__c, Housekeeping_Fee__c, Website__c, Sleeps__c, Bedrooms__c, Bathrooms__c, Bathtubs__c, Showers__c from Property__c where Id='$prop_obj->Id' limit 1";
 	$single_results = $mySforceConnection->query($single_query);
 	$single = $single_results->records;
 

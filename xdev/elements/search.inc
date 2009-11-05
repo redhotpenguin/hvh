@@ -23,7 +23,7 @@ require_once ('../soapclient/SforcePartnerClient.php');
 <tr><td width=16><img src="img/clear.gif" width=16 height=1></td>
 	<td class=search>
 <b>TRAVELERS</b><br>
-Looking for the perfect vacation rental? Search our extensive list of qualified vacation rental properties to find that special spot for you and your family.
+Search our extensive list of qualified vacation rental properties to find that special spot for you and your family.
 </td>
 <td width=16><img src="img/clear.gif" width=16 height=1></td>
 </tr>

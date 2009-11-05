@@ -128,7 +128,7 @@ h += 96;
 
 			<?php include "left_columns/$left_cols.inc";  ?>	
 
-
+			<?php include "elements/weather.inc"; ?>
 			</td></tr>
 			</table>
 

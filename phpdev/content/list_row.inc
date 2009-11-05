@@ -3,50 +3,9 @@ $memcache = new Memcache;
 $memcache->connect('localhost', 11211) or die ("Could not connect");
 
 require_once ('soapclient/SforcePartnerClient.php');
-#$mySforceConnection = new SforcePartnerClient();
 
-$search_key = "search|$search_cat";
-$search_key_val = $memcache->get($search_key);
-
-$total_key = "count|$search_key_val";
+$total_key = "count|city|Kilauea";
 $total_objs = $memcache->get($total_key);
-
-
-$param = $_GET['param'];
-$value = $_GET['value'];
-
-if ($param) {
-    $param = $param;
-    $value = $value;
-} else {
-    if ($_POST['region']) {
-        $param = 'region';
-        $value = $_POST['region'];
-        $show_region = $value;
-
-
-
-		$search_cat = "region|$value";
-		$total_key = "count|region|$value";
-		$total_objs = $memcache->get($total_key);
-
-
-    } 
-    if ($_POST['city']) {
-        $param = 'city';
-        $value = $_POST['city'];
-        $show_city = $value;
-
-        $search_cat = "city|$value";
-        $total_key = "count|city|$value";
-        $total_objs = $memcache->get($total_key);
-		
-    }
-}
-
-
-
-
 
 $count_it = 1;
 
@@ -105,7 +64,6 @@ while ($count_it < $total_objs) {
     echo "</td></tr>";
     echo "</table>";
 }    
-    
-    
-    ?>    
+
+?>    
 

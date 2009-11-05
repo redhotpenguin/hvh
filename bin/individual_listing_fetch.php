@@ -51,7 +51,7 @@ foreach ($prop_array as $prop) {
         }
 #	error_log("\nQ Fields is $q_fields");
 
-	$single_query = "SELECT Id, Name, Property_Calendar_Code__c, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, Image_URL_1__c, Image_URL_2__c, Image_URL_3__c, Image_URL_4__c, Image_URL_5__c, Image_URL_6__c, Image_URL_7__c, Image_URL_8__c, City__c $q_fields, Special_Amenities__c, Solutions_Customer__c, Check_in_Time__c, Check_out_Time__c, Nightly_Rate_List_Price__c, Local_Tax_Rate__c, Security_Deposit__c, Housekeeping_Fee__c, Website__c, Sleeps__c, Bedrooms__c, Bathrooms__c, Bathtubs__c, Showers__c from Property__c where Id='$prop_obj->Id' limit 1";
+	$single_query = "SELECT Id, Name, Property_Calendar_Code__c, Property_Address__c, Category__c, Teaser__c, Description__c, Location__c, Image_URL_1__c, Image_URL_2__c, Image_URL_3__c, Image_URL_4__c, Image_URL_5__c, Image_URL_6__c, Image_URL_7__c, Image_URL_8__c, City__c $q_fields, Special_Amenities__c, Solutions_Customer__c, Check_in_Time__c, Check_out_Time__c, Nightly_Rate_List_Price__c, Local_Tax_Rate__c, Security_Deposit__c, Housekeeping_Fee__c, Website__c, Sleeps__c, Bedrooms__c, Bathrooms__c, Bathtubs__c, Showers__c from Property__c where Id='$prop_obj->Id'  and  Available_to_the_Public__c=true limit 1";
 	$single_results = $mySforceConnection->query($single_query);
 	$single = $single_results->records;
 

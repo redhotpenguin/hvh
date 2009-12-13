@@ -256,6 +256,8 @@ sub check_booking {
     my $dt_ci = _dtdate($checkin_date);
     my $dt_co = _dtdate($checkout_date);
 
+    warn("checkin $checkin_date, checkout $checkout_date");
+
     # allow up to a week of back booking
     my $tomorrow = DateTime->now->subtract( weeks => 1 );
 
@@ -277,22 +279,22 @@ sub check_booking {
 "Select Id from Booking__c where (Booking_Stage__c != 'Dead' and Booking_Stage__c != 'Pending')  and Property_name__c = '$prop_id' and ( ";
 
     $sql .=
-"( ( Check_in_Date__c <= $checkin_date ) and ( Check_out_Date__c >= $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date) ) ";
+"( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date) ) ";
 
     # (booked_checkin) (new_checkin) (new_checkout) (booked_checkout)
 
     $sql .=
-" or ( ( Check_in_Date__c <= $checkin_date ) and (  Check_out_Date__c >= $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c <= $checkout_date ) ) ";
+" or ( ( Check_in_Date__c <= $checkin_date ) and (  Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c <= $checkout_date ) ) ";
 
     # (booked_checkin) (new_checkin) (booked_checkout) (new_checkout)
 
     $sql .=
-" or ( ( Check_in_Date__c >= $checkin_date ) and ( Check_out_Date__c >= $checkin_date )  and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date ) )";
+" or ( ( Check_in_Date__c >= $checkin_date ) and ( Check_out_Date__c > $checkin_date )  and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date ) )";
 
     # (new_checkin) (booked_checkin)  (new_checkout) (booked_checkout)
 
     $sql .=
-" or ( ( Check_in_Date__c >= $checkin_date ) and ( Check_out_Date__c >= $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c <= $checkout_date ) ) )";
+" or ( ( Check_in_Date__c >= $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c <= $checkout_date ) ) )";
 
     # (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
 

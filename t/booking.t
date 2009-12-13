@@ -17,10 +17,18 @@ BEGIN {
 }
 
 use DateTime;
-my $yesterday = DateTime->now->subtract( days => 1 )->mdy('/');
-my $today = DateTime->now->mdy('/');
+my $yesterday = DateTime->now->subtract( days => 1 )->add(months => 2)->mdy('/');
 
-ok(! Bookit::check_booking( $Sf, $yesterday, $today, 'not available yesterday'));
+my $today = DateTime->now->add(months => 2)->mdy('/');
+
+
+ok( Bookit::check_booking( $Sf, '07/04/2010', '07/07/2010', 'a0650000003DhL8'));
+
+# checkout data == checkin_date
+ok( Bookit::check_booking( $Sf, '07/08/2010', '07/15/2010', 'a0650000003DhL8'));
+
+# checkin_date == checkout_date
+ok( Bookit::check_booking( $Sf, '07/16/2010', '07/22/2010', 'a0650000003DhL8'));
 
 
 __END__

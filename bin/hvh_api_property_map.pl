@@ -31,7 +31,7 @@ my @fields = map { $_->{name} } @{$raw_fields};
 
 my $qp = join( ", ", @fields );
 
-my $q = 'select ' . $qp . ' from Property__c';
+my $q = 'select ' . $qp . ' from Property__c where Available_to_the_Public__c=true';
 
 my $res = $Sf->do_query($q);
 

@@ -56,7 +56,7 @@ h += 96;
 				($my_page != 'solutions_google.php') &&
 				($my_page != 'solutions_intuit.php') &&
 				($my_page != 'solutions_paypal.php') && 
-				($my_page != 'listing2.php') &&
+				($my_page != 'listing.php') &&
 				($my_page != 'solutions.php')
 			)  { ?>
 
@@ -81,7 +81,7 @@ h += 96;
 				($my_page != 'solutions_google.php') &&
 				($my_page != 'solutions_intuit.php') &&
 				($my_page != 'solutions_paypal.php') && 
-				($my_page != 'listing2.php') &&
+				($my_page != 'listing.php') &&
 				($my_page != 'solutions.php')
 			)  { ?>
 

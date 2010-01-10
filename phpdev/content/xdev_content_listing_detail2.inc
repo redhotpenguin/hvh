@@ -431,7 +431,7 @@ echo "</td>";
 	echo "<tr><Td class=patch><li>Housekeeping Fee:</td><Td class=patch align=right>$".sprintf('%2.2f', $listing_obj->fields->Housekeeping_Fee__c)."</td></tr>";
 	echo "<tr><Td class=patch><li>Check-in Time:</td><Td class=patch align=right>".$listing_obj->fields->Check_in_Time__c."</td></tr>";
 	echo "<tr><Td class=patch><li>Check-out Time:</td><Td class=patch align=right>".$listing_obj->fields->Check_out_Time__c."</td></tr>";
-	echo "<tr><Td class=patch><li>Website:</td><td class=patch align=right><a href=\"".$listing_obj->fields->Website__c."\" target=_blank>Click Here</a></td></tr>";
+	echo "<tr><Td class=patch><li>Website:</td><td class=patch align=right><a href=\"http://".$listing_obj->fields->Website__c."\" target=_blank>Click Here</a></td></tr>";
 
 	echo "</table>";
 	echo "</td></tr></table>";

@@ -106,11 +106,11 @@ echo "<td valign=top width=216 align=right class=amen_wrapper>";
     echo "<b><u>Bedrooms, Baths & Sleeping</u></b>";
 	echo "</td></tr>";
 	echo "<tr><td class=left_patch>";
-	echo "<li>Sleeps: " . $listing_obj->fields->Sleeps__c . "<Br>";
-	echo "<li>Bedrooms: " . $listing_obj->fields->Bedrooms__c . "<Br>";
+	echo "<li>Sleeps: " . sprintf('%d',$listing_obj->fields->Sleeps__c) . "<Br>";
+	echo "<li>Bedrooms: " . sprintf('%d',$listing_obj->fields->Bedrooms__c) . "<Br>";
 	echo "<li>Bathrooms: " . $listing_obj->fields->Bathrooms__c . "<Br>";
-	echo "<li>Showers: " . $listing_obj->fields->Showers__c . "<Br>";
-	echo "<li>Bathtubs: " . $listing_obj->fields->Bathtubs__c . "<Br>";
+	echo "<li>Showers: " . sprintf('%d',$listing_obj->fields->Showers__c) . "<Br>";
+	echo "<li>Bathtubs: " . sprintf('%d',$listing_obj->fields->Bathtubs__c) . "<Br>";
     foreach ($bed_array as $bed) {
       if ($listing_obj->fields->$bed == 'true') {
             echo "<li>" . $bed_hash[$bed]."<br>";

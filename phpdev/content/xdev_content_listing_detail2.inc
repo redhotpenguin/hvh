@@ -343,7 +343,7 @@ echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is
 		include "../phpdev/content/xdev_content_listing_detail_cto.inc";
 
 		echo "</td></tr>";
-		echo "<tr><td colspan=3 class=reg_copy><input type=image src=\"img/bkt_off.gif\" vspace=4 onclick=\"this.disabled='disabled'\"></td></tr>";
+		echo "<tr><td colspan=3 class=reg_copy><input type=image src=\"img/bkt_off.gif\" vspace=4></td></tr>";
 		echo "</form>";
 		echo "</table><br>";
 		} else {

@@ -118,6 +118,7 @@ h += 96;
 
 
 				<!-- SEARCH IS ON EVERY PAGE -->
+				<!-- SEARCH IS NOT ON CREDIT CARD PAGE MONKEY -->
 				<?php include "elements/search.inc"; ?>
 
 

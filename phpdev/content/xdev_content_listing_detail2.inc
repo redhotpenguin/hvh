@@ -121,7 +121,7 @@ echo "<td valign=top width=216 align=right class=amen_wrapper>";
 	echo "<img src=\"img/clear.gif\" width=1 height=7><br>";
 	echo "<table border=0 cellpadding=0 cellspacing=0 class=left_patch width=\"100%\">";
 	echo "<tr><td class=left_patch>";
-    echo "<b><u>Special Ammenitites</u></b>";
+    echo "<b><u>Special Amenities</u></b>";
 	echo "</td></tr>";
 	echo "<tr><td class=left_patch>";
 	foreach ($amenities_array as $amenity) {
@@ -314,7 +314,7 @@ echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
 			echo "<tr><td class=entry_desc>Rental Subtotal:</td><td class=entry_desc align=right><b>\$$rental_subtotal</b></td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
-			echo "<tr><td class=entry_desc>Local Accommodations Tax (<b>$local_tax%</b>):</td><td class=entry_desc align=right><b>$$total_tax</b></td></tr>";
+			echo "<tr><td class=entry_desc>Accommodations Tax (<b>$local_tax%</b>):</td><td class=entry_desc align=right><b>$$total_tax</b></td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
 			echo "<tr><td class=entry_desc>Total Rental Amount:</td><td class=entry_desc align=right><b><font color=red>$$rental_total</font></b></td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";

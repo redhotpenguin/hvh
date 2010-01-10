@@ -14,6 +14,7 @@ use CGI::Application::Plugin::Redirect;
 use URI::Escape ();
 use Data::Dumper;
 
+
 use constant DEBUG => $ENV{HVH_DEBUG} || 0;
 
 use constant KALAMA => 'a0650000003DhL8AAK';
@@ -117,6 +118,7 @@ sub contact {
             last_name     => valid_last(),
             checkin_date  => valid_date(),
             checkout_date => valid_date(),
+	    phone         => american_phone(),
         }
     );
 
@@ -164,7 +166,7 @@ sub contact {
         if ( length( $q->param('guests') ) == 1 ) {
             $sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
         }
-
+	#warn("args are " . Dumper(\%sf_args));
         $r = $sf->create(%sf_args);
         my $result = $r->envelope->{Body}->{createResponse}->{result};
 
@@ -1030,7 +1032,15 @@ sub _add_optional_args {
     # add the optional args
     foreach my $opt ( keys %{$Inquiry} ) {
         if ( $q->param($opt) ) {
-            $sf_args->{ $Inquiry->{$opt} } = $q->param($opt);
+
+	    if ($opt eq 'phone') {
+		unless ($q->param($opt) =~ m/[\-\(\)]/) {
+			my ($area, $prefix, $ext) = $q->param($opt) =~ m/(\d{3})(\d{3})(\d{4})/;
+			$sf_args->{$Inquiry->{$opt}} = "$area-$prefix-$ext";
+		}
+	    } else {
+	            $sf_args->{ $Inquiry->{$opt} } = $q->param($opt);
+	    }
         }
     }
 }

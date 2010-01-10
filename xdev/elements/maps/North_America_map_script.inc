@@ -31,7 +31,7 @@
       GEvent.addListener(North_Americamap_marker_5, "click", function () {  North_Americamap_marker_5.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000001OhF4AAK"><span style="font-size: 12px">River Street Inn</span></a><br /><span style="font-size: 12px">Truckee, North Lake Tahoe</span><br /><span style="font-size: 12px">Signature Hotel</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_5);
       var North_Americamap_marker_6 = new GMarker(new GLatLng(32.2306364, -80.7325287) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_6, "click", function () {  North_Americamap_marker_6.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000001OhFEAA0"><span style="font-size: 12px">Hilton Head Getaway</span></a><br /><span style="font-size: 12px">Hilton Head, Palmetto</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      GEvent.addListener(North_Americamap_marker_6, "click", function () {  North_Americamap_marker_6.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000001OhFEAA0"><span style="font-size: 12px">Hilton Head Getaway</span></a><br /><span style="font-size: 12px">Hilton Head, Hilton Head Island</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_6);
       var North_Americamap_marker_7 = new GMarker(new GLatLng(30.4367302, -98.1120116) , icon_palm);
       GEvent.addListener(North_Americamap_marker_7, "click", function () {  North_Americamap_marker_7.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002KyvZAAS"><span style="font-size: 12px">Waterstone Lodge</span></a><br /><span style="font-size: 12px">Spicewood, Lake Travis</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
@@ -45,15 +45,12 @@
       var North_Americamap_marker_10 = new GMarker(new GLatLng(22.8905327, -109.9167371) , icon_palm);
       GEvent.addListener(North_Americamap_marker_10, "click", function () {  North_Americamap_marker_10.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002G0qJAAS"><span style="font-size: 12px">Casa de la Jolla</span></a><br /><span style="font-size: 12px">Cabo San Lucas, Cabo</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_10);
-      var North_Americamap_marker_11 = new GMarker(new GLatLng(44.5422815, -103.5896601) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_11, "click", function () {  North_Americamap_marker_11.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002IFsmAAG"><span style="font-size: 12px">Black Hills</span></a><br /><span style="font-size: 12px">Deadwood, Black Hills</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      var North_Americamap_marker_11 = new GMarker(new GLatLng(37.648546, -118.972079) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_11, "click", function () {  North_Americamap_marker_11.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002Iis4AAC"><span style="font-size: 12px">Mammoth Ski House</span></a><br /><span style="font-size: 12px">Mammoth Lakes, Mammoth Mountain</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_11);
-      var North_Americamap_marker_12 = new GMarker(new GLatLng(37.648546, -118.972079) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_12, "click", function () {  North_Americamap_marker_12.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002Iis4AAC"><span style="font-size: 12px">Mammoth Ski House</span></a><br /><span style="font-size: 12px">Mammoth Lakes, Mammoth Mountain</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      var North_Americamap_marker_12 = new GMarker(new GLatLng(44.0581728, -121.3153096) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_12, "click", function () {  North_Americamap_marker_12.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002IismAAC"><span style="font-size: 12px">Mt. Bachelor Executive</span></a><br /><span style="font-size: 12px">Bend, Mt. Bachelor</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_12);
-      var North_Americamap_marker_13 = new GMarker(new GLatLng(44.0581728, -121.3153096) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_13, "click", function () {  North_Americamap_marker_13.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002IismAAC"><span style="font-size: 12px">Mt. Bachelor Executive</span></a><br /><span style="font-size: 12px">Bend, Mt. Bachelor</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
-      North_Americamap.addOverlay(North_Americamap_marker_13);
     }
 
     //]]>

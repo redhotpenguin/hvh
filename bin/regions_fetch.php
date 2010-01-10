@@ -5,7 +5,7 @@ include("./phpdev/util/bin_connect.inc");
 
 // DATA FOR AUTO POPULATING REGION SEARCH // ------------------------------------------------------------------------
 
-$regions_query = "SELECT Region__c from Property__c order by Region__c asc";
+$regions_query = "SELECT Region__c from Property__c where Available_to_the_Public__c=true order by Region__c asc";
 $regions_results = $mySforceConnection->query($regions_query);
 $regions = $regions_results->records;
 

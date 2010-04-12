@@ -81,7 +81,7 @@ include "../phpdev/content/features_data.inc";
     if ($customer == 'true') {
     echo "<td class=entry_desc align=center><a href=\"$PHP_SELF?prop_id=$get_prop_id&bkt=1\"><img src=\"img/scroll_white.gif\" border=0></a><br>Book This Property!</td>";
     } else {
-    echo "<a href=\"listing.php?prop_id=$get_prop_id&cto=1&nobkt=1\"><img src=\"img/scroll_white.gif\" border=0></a>";
+    echo "<td class=entry_desc align=center><a href=\"listing.php?prop_id=$get_prop_id&cto=1&nobkt=1\"><img src=\"img/scroll_white.gif\" border=0></a><br>Book This Property!</td>";
     }
 	echo "</tr></table>";
 

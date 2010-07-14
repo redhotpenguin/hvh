@@ -480,9 +480,11 @@ sub _payment {
     my $second_payment = $q->param('second_payment');
     my $num_nights     = $q->param('num_nights');
     my $local_taxes    = $q->param('local_taxes');
-    my $cleaning_fee   = $q->param('cleaning_fee');
+#   my $cleaning_fee   = $q->param('cleaning_fee');
+    my $cleaning_fee   = "0.00";
     my $nightly_rate   = $q->param('nightly_rate');
-    my $deposit        = $q->param('deposit');
+#   my $deposit        = $q->param('deposit');
+    my $deposit = "0.00";
     my $booking_id     = $q->param('booking_id');
 
     my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date') );
@@ -888,10 +890,11 @@ sub _reserve {
     my $second_payment = $result->{records}->{Second_Payment_Amount__c};
     my $num_nights     = $result->{records}->{Number_of_Nights__c};
     my $local_taxes    = $result->{records}->{Tax_Rate__c};
-    my $cleaning_fee   = $result->{records}->{Cleaning_Fee__c};
+    # my $cleaning_fee   = $result->{records}->{Cleaning_Fee__c};
+    my $cleaning_fee = "0.00";
     my $nightly_rate   = $result->{records}->{Nightly_List_Price__c};
-    my $deposit        = $result->{records}->{Security_Deposit_Amount__c};
-
+    # my $deposit        = $result->{records}->{Security_Deposit_Amount__c};
+	my $deposit = "0.00";
     my ( $month, $day, $year ) = split( /\//, $q->param('checkin_date') );
     my $second_charge_date =
       DateTime->new( month => $month, year => $year, day => $day )

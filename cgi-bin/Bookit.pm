@@ -688,51 +688,6 @@ sub _payment {
 
     warn( "first payment returned token " . $pay_res{TOKEN} ) if DEBUG;
 
-
-   $DB::single = 1;
-
-=cut
-    if ( $cmp == -1 ) {
-
-        # do second payment
-
-
-        %pay_res =
-          $Paypal->CreateRecurringPaymentsProfile( %ucargs,
-            TOKEN => $pay_res{TOKEN}, );
-
-        $DB::single = 1;
-
-        if (DEBUG) {
-            open( FH, '>/tmp/payment' ) or die $!;
-            print FH Dumper( \%pay_res );
-            close(FH) or die $!;
-        }
-
-        unless ( keys %pay_res && ( $pay_res{Ack} eq 'Success' ) ) {
-
-            $results->{invalid}->{payment_errors} = 1;
-
-            my $url = _gen_redirect( $results, $q,
-"&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount"
-            );
-
-            return $self->redirect($url);
-        }
-
-
-        warn "Successful payment for amount "
-          . $q->param('first_payment')
-          . " and booking id "
-          . $q->param('booking_id')
-          if DEBUG;
-
-    }
-    ################################################
-
-    ############################
-=cut
-
     my $sf = eval { _sf_login() };
     die $@ if $@;
 

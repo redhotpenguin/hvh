@@ -1019,11 +1019,11 @@ sub process {
         Contact_Type__c => 'Renter',
     );
 
-    if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
-        $contact_args{MailingPostalCode} = $q->param('billing_zip') . '-0000';
+    if ( $q->param('zip') =~ m/^\d+$/ ) {
+        $contact_args{MailingPostalCode} = $q->param('zip') . '-0000';
     }
     else {
-        $contact_args{MailingPostalCode} = $q->param('billing_zip');
+        $contact_args{MailingPostalCode} = $q->param('zip');
     }
     my $contact_id = _find_or_create_contact( $sf, \%contact_args );
 

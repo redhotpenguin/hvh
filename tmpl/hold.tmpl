@@ -40,42 +40,22 @@
 <TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TBODY>
 
 <TR><TD width="8"><IMG src="/img/clear.gif" width="18" height="1"></TD>
-<TD><SPAN class="detail_header">[% prop.Name %]</SPAN> - <SPAN class="entry_loc">[% prop.City__c %], [% prop.State__c %]</SPAN></TD><TD>
-
-<TABLE border="0" cellpadding="0" cellspacing="0" width="100%">
-<TBODY><TR>
-
-<TD class="entry_desc" align="center"><A href="https://www.hvh.com/cgi-bin/hvh_bookit.cgi?prop_id=[% prop_id %]"><IMG src="/img/lil_guy_white.gif" border="0"></A><BR>Contact the Owner</TD>
-
-<TD class="entry_desc" align="center"><A href="/cgi-bin/hold.cgi?prop_id=[% prop_id %]"><IMG src="/img/red_house_white.gif" border="0" hspace="3"></A><BR>Place a 48 hour Hold</TD>
-
-<TD class="entry_desc" align="center"><A href="https://www.hvh.com/cgi-bin/hvh_bookit.cgi?mode=booking&prop_id=[% prop_id %]"><IMG src="/img/scroll_white.gif" border="0"></A><BR>Book This Property!</TD>
-
-</TR></TBODY></TABLE></TD></TR><TR><TD colspan="3" valign="top">
+<TD><SPAN class="detail_header">[% prop.Name %]</SPAN> - <SPAN class="entry_loc">[% prop.City__c %], [% prop.State__c %]</SPAN></TD>
+<TD>[% PROCESS buttons.tmpl %]</TD></TR>
+<TR><TD colspan="3" valign="top">
 
 <TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TBODY><TR><TD valign="top" width="216" align="right" class="amen_wrapper">
 
 [% PROCESS bedroom.tmpl %]
-
-
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
 [% PROCESS amenities.tmpl %]
-
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
 [% PROCESS features.tmpl %]
-
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
 [% PROCESS outdoors.tmpl %]
-
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
 [% PROCESS media.tmpl %]
-
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
 [% PROCESS kitchen.tmpl %]
 
 </TD><TD bgcolor="#ffffff" valign="top"><TABLE border="0" cellpadding="10" cellspacing="0" width="100%"><TBODY><TR><TD class="entry" valign="top" bgcolor="#ffffff"><SCRIPT>setTimeout("document.fhh.fname.focus()",10);</SCRIPT>
@@ -83,15 +63,15 @@
 
 <TABLE border="0" cellpadding="1" cellspacing="0" width="100%">
 
-<TBODY><TR><TD colspan="3"><HR noshade="" size="1" color="#e2e2e1"></TD></TR><TR><TD copy="" colspan="3" class="entry_desc">To place a <B><I>48-hour hold</I></B> at [% prop.Name || 'Property Name' %], please fill out the form below and click the '48-Hour Hold' button at the bottom of the page.</TD></TR><TR><TD colspan="3"><HR noshade="" size="1" color="#e2e2e1"></TD></TR><TR><TD colspan="3"> 
+<TBODY><TR><TD colspan="3"><HR noshade="" size="1" color="#e2e2e1"></TD></TR><TR><TD copy="" colspan="3" class="entry_desc">To place a <B><I>48-hour hold</I></B> at [% prop.Name %], please fill out the form below and click the '48-Hour Hold' button at the bottom of the page.</TD></TR><TR><TD colspan="3"><HR noshade="" size="1" color="#e2e2e1"></TD></TR><TR><TD colspan="3"> 
 
 
 	<P>Required fields are marked with an asterisk (*).</P>
 [% IF errors.already_booked %]<p><font color="red">[% prop.Name %] is already booked for the [% query.param('checkin_date') %] to [% query.param('checkout_date') %] date range.</font></p>[% END %]
 
-<FORM name="hold" action="/cgi-bin/hold.cgi" method="post">
-<INPUT type="hidden" name="rm" value="process">
+<FORM name="hold" action="/cgi-bin/hold.cgi?prop_id=[% query.param('prop_id') %]" method="post">
 <INPUT type="hidden" name="prop_id" value="[% query.param('prop_id') %]">
+<INPUT type="hidden" name="rm" value="process">
 <TABLE border="0" width="100%">
 <TBODY>
 
@@ -109,8 +89,6 @@
    
     </TBODY></TABLE>
 
-<INPUT type="hidden" name="prop_name" value="[% prop_name %]">
-
 </TD></TR><TR><TD colspan="3" class="reg_copy">
 
 <INPUT type="image" src="/img/hold_off.gif" vspace="4"></TD></TR></TBODY></TABLE><BR>
@@ -120,9 +98,9 @@
 
  <CENTER>
 <!-- calendar -->
-<iframe frameborder="0" height="186" src="http://hvh.force.com/property_calendar?prop_id=[% prop_id %]"; target="_blank" align="center" width="230" scrolling="None"; bgcolor="#ffffff"> </iframe> 
-</CENTER>
+<iframe frameborder="0" height="186" src="http://hvh.force.com/property_calendar?prop_id=[% query.param('prop_id') %]"; target="_blank" align="center" width="230" scrolling="None"; bgcolor="#ffffff"> </iframe> 
 
+</CENTER>
 </TD></TR></TBODY></TABLE>
 
 </TD></TR></TBODY></TABLE></TD>
@@ -133,9 +111,16 @@
 
 [% PROCESS rental_info.tmpl %]
 
+[% FOREACH image = prop.images %]
+<IMG src="/img/clear.gif" width="1" height="6">
+<BR>
+<IMG width="216" src="[% image %]">
+<BR>
+[% END %]
+</TD>
 
-
-<IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam2.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam3.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam4.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam5.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR></TD><TD width="8"><IMG src="/img/clear.gif" width="8" height="1"></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>    
+<TD width="8"><IMG src="/img/clear.gif" width="8" height="1"></TD></TR>
+</TBODY></TABLE></TD></TR></TBODY></TABLE>    
 
   
 			

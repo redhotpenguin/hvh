@@ -9,7 +9,8 @@
 <LI>Bathrooms: [% prop.Bathrooms__c | format_number(1,2) %]<BR></LI>
 <LI>Showers: [% prop.Showers__c | format_number(1,0) %]<BR></LI>
 <LI>Bathtubs: [% IF prop.Bathtubs__c %][% prop.Bathtubs__c | format_number(1,0) %][% END %]<BR></LI>
-[% FOREACH bed = beds %] 
+
+[% FOREACH bed = prop.beds %] 
 <LI>[% bed %]<BR></LI>
 [% END %]
 </TD></TR></TBODY></TABLE>

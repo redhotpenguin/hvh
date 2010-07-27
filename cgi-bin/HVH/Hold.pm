@@ -790,15 +790,16 @@ sub hold {
     }
 
     my $prop = $memd->get("property|$prop_id");
-#    unless ($prop) { # we need to fetch it
+    unless ($prop) { # we need to fetch it
 
-	warn("hitting cache for $prop_id");
+	warn("hitting salesforce cache for $prop_id");
 	$prop = $self->retrieve_property($prop_id);
         $memd->set("property|$prop_id" => $prop);
- #   }
+    }
 
     $tmpl{'prop'} = $prop;
     $tmpl{'query'} = $self->query;
+    $tmpl{'prop_id'} = $self->query->param('prop_id');
     my $output = $self->tt_process('hold.tmpl', \%tmpl);
 
     return $output;
@@ -819,8 +820,10 @@ sub retrieve_property {
 );
 
     my @outdoors = (
-        "Extremely_Private__c", "Large_Yard__c", "Outdoor_Shower__c", "Hammock__c",
-        "Patio_Lanai__c", "Tennis_Courts__c", "Basketball_Hoop__c", "Volleyball_Court__c",);
+        "Extremely_Private__c", "Large_Yard__c", "Outdoor_Shower__c",
+	"Hammock__c",
+        "Patio_Lanai__c", "Tennis_Courts__c", 
+	"Basketball_Hoop__c", "Volleyball_Court__c",);
 
 
     my @features = ( 
@@ -851,14 +854,18 @@ sub retrieve_property {
     my $q_fields = join(',', @amenities, @outdoors, @features, @media, @bed, @kitchen);
 
     my @bases = qw( Id Name Property_Calendar_Code__c Property_Address__c Category__c
-Teaser__c Description__c Location__c Image_URL_1__c Image_URL_2__c
-Image_URL_3__c Image_URL_4__c Image_URL_5__c Image_URL_6__c
-Image_URL_7__c Image_URL_8__c State__c City__c Special_Amenities__c
+Teaser__c Description__c Location__c
+ State__c City__c Special_Amenities__c
 Solutions_Customer__c Check_in_Time__c Check_out_Time__c
 Nightly_Rate_List_Price__c Local_Tax_Rate__c Security_Deposit__c 
 Housekeeping_Fee__c Website__c Sleeps__c Bedrooms__c Bathrooms__c
 Bathtubs__c Showers__c );
-    my $base_fields = join(',', @bases);
+
+my @images = qw( Image_URL_1__c Image_URL_2__c
+Image_URL_3__c Image_URL_4__c Image_URL_5__c Image_URL_6__c
+Image_URL_7__c Image_URL_8__c );
+
+    my $base_fields = join(',', @bases, @images);
 
     my $sql = <<"SQL";
 SELECT $base_fields, $q_fields
@@ -868,30 +875,47 @@ SQL
     my $result = $self->run_select($sql);
 
     foreach my $am ( @amenities ) {
+	if ($result->{$am} eq 'true') {
         push @{$result->{amenities}}, $self->convert($am);
+	}
     }
 
 
     foreach my $am ( @outdoors ) {
-        push @{$result->{outdoors}}, $self->convert($am);
+	if ($result->{$am} eq 'true') {
+	        push @{$result->{outdoors}}, $self->convert($am);
+	}
     }
 
     foreach my $am ( @features ) {
+	if ($result->{$am} eq 'true') {
         push @{$result->{features}}, $self->convert($am);
+	}
     }
 
     foreach my $am ( @media ) {
+	if ($result->{$am} eq 'true') {
         push @{$result->{media}}, $self->convert($am);
+	}
     }
 
     foreach my $am ( @bed ) {
+	if ($result->{$am} eq 'true') {
         push @{$result->{beds}}, $self->convert($am);
+	}
     }
 
     foreach my $am ( @kitchen ) {
+	if ($result->{$am} eq 'true') {
         push @{$result->{kitchens}}, $self->convert($am);
+	}
     }
 
+    foreach my $am ( @images ) {
+	if (defined $result->{$am}) {
+        	push @{$result->{images}}, $result->{$am};
+	}
+    }
 
     return $result;
 }

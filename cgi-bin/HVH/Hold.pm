@@ -995,7 +995,8 @@ sub process {
     my ( $is_available, $checkin_date, $checkout_date ) = check_booking(
         $sf,
         $q->param('checkin_date'),
-        $q->param('checkout_date')
+        $q->param('checkout_date'),
+        $q->param('prop_id'),
     );
 
     return $self->hold({ already_booked => 1 }) unless $is_available;

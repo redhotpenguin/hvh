@@ -1,0 +1,5 @@
+$VAR1 = bless( {
+                 'done' => 'true',
+                 'queryLocator' => undef,
+                 'size' => '0'
+               }, 'QueryResult' );

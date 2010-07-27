@@ -1,0 +1,13 @@
+
+                    <TR>
+        <TD class="entry_desc">[% IF errors.missing.checkin_date or errors.invalid.checkin_date %]<font color="red">[% END %]*Check-in Date:[% IF errors.missing.checkin_date or errors.invalid.checkin_date %]</font>[% END %]<SPAN class="dateInput"></SPAN></TD>
+       <TD class="entry_desc"><INPUT id="checkin_date" name="checkin_date" maxlength="10" size="10" type="text" value="[% query.param('checkin_date') %]"> ( MM/DD/YYYY )<BR></TD>
+        </TR>
+           <TR>
+        
+<TD class="entry_desc">[% IF errors.missing.checkout_date or errors.invalid.checkout_date %]<font color="red">[% END %]*Check-out Date:[% IF errors.missing.checkout_date or errors.invalid.checkout_date %]</font>[% END %]<SPAN class="dateInput"></SPAN></TD>
+								 
+        <TD class="entry_desc"><INPUT id="checkout_date" name="checkout_date" maxlength="10" size="10" type="text" value="[% query.param('checkout_date') %]"> ( MM/DD/YYYY )<BR></TD>
+
+        </TR> 
+ 

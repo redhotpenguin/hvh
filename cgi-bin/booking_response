@@ -1,0 +1,13 @@
+$VAR1 = bless( {
+                 'done' => 'true',
+                 'records' => bless( {
+                                       'Id' => [
+                                                 'a0850000001q9TQAAY',
+                                                 'a0850000001q9TQAAY'
+                                               ],
+                                       'type' => 'Booking__c'
+                                     }, 'sObject' ),
+                 'queryLocator' => undef,
+                 'size' => 1
+               }, 'QueryResult' );
+$VAR1 = 1;

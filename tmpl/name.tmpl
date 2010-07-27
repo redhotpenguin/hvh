@@ -1,0 +1,7 @@
+<TR><TD class="entry_desc">[% IF errors.missing.first_name %]<font color="red">[% END %]*First Name:[% IF errors.missing.first_name %]</font>[% END %]</TD>
+                <TD class="entry_desc"><INPUT type="text" name="first_name" class="full" value="[% query.param('first_name') %]"></TD>
+			</TR>
+<TR><TD class="entry_desc">[% IF errors.missing.last_name %]<font color="red">[% END %]*Last Name:[% IF errors.missing.last_name %]</font>[% END %]</TD>
+                <TD class="entry_desc"><INPUT type="text" name="last_name" class="full" value="[% query.param('last_name') %]"></TD>
+		</TR>
+ 

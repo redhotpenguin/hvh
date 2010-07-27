@@ -1,0 +1,17 @@
+
+<TABLE border="0" cellpadding="0" cellspacing="0" class="left_patch" width="100%"><TBODY>
+<TR><TD class="left_patch"><B><U>Bedrooms, Baths &amp; Sleeping</U></B></TD></TR>
+<TR><TD class="left_patch">
+
+[% USE Number.Format %]
+<LI>Sleeps: [% prop.Sleeps__c | format_number(1,0) %]<BR></LI>
+<LI>Bedrooms: [% prop.Bedrooms__c | format_number(1,0) %]<BR></LI>
+<LI>Bathrooms: [% prop.Bathrooms__c | format_number(1,2) %]<BR></LI>
+<LI>Showers: [% prop.Showers__c | format_number(1,0) %]<BR></LI>
+<LI>Bathtubs: [% IF prop.Bathtubs__c %][% prop.Bathtubs__c | format_number(1,0) %][% END %]<BR></LI>
+[% FOREACH bed = beds %] 
+<LI>[% bed %]<BR></LI>
+[% END %]
+</TD></TR></TBODY></TABLE>
+
+

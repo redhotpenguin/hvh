@@ -1,0 +1,158 @@
+[% PROCESS head.tmpl title="Property Listing" %]
+
+<BODY rightmargin="0" leftmargin="0" topmargin="0" bottommargin="0" marginheight="0" marginwidth="0" bgcolor="#e2e2e1">
+
+<DIV id="WzTtDiV" style="visibility: hidden; position: absolute; overflow-x: hidden; overflow-y: hidden; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; left: 0px; top: 0px; width: 0px; "></DIV>
+
+<!-- <SCRIPT type="text/javascript" src="/js/wz_tooltip.js"></SCRIPT> -->
+<!-- <SCRIPT type="text/javascript" src="/js/tip_balloon.js"></SCRIPT> -->
+
+<!-- START CENTERING TABLE -->
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100%">
+<TBODY><TR><TD align="center" valign="top"><BR>
+    <!-- START HEADER -->
+    <TABLE border="0" cellpadding="0" cellspacing="0" width="1000">
+    <TBODY><TR>
+        <TD width="1000" bgcolor="white">
+            <!-- BEGIN TOP NAV -->
+            <TABLE border="0" cellpadding="0" cellspacing="0" width="1000">
+            <TBODY><TR><TD><IMG src="/img/nhvhlogo.gif"></TD>
+            </TR>
+			<TR><TD>[% PROCESS nav.tmpl %]</TD></TR>
+			
+</TBODY></TABLE>
+		</TD>
+	</TR>
+	</TBODY></TABLE>
+	<TABLE border="0" cellpadding="0" cellspacing="0" width="1000">
+	<TBODY><TR><TD width="1" bgcolor="#0166a9"><IMG src="/img/clear.gif" width="1" height="1"></TD>
+
+<TD valign="top">
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100%">
+<!--			<tr><Td bgcolor="#508fc4" height=42>
+			</td></tr>-->
+
+<TBODY><TR><TD width="1" bgcolor="white"><IMG src="/img/clear.gif" width="1" height="600"></TD><TD valign="top" bgcolor="#ffffff">
+			<!-- WHAT CONTENT DO WE PASS -->
+			                                            
+                        <!-- DISPLAY THE SEARCH RESULTS -->
+                                <TABLE border="0" cellpadding="0" align="center" cellspacing="0" width="100%"><TBODY><TR><TD colspan="3"><IMG src="/img/clear.gif" width="1" height="15"><BR>
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TBODY>
+
+<TR><TD width="8"><IMG src="/img/clear.gif" width="18" height="1"></TD>
+<TD><SPAN class="detail_header">[% prop.Name %]</SPAN> - <SPAN class="entry_loc">[% prop.City__c %], [% prop.State__c %]</SPAN></TD><TD>
+
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100%">
+<TBODY><TR>
+
+<TD class="entry_desc" align="center"><A href="https://www.hvh.com/cgi-bin/hvh_bookit.cgi?prop_id=[% prop_id %]"><IMG src="/img/lil_guy_white.gif" border="0"></A><BR>Contact the Owner</TD>
+
+<TD class="entry_desc" align="center"><A href="/cgi-bin/hold.cgi?prop_id=[% prop_id %]"><IMG src="/img/red_house_white.gif" border="0" hspace="3"></A><BR>Place a 48 hour Hold</TD>
+
+<TD class="entry_desc" align="center"><A href="https://www.hvh.com/cgi-bin/hvh_bookit.cgi?mode=booking&prop_id=[% prop_id %]"><IMG src="/img/scroll_white.gif" border="0"></A><BR>Book This Property!</TD>
+
+</TR></TBODY></TABLE></TD></TR><TR><TD colspan="3" valign="top">
+
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TBODY><TR><TD valign="top" width="216" align="right" class="amen_wrapper">
+
+[% PROCESS bedroom.tmpl %]
+
+
+<IMG src="/img/clear.gif" width="1" height="7"><BR>
+
+[% PROCESS amenities.tmpl %]
+
+<IMG src="/img/clear.gif" width="1" height="7"><BR>
+
+[% PROCESS features.tmpl %]
+
+<IMG src="/img/clear.gif" width="1" height="7"><BR>
+
+[% PROCESS outdoors.tmpl %]
+
+<IMG src="/img/clear.gif" width="1" height="7"><BR>
+
+[% PROCESS media.tmpl %]
+
+<IMG src="/img/clear.gif" width="1" height="7"><BR>
+
+[% PROCESS kitchen.tmpl %]
+
+</TD><TD bgcolor="#ffffff" valign="top"><TABLE border="0" cellpadding="10" cellspacing="0" width="100%"><TBODY><TR><TD class="entry" valign="top" bgcolor="#ffffff"><SCRIPT>setTimeout("document.fhh.fname.focus()",10);</SCRIPT>
+
+
+<TABLE border="0" cellpadding="1" cellspacing="0" width="100%">
+
+<TBODY><TR><TD colspan="3"><HR noshade="" size="1" color="#e2e2e1"></TD></TR><TR><TD copy="" colspan="3" class="entry_desc">To place a <B><I>48-hour hold</I></B> at [% prop.Name || 'Property Name' %], please fill out the form below and click the '48-Hour Hold' button at the bottom of the page.</TD></TR><TR><TD colspan="3"><HR noshade="" size="1" color="#e2e2e1"></TD></TR><TR><TD colspan="3"> 
+
+
+	<P>Required fields are marked with an asterisk (*).</P>
+[% IF errors.already_booked %]<p><font color="red">[% prop.Name %] is already booked for the [% query.param('checkin_date') %] to [% query.param('checkout_date') %] date range.</font></p>[% END %]
+
+<FORM name="hold" action="/cgi-bin/hold.cgi" method="post">
+<INPUT type="hidden" name="rm" value="process">
+<INPUT type="hidden" name="prop_id" value="[% query.param('prop_id') %]">
+<TABLE border="0" width="100%">
+<TBODY>
+
+[% PROCESS name.tmpl %]
+[% PROCESS street.tmpl %] 
+[% PROCESS city.tmpl %]
+[% PROCESS state.tmpl %]
+[% PROCESS zip.tmpl %]
+[% PROCESS country.tmpl %]
+[% PROCESS email.tmpl %]
+[% PROCESS phone.tmpl %]
+[% PROCESS guests.tmpl %]
+[% PROCESS checkin.tmpl %]
+[% PROCESS comments.tmpl %]
+   
+    </TBODY></TABLE>
+
+<INPUT type="hidden" name="prop_name" value="[% prop_name %]">
+
+</TD></TR><TR><TD colspan="3" class="reg_copy">
+
+<INPUT type="image" src="/img/hold_off.gif" vspace="4"></TD></TR></TBODY></TABLE><BR>
+<TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TBODY><TR><TD>          
+
+</FORM>
+
+ <CENTER>
+<!-- calendar -->
+<iframe frameborder="0" height="186" src="http://hvh.force.com/property_calendar?prop_id=[% prop_id %]"; target="_blank" align="center" width="230" scrolling="None"; bgcolor="#ffffff"> </iframe> 
+</CENTER>
+
+</TD></TR></TBODY></TABLE>
+
+</TD></TR></TBODY></TABLE></TD>
+<TD width="8"><IMG src="/img/clear.gif" width="8" height="1"></TD>
+
+<TD valign="top" class="caption" width="216"><IMG src="/img/clear.gif" width="1" height="9"><BR>
+
+
+[% PROCESS rental_info.tmpl %]
+
+
+
+<IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam2.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam3.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam4.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam5.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR></TD><TD width="8"><IMG src="/img/clear.gif" width="8" height="1"></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>    
+
+  
+			
+			<!-- SHOULD BE -->
+						</TD></TR>
+			</TBODY></TABLE>
+		</TD>
+		<TD width="1" bgcolor="#0166a9"><IMG src="/img/clear.gif" width="1" height="1"></TD>
+		
+	</TR>
+	<TR><TD colspan="4">
+
+	</TD></TR>
+	<TR><TD colspan="4" height="1" bgcolor="#0166a9"><IMG src="/img/clear.gif" width="1" height="1"></TD></TR>
+
+
+	<TR><TD colspan="4" align="center" class="footer"><BR>Copyright 2010 Hideaway Vacation Homes, Inc. All rights reserved.&nbsp;&nbsp;|&nbsp;&nbsp;Privacy Policy&nbsp;&nbsp;|&nbsp;&nbsp;Terms of Use&nbsp;&nbsp;|&nbsp;&nbsp;<A href="mailto:thomas@hvh.com">thomas@hvh.com</A>&nbsp;&nbsp;|&nbsp;&nbsp;888-858-6562</TD></TR>
+	</TBODY></TABLE>
+
+[% PROCESS footer.tmpl %]

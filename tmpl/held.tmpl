@@ -18,26 +18,12 @@
             <TABLE border="0" cellpadding="0" cellspacing="0" width="1000">
             <TBODY><TR><TD><IMG src="/img/nhvhlogo.gif"></TD>
             </TR>
-			<TR><TD>
-<TABLE border="0" cellpadding="0" width="1000" cellspacing="0">
-<TBODY><TR>
-		<TD><A href="https://www.hvh.com/xdev/index.php" onmouseover="document.images.home.src='/img/home_on.gif'" onmouseout="document.images.home.src=/img/home_off.gif'"><IMG src="/img/home_off.gif" border="0" name="home"></A></TD>
-			<TD><A href="https://www.hvh.com/xdev/contact_us.php" onmouseover="document.images.contact.src='/img/contact_us_on.gif'" onmouseout="document.images.contact.src='/img/contact_us_off.gif'"><IMG src="/img/contact_us_off.gif" border="0" name="contact"></A></TD>
-			<TD><A href="https://www.hvh.com/xdev/about_us.php" onmouseover="document.images.about.src='/img/about_us_on.gif'" onmouseout="document.images.about.src='/img/about_us_off.gif'"><IMG src="/img/about_us_off.gif" border="0" name="about"></A></TD>
-			<TD><A href="https://www.hvh.com/xdev/philanthropy.php" onmouseover="document.images.philanthropy.src='/img/philanthropy_on.gif'" onmouseout="document.images.philanthropy.src='/img/philanthropy_off.gif'"><IMG src="/img/philanthropy_off.gif" border="0" name="philanthropy"></A></TD>
-			<TD><A href="https://www.hvh.com/xdev/love_life.php" onmouseover="document.images.love.src='/img/love_life_on.gif'" onmouseout="document.images.love.src='/img/love_life_off.gif'"><IMG src="/img/love_life_off.gif" border="0" name="love"></A></TD>
-			<TD><A href="https://www.hvh.com/xdev/success.php" onmouseover="document.images.success.src='/img/customer_success_on.gif'" onmouseout="document.images.success.src='/img/customer_success_off.gif'"><IMG src="/img/customer_success_off.gif" border="0" name="success"></A></TD>
-			<TD><A href="https://www.hvh.com/xdev/solutions.php" onmouseover="document.images.solutions.src='/img/solutions_on.gif'" onmouseout="document.images.solutions.src='/img/solutions_off.gif'"><IMG src="/img/solutions_off.gif" border="0" name="solutions"></A></TD>
-	</TR>
-</TBODY></TABLE>
-</TD></TR>
+			<TR><TD>[% PROCESS nav.tmpl %]</TD></TR>
 			
 </TBODY></TABLE>
 		</TD>
 	</TR>
 	</TBODY></TABLE>
-
-
 	<TABLE border="0" cellpadding="0" cellspacing="0" width="1000">
 	<TBODY><TR><TD width="1" bgcolor="#0166a9"><IMG src="/img/clear.gif" width="1" height="1"></TD>
 
@@ -54,124 +40,56 @@
 <TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TBODY>
 
 <TR><TD width="8"><IMG src="/img/clear.gif" width="18" height="1"></TD>
-<TD><SPAN class="detail_header">[% prop.Name %]</SPAN> - <SPAN class="entry_loc">[% prop.City__c %], [% prop.State__c %]</SPAN></TD><TD>
-
-<TABLE border="0" cellpadding="0" cellspacing="0" width="100%">
-<TBODY><TR>
-
-<TD class="entry_desc" align="center"><A href="https://www.hvh.com/cgi-bin/hvh_bookit.cgi?prop_id=[% prop_id %]"><IMG src="/img/lil_guy_white.gif" border="0"></A><BR>Contact the Owner</TD>
-
-<TD class="entry_desc" align="center"><A href="/img/hold.tmpl.html"><IMG src="/img/red_house_white.gif" border="0" hspace="3"></A><BR>Place a 48 hour Hold</TD>
-
-<TD class="entry_desc" align="center"><A href="https://www.hvh.com/cgi-bin/hvh_bookit.cgi?mode=booking&prop_id=[% prop_id %]"><IMG src="/img/scroll_white.gif" border="0"></A><BR>Book This Property!</TD>
-
-</TR></TBODY></TABLE></TD></TR><TR><TD colspan="3" valign="top">
+<TD><SPAN class="detail_header">[% prop.Name %]</SPAN> - <SPAN class="entry_loc">[% prop.City__c %], [% prop.State__c %]</SPAN></TD>
+<TD>[% PROCESS buttons.tmpl %]</TD></TR>
+<TR><TD colspan="3" valign="top">
 
 <TABLE border="0" cellpadding="0" cellspacing="0" width="100%"><TBODY><TR><TD valign="top" width="216" align="right" class="amen_wrapper">
 
-
-<TABLE border="0" cellpadding="0" cellspacing="0" class="left_patch" width="100%"><TBODY>
-<TR><TD class="left_patch"><B><U>Bedrooms, Baths &amp; Sleeping</U></B></TD></TR>
-<TR><TD class="left_patch">
-
-[% USE Number.Format %]
-<LI>Sleeps: [% prop.Sleeps__c | format_number(1,0) %]<BR></LI>
-<LI>Bedrooms: [% prop.Bedrooms__c | format_number(1,0) %]<BR></LI>
-<LI>Bathrooms: [% prop.Bathrooms__c | format_number(1,2) %]<BR></LI>
-<LI>Showers: [% prop.Showers__c | format_number(1,0) %]<BR></LI>
-<LI>Bathtubs: [% prop.Bathtubs__c | format_number(1,0) %]<BR></LI>
-[% FOREACH bed = beds %] 
-<LI>[% bed %]<BR></LI>
-[% END %]
-</TD></TR></TBODY></TABLE>
-
+[% PROCESS bedroom.tmpl %]
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-<TABLE border="0" cellpadding="0" cellspacing="0" class="left_patch" width="100%"><TBODY>
-<TR><TD class="left_patch"><B><U>Special Amenities</U></B></TD></TR>
-[% FOREACH special = prop.amenities %]
-<TR><TD class="left_patch"><LI>[% special %]<BR></LI>
-[% END %]
-</TD></TR></TBODY></TABLE>
+[% PROCESS amenities.tmpl %]
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
-<TABLE border="0" cellpadding="0" cellspacing="0" class="left_patch" width="100%"><TBODY>
-<TR><TD class="left_patch"><B><U>Features</U></B></TD></TR>
-[% FOREACH amenity = amenities %]
-<TR><TD class="left_patch"><LI>[% amenity %]<BR></LI></TD></TR>
-[% END %]
-
-</TBODY></TABLE>
+[% PROCESS features.tmpl %]
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
-<TABLE border="0" cellpadding="0" cellspacing="0" class="left_patch" width="100%"><TBODY>
-<TR><TD class="left_patch"><B><U>Outdoors</U></B></TD></TR>
-[% FOREACH outdoor = outdoors %]
-<TR><TD class="left_patch"><LI>[% outdoor %]<BR></LI></TD></TR>
-[% END %]
-</TBODY></TABLE>
+[% PROCESS outdoors.tmpl %]
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
-<TABLE border="0" cellpadding="0" cellspacing="0" class="left_patch" width="100%"><TBODY>
-<TR><TD class="left_patch"><B><U>Communications &amp; Multimedia</U></B></TD></TR>
-<TR><TD class="left_patch">
-[% FOREACH media = medias %]
-<LI>[% media %]<BR></LI>
-[% END %]
-</TD></TR></TBODY></TABLE>
+[% PROCESS media.tmpl %]
 <IMG src="/img/clear.gif" width="1" height="7"><BR>
-
-<TABLE border="0" cellpadding="0" cellspacing="0" class="left_patch" width="100%"><TBODY>
-<TR><TD class="left_patch"><B><U>Kitchen</U></B></TD></TR>
-<TR><TD class="left_patch">
-[% FOREACH kitchen = kitches %]
-<LI>kitchen<BR></LI>
-[% END %]
-</TD></TR></TBODY></TABLE>
+[% PROCESS kitchen.tmpl %]
 
 </TD><TD bgcolor="#ffffff" valign="top"><TABLE border="0" cellpadding="10" cellspacing="0" width="100%"><TBODY><TR><TD class="entry" valign="top" bgcolor="#ffffff"><SCRIPT>setTimeout("document.fhh.fname.focus()",10);</SCRIPT>
 
 
 <TABLE border="0" cellpadding="1" cellspacing="0" width="100%">
 
-<TBODY><TR><TD colspan="3"><HR noshade="" size="1" color="#e2e2e1"></TD></TR><TR><TD copy="" colspan="3" class="entry_desc">To place a <B><I>48-hour hold</I></B> at [% prop.Name %], please fill out the form below and click the '48-Hour Hold' button at the bottom of the page.</TD></TR><TR><TD colspan="3"><HR noshade="" size="1" color="#e2e2e1"></TD></TR><TR><TD colspan="3"> 
+<TBODY>
+<div class=success>fred put booking id.</div>
+   
+    </TBODY></TABLE>
 
+</TD></TR><TR><TD colspan="3" class="reg_copy">
 
-<h1>YOUR SHIT IS held MOTHERFUCKER, booking id [% query.param('booking_id') %]</h1>
-
- <CENTER>
-<!-- calendar -->
-<iframe frameborder="0" height="186" src="http://hvh.force.com/property_calendar?prop_id=[% prop_id %]"; target="_blank" align="center" width="230" scrolling="None"; bgcolor="#ffffff"> </iframe> 
-</CENTER>
-
-</TD></TR></TBODY></TABLE>
+</TD></TR></TBODY></TABLE><BR>
 
 </TD></TR></TBODY></TABLE></TD>
 <TD width="8"><IMG src="/img/clear.gif" width="8" height="1"></TD>
 
 <TD valign="top" class="caption" width="216"><IMG src="/img/clear.gif" width="1" height="9"><BR>
 
-<TABLE class="patch" width="100%"><TBODY><TR><TD class="patch" colspan="2" align="left"><B><U>Property Rental Information</U></B></TD></TR><TR><TD colspan="2">
 
-	<TABLE border="0" cellpadding="1" cellspacing="0" width="100%"><TBODY>
-<TR><TD class="patch"><LI>Nightly Rate Price:</LI></TD><TD class="patch" align="right">$[% prop.Nightly_Rate__c | format_number(2,3) %]</TD></TR>
+[% PROCESS rental_info.tmpl %]
 
-<TR><TD class="patch"><LI>Local Tax Rate:</LI></TD><TD class="patch" align="right">[% prop.Local_Tax_Rate__c | format_number(1,1) %]%</TD></TR>
+[% FOREACH image = prop.images %]
+<IMG src="/img/clear.gif" width="1" height="6">
+<BR>
+<IMG width="216" src="[% image %]">
+<BR>
+[% END %]
+</TD>
 
-<TR><TD class="patch"><LI>Security Deposit:</LI></TD><TD class="patch" align="right">$[% prop.Security_Deposit__c | format_number(2,3) %]</TD></TR>
-
-<TR><TD class="patch"><LI>Housekeeping Fee:</LI></TD><TD class="patch" align="right">$[% prop.Housekeeping_Fee__c | format_number(2,3) %]</TD></TR>
-
-<TR><TD class="patch"><LI>Check-in Time:</LI></TD><TD class="patch" align="right">[% prop.Check_in_Time__c %]</TD></TR>
-
-<TR><TD class="patch"><LI>Check-out Time:</LI></TD><TD class="patch" align="right">[% prop.Check_out_Time__c %]</TD></TR>
-
-<TR><TD class="patch"><LI>Website:</LI></TD><TD class="patch" align="right"><A href="http://[% prop.Website__c %]" target="_blank">Click Here</A></TD></TR></TBODY></TABLE>
-
-
-	</TD></TR></TBODY>
-</TABLE>
-
-<IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam2.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam3.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam4.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR><IMG width="216" src="/img/kam5.gif"><BR><IMG src="/img/clear.gif" width="1" height="6"><BR></TD><TD width="8"><IMG src="/img/clear.gif" width="8" height="1"></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE>    
+<TD width="8"><IMG src="/img/clear.gif" width="8" height="1"></TD></TR>
+</TBODY></TABLE></TD></TR></TBODY></TABLE>    
 
   
 			

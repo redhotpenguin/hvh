@@ -77,7 +77,7 @@ include "../phpdev/content/features_data.inc";
 	echo "<table border=0 cellpadding=0 cellspacing=0 width=\"100%\">";
 
 	echo "<tr><Td class=entry_desc align=center><a href=\"$PHP_SELF?prop_id=$get_prop_id&cto=1\"><img src=\"img/lil_guy_white.gif\" border=0></a><br>Contact the Owner</td>";
-	echo "<td class=entry_desc align=center><a href=\"$PHP_SELF?prop_id=$get_prop_id&fhh=1\"><img src=\"img/red_house_white.gif\" border=0 hspace=3></a><br>Place a 48 hour Hold</td>";
+	echo "<td class=entry_desc align=center><a href=\"https://www.hvh.com/cgi-bin/hold.cgi?prop_id=$get_prop_id\"><img src=\"img/red_house_white.gif\" border=0 hspace=3></a><br>Place a 48 hour Hold</td>";
     if ($customer == 'true') {
     echo "<td class=entry_desc align=center><a href=\"$PHP_SELF?prop_id=$get_prop_id&bkt=1\"><img src=\"img/scroll_white.gif\" border=0></a><br>Book This Property!</td>";
     } else {
@@ -308,20 +308,29 @@ echo "Thank you for your interest in " . $listing_obj->fields->Name  .".  HVH is
 			echo "<input type=hidden name=first_payment value=\"$first_payment\">";
 			echo "<table border=0 cellpadding=0 cellspacing=2 width=\"86%\" align=center>";
 			echo "<tr><Td  bgcolor=\"#e2e2e1\" class=entry_desc>Fee Summary</td><td bgcolor=\"#999999\" class=entry_desc align=center><font color=white>Amount</font></td>";	
-			echo "<tr><td class=entry_desc>Nightly Rate:</td><td class=entry_desc align=right><b>\$$nightly_rate</b></td></tr>";
+			echo "<tr><td class=entry_desc>Nightly Rate:</td><td class=entry_desc align=right>\$$nightly_rate</td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
-			echo "<tr><td class=entry_desc>Number of Nights:</td><td class=entry_desc align=right><b>$num_nights</b></td></tr>";
+			echo "<tr><td class=entry_desc>Number of Nights:</td><td class=entry_desc align=right>$num_nights</td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
-			echo "<tr><td class=entry_desc>Rental Subtotal:</td><td class=entry_desc align=right><b>\$$rental_subtotal</b></td></tr>";
+			echo "<tr><td class=entry_desc>Rental Subtotal:</td><td class=entry_desc align=right>\$$rental_subtotal</td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
-			echo "<tr><td class=entry_desc>Accommodations Tax (<b>$local_tax%</b>):</td><td class=entry_desc align=right><b>$$total_tax</b></td></tr>";
+			echo "<tr><td class=entry_desc>Accommodations Tax (<b>$local_tax%</b>):</td><td class=entry_desc align=right>$$total_tax</td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
-			echo "<tr><td class=entry_desc>Total Rental Amount:</td><td class=entry_desc align=right><b><font color=red>$$rental_total</font></b></td></tr>";
+			echo "<tr><td class=entry_desc><b>Total Rental Amount:</b></td><td class=entry_desc align=right><b>$$rental_total</b></td></tr>";
+
+			echo "<tr><td class=entry_desc colspan=3><Br></td></tr>";	
+			echo "<tr><Td  bgcolor=\"#e2e2e1\" class=entry_desc>Additional Fees</td><td bgcolor=\"#999999\" class=entry_desc align=center><font color=white>Amount</font></td>";
+			echo "<tr><td class=entry_desc>Deposit Amount:</td><td class=entry_desc align=right><B>\$".sprintf('%2.2f',$listing_obj->fields->Security_Deposit__c)."</b></td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
-			echo "<tr><td class=entry_desc>Deposit Amount:</td><td class=entry_desc align=right><B>\$$deposit</b></td></tr>";
+			echo "<tr><td class=entry_desc>Deposit Waived:</td><td class=entry_desc align=right><B>-\$".sprintf('%2.2f',$listing_obj->fields->Security_Deposit__c)."</b></td></tr>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
-			echo "<tr><td class=entry_desc>Cleaning Fee:</td><td class=entry_desc align=right><B>\$$cleaning_fee</b></td></tr>";
-			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/cler.gif\" width=1 height=1></td></tr>";
+			echo "<tr><td class=entry_desc>Cleaning Fee:</td><td class=entry_desc align=right><B>\$".sprintf('%2.2f', $listing_obj->fields->Housekeeping_Fee__c)."</b></td></tr>";
+			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
+			echo "<tr><td class=entry_desc>Cleaning Fee Waived:</td><td class=entry_desc align=right><B>-\$".sprintf('%2.2f', $listing_obj->fields->Housekeeping_Fee__c)."</b></td></tr>";
+
+
+			 echo "<tr><td class=entry_desc colspan=3><Br></td></tr>";
+			echo "<tr><Td  bgcolor=\"#e2e2e1\" class=entry_desc>Payments</td><td bgcolor=\"#999999\" class=entry_desc align=center><font color=white>Amount</font></td>";
 			echo "<tr><td class=entry_desc>First Payment Charged Immediately:</td><td class=entry_desc align=right><b>$$first_payment</b>";
 			echo "<tr><td colspan=3 height=1 bgcolor=\"#cccccc\"><img src=\"img/clear.gif\" width=1 height=1></td></tr>";
 			echo "<tr><td class=entry_desc>Second Payment Charged on $second_charge_date:</td><td class=entry_desc align=right><b>$$second_payment</b></td></tr>";
@@ -446,7 +455,7 @@ echo "</td>";
 	
                 if (strlen($listing_obj->fields->$img) > 3) {
 					if (@fclose(@fopen("$img_loc", "r"))) {
-                        echo "<img width=\"216\" height=\"152\" src=\"".$listing_obj->fields->$img."\"><br><img src=\"img/clear.gif\" width=1 height=6><br>";
+                        echo "<img width=\"216\" src=\"".$listing_obj->fields->$img."\"><br><img src=\"img/clear.gif\" width=1 height=6><br>";
 					}
                 }
         }

@@ -3,7 +3,7 @@
 
     if (GBrowserIsCompatible()) {
       var Alaskamap = new GMap2(document.getElementById("Alaska"));
-      Alaskamap.setCenter(new GLatLng(60.5427778, -145.7575));
+      Alaskamap.setCenter(new GLatLng(60.5387163, -145.700553));
       Alaskamap.setZoom(4);
       Alaskamap.setMapType(G_NORMAL_MAP);
       Alaskamap.addControl(new GSmallMapControl());
@@ -15,7 +15,7 @@
       icon_palm.infoWindowAnchor = new GPoint(0, 30);
       icon_palm.image = "http://www.hvh.com/img/lonepalm.outlinr.png";
 
-      var Alaskamap_marker_1 = new GMarker(new GLatLng(60.5427778, -145.7575) , icon_palm);
+      var Alaskamap_marker_1 = new GMarker(new GLatLng(60.5387163, -145.700553) , icon_palm);
       GEvent.addListener(Alaskamap_marker_1, "click", function () {  Alaskamap_marker_1.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000001OhFBAA0"><span style="font-size: 12px">Orca Adventure Lodge</span></a><br /><span style="font-size: 12px">Cordova, Alaska</span><br /><span style="font-size: 12px">Premier Hotel</span></div>'); });
       Alaskamap.addOverlay(Alaskamap_marker_1);
     }

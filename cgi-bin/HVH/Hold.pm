@@ -775,7 +775,17 @@ sub _reserve {
 sub held {
     my ($self) = @_;
 
-    my $output = $self->tt_process('held.tmpl', {query => $self->query});
+    my $prop_id = $self->query->param('prop_id');
+    my $prop = $memd->get("property|$prop_id");
+    unless ($prop) { # we need to fetch it
+
+	warn("hitting salesforce cache for $prop_id");
+	$prop = $self->retrieve_property($prop_id);
+        $memd->set("property|$prop_id" => $prop);
+    }
+
+
+    my $output = $self->tt_process('held.tmpl', {query => $self->query, prop => $prop});
     return $output;
 }
 

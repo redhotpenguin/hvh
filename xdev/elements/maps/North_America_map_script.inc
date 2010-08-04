@@ -3,7 +3,7 @@
 
     if (GBrowserIsCompatible()) {
       var North_Americamap = new GMap2(document.getElementById("North_America"));
-      North_Americamap.setCenter(new GLatLng(39.1141707, -94.627457));
+      North_Americamap.setCenter(new GLatLng(39.1066667, -94.6763889));
       North_Americamap.setZoom(3);
       North_Americamap.setMapType(G_NORMAL_MAP);
       North_Americamap.addControl(new GSmallMapControl());
@@ -24,7 +24,7 @@
       var North_Americamap_marker_3 = new GMarker(new GLatLng(39.0204508, -123.4159263) , icon_palm);
       GEvent.addListener(North_Americamap_marker_3, "click", function () {  North_Americamap_marker_3.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000004y7BKAAY"><span style="font-size: 12px">High Rock Ranch</span></a><br /><span style="font-size: 12px">Boonville, Anderson Valley / Napa</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_3);
-      var North_Americamap_marker_4 = new GMarker(new GLatLng(43.6926152, -110.9812566) , icon_palm);
+      var North_Americamap_marker_4 = new GMarker(new GLatLng(43.75, -111.034) , icon_palm);
       GEvent.addListener(North_Americamap_marker_4, "click", function () {  North_Americamap_marker_4.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000001LJNrAAO"><span style="font-size: 12px">Tablerock</span></a><br /><span style="font-size: 12px">Alta, Wyoming</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_4);
       var North_Americamap_marker_5 = new GMarker(new GLatLng(39.327962, -120.1832533) , icon_palm);
@@ -39,18 +39,27 @@
       var North_Americamap_marker_8 = new GMarker(new GLatLng(33.8302961, -116.5452921) , icon_palm);
       GEvent.addListener(North_Americamap_marker_8, "click", function () {  North_Americamap_marker_8.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002C9ScAAK"><span style="font-size: 12px">Palm Oasis at Alta</span></a><br /><span style="font-size: 12px">South Palm Springs, Alta</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_8);
-      var North_Americamap_marker_9 = new GMarker(new GLatLng(30.2522245, -88.1169354) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_9, "click", function () {  North_Americamap_marker_9.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002ExpLAAS"><span style="font-size: 12px">Purple Parrot</span></a><br /><span style="font-size: 12px">Dauphin Island, Dauphin Island</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      var North_Americamap_marker_9 = new GMarker(new GLatLng(39.26721, -119.963988) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_9, "click", function () {  North_Americamap_marker_9.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000005zwEQAAY"><span style="font-size: 12px">Tahoe Fun House</span></a><br /><span style="font-size: 12px">Incline Village, Lake Tahoe</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_9);
-      var North_Americamap_marker_10 = new GMarker(new GLatLng(22.8905327, -109.9167371) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_10, "click", function () {  North_Americamap_marker_10.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002G0qJAAS"><span style="font-size: 12px">Casa de la Jolla</span></a><br /><span style="font-size: 12px">Cabo San Lucas, Cabo</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      var North_Americamap_marker_10 = new GMarker(new GLatLng(30.2522245, -88.1169354) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_10, "click", function () {  North_Americamap_marker_10.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002ExpLAAS"><span style="font-size: 12px">Purple Parrot</span></a><br /><span style="font-size: 12px">Dauphin Island, Dauphin Island</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_10);
-      var North_Americamap_marker_11 = new GMarker(new GLatLng(37.648546, -118.972079) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_11, "click", function () {  North_Americamap_marker_11.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002Iis4AAC"><span style="font-size: 12px">Mammoth Ski House</span></a><br /><span style="font-size: 12px">Mammoth Lakes, Mammoth Mountain</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      var North_Americamap_marker_11 = new GMarker(new GLatLng(22.8905327, -109.9167371) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_11, "click", function () {  North_Americamap_marker_11.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002G0qJAAS"><span style="font-size: 12px">Casa de la Jolla</span></a><br /><span style="font-size: 12px">Cabo San Lucas, Cabo</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_11);
-      var North_Americamap_marker_12 = new GMarker(new GLatLng(44.0581728, -121.3153096) , icon_palm);
-      GEvent.addListener(North_Americamap_marker_12, "click", function () {  North_Americamap_marker_12.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002IismAAC"><span style="font-size: 12px">Mt. Bachelor Executive</span></a><br /><span style="font-size: 12px">Bend, Mt. Bachelor</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      var North_Americamap_marker_12 = new GMarker(new GLatLng(37.648546, -118.972079) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_12, "click", function () {  North_Americamap_marker_12.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002Iis4AAC"><span style="font-size: 12px">Mammoth Ski House</span></a><br /><span style="font-size: 12px">Mammoth Lakes, Mammoth Mountain</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
       North_Americamap.addOverlay(North_Americamap_marker_12);
+      var North_Americamap_marker_13 = new GMarker(new GLatLng(44.0581728, -121.3153096) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_13, "click", function () {  North_Americamap_marker_13.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002IismAAC"><span style="font-size: 12px">Mt. Bachelor Executive</span></a><br /><span style="font-size: 12px">Bend, Mt. Bachelor</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      North_Americamap.addOverlay(North_Americamap_marker_13);
+      var North_Americamap_marker_14 = new GMarker(new GLatLng(17.7802778, -101.7225) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_14, "click", function () {  North_Americamap_marker_14.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000005WKOoAAO"><span style="font-size: 12px">Casa Majahua</span></a><br /><span style="font-size: 12px">Troncones, Mexico</span><br /><span style="font-size: 12px">Premier Home</span></div>'); });
+      North_Americamap.addOverlay(North_Americamap_marker_14);
+      var North_Americamap_marker_15 = new GMarker(new GLatLng(30.267153, -97.7430608) , icon_palm);
+      GEvent.addListener(North_Americamap_marker_15, "click", function () {  North_Americamap_marker_15.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000007NmPRAA0"><span style="font-size: 12px">Lake Austin Waterfront</span></a><br /><span style="font-size: 12px">Austin, Westlake</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
+      North_Americamap.addOverlay(North_Americamap_marker_15);
     }
 
     //]]>

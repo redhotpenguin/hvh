@@ -160,7 +160,7 @@ sub check_booking {
     my $dt_ci = _dtdate($checkin_date);
     my $dt_co = _dtdate($checkout_date);
 
-    warn("checkin $checkin_date, checkout $checkout_date");
+    warn("checkin $checkin_date, checkout $checkout_date, prop $prop_id") if DEBUG;
 
     # allow up to a week of back booking
     my $tomorrow = DateTime->now->subtract( weeks => 1 );
@@ -180,7 +180,7 @@ sub check_booking {
     # warn("checkin date $checkin_date, co $checkout_date");
 
     my $sql =
-"Select Id from Booking__c where (Booking_Stage__c != 'Dead' and Booking_Stage__c != 'Pending')  and Property_name__c = '$prop_id' and ( ";
+"Select Id from Booking__c where (Booking_Stage__c != 'Dead' and Booking_Stage__c != 'Working' and Booking_Stage__c != 'Canceled' and Booking_Stage__c != 'Lost' and Booking_Stage__c != 'Unqualified')  and Property_name__c = '$prop_id' and ( ";
 
     $sql .=
 "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date) ) ";
@@ -201,13 +201,14 @@ sub check_booking {
 " or ( ( Check_in_Date__c >= $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c <= $checkout_date ) ) )";
 
     # (new_checkin) (booked_checkin) (booked_checkout) (new_checkout)
-
+#	warn("sql is $sql");
     my $res = $sf->query( query => $sql );
 
     if ( $res->valueof('//queryResponse/result')->{size} != 0 )
     {    # found a conflicting booking
 
-        warn("booking conflict! ") if DEBUG;
+    	my $result = $res->envelope->{Body}->{queryResponse}->{result};
+        warn("booking conflict! " . Dumper($result)) if DEBUG;
 
         return;
     }

@@ -207,7 +207,7 @@ sub check_booking {
     if ( $res->valueof('//queryResponse/result')->{size} != 0 )
     {    # found a conflicting booking
 
-    	my $result = $res->envelope->{Body}->{queryResponse}->{result};
+    	#my $result = $res->envelope->{Body}->{queryResponse}->{result};
         warn("booking conflict! " . Dumper($result)) if DEBUG;
 
         return;

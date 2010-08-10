@@ -208,7 +208,7 @@ sub check_booking {
     {    # found a conflicting booking
 
     	#my $result = $res->envelope->{Body}->{queryResponse}->{result};
-        warn("booking conflict! " . Dumper($result)) if DEBUG;
+        #warn("booking conflict! " . Dumper($result)) if DEBUG;
 
         return;
     }

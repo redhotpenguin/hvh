@@ -287,7 +287,7 @@ sub check_booking {
     # warn("checkin date $checkin_date, co $checkout_date");
 
     my $sql =
-"Select Id from Booking__c where (Booking_Stage__c != 'Dead' and Booking_Stage__c != 'Working' and Booking_Stage__c != 'Unqualified' )  and Property_name__c = '$prop_id' and ( ";
+"Select Id from Booking__c where (Booking_Stage__c != 'Dead' and Booking_Stage__c != 'Working' and Booking_Stage__c != 'Unqualified'  and Booking_Stage__c != 'Canceled'  and Booking_Stage__c != 'Lost')  and Property_name__c = '$prop_id' and ( ";
 
     $sql .=
 "( ( Check_in_Date__c < $checkin_date ) and ( Check_out_Date__c > $checkin_date ) and ( Check_in_Date__c < $checkout_date ) and ( Check_out_Date__c >= $checkout_date) ) ";

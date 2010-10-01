@@ -780,6 +780,7 @@ sub _reserve {
 
     my $contact_id = _find_or_create_contact( $sf, \%contact_args );
 
+    my $date = DateTime->now->mdy('/');
     # now make a booking
     my ( $r, %sf_args );
     eval {
@@ -787,6 +788,7 @@ sub _reserve {
 
             type                   => 'Booking__c',
             Name                   => $name,
+            Date__c                => $date,
             Property_name__c       => $q->param('prop_id'),
             Check_in_Date__c       => _dbdate( $q->param('checkin_date') ),
             Check_out_Date__c      => _dbdate( $q->param('checkout_date') ),

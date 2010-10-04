@@ -525,7 +525,7 @@ sub _payment {
     );
 
 	
-    warn( "pay args: " . Dumper( \%pay_args ) );
+    #warn( "pay args: " . Dumper( \%pay_args ) );
 
     my %pay_res = $Paypal->DoDirectPayment( %pay_args );
 
@@ -556,12 +556,13 @@ sub _payment {
             {
                 id                        => $q->param('booking_id'),
                 Booking_Stage__c          => 'Booked - First Payment',
-                Credit_Card_Last_4__c  => substr( $card, length($card) - 4 ),
+                Credit_Card_Last_4__c  => ' ' . substr( $card, length($card) - 4 ),
                 Credit_Card_Exp_Date__c   => $exp,
                 X1st_Payment__c           => $first_payment,
-                First_Payment_Received__c => $date,
-                Date__c                   => $date,
-                Second_Payment_Due_Date__c => $second_charge_date,
+                First_Payment_Received__c => _dbdate($date),
+                Date__c                   => _dbdate($date),
+                Second_Payment_Due_Date__c => _dbdate($second_charge_date),
+                
             },
         );
     };

@@ -17,6 +17,7 @@ use Number::Format;
 
 BEGIN {
     $WWW::Salesforce::Constants::TYPES{booking__c}->{x1st_payment__c} = 'xsd:double';
+    $WWW::Salesforce::Constants::TYPES{booking__c}->{x1st_payment_paypal_fee__c} = 'xsd:double';
 }
 
 use constant DEBUG => $ENV{HVH_DEBUG} || 0;
@@ -528,6 +529,7 @@ sub _payment {
     #warn( "pay args: " . Dumper( \%pay_args ) );
 
     my %pay_res = $Paypal->DoDirectPayment( %pay_args );
+#    warn( "pay args: " . Dumper( \%pay_res ) );
 
     if ( $pay_res{ACK} eq 'Failure' ) {
 
@@ -541,6 +543,12 @@ sub _payment {
 
         return $self->redirect($url);
     }
+
+    my %verify = $Paypal->GetTransactionDetails(
+	METHOD => 'GetTransactionDetails',
+	TRANSACTIONID => $pay_res{'TRANSACTIONID'}, );
+ #   warn( "verify: " . Dumper( \%verify ) );
+	
 
     my $sf = eval { _sf_login() };
     die $@ if $@;
@@ -562,7 +570,9 @@ sub _payment {
                 First_Payment_Received__c => _dbdate($date),
                 Date__c                   => _dbdate($date),
                 Second_Payment_Due_Date__c => _dbdate($second_charge_date),
-                
+                Payment_Authorization_Number__c => $pay_res{'TRANSACTIONID'},
+		Payment_Method__c   => ucfirst( $q->param('card_type') ),
+		X1st_Payment_Paypal_Fee__c => $verify{'FEEAMT'},
             },
         );
     };
@@ -647,6 +657,7 @@ sub _reserve {
             Contact__c             => $contact_id,
             Booking_Description__c => $q->param('comments'),
             Payment_Method__c      => 'PayPal',
+             OwnerId => '00550000000zVJY',	
     );
 
     # hack for salesforce bug

@@ -13,11 +13,13 @@ use DateTime                ();
 use CGI::Application::Plugin::Redirect;
 use URI::Escape ();
 use Data::Dumper;
+use Number::Format;
 
+BEGIN {
+    $WWW::Salesforce::Constants::TYPES{booking__c}->{x1st_payment__c} = 'xsd:double';
+}
 
 use constant DEBUG => $ENV{HVH_DEBUG} || 0;
-
-use constant KALAMA => 'a0650000003DhL8AAK';
 
 # don't touch this
 delete $ENV{$_} for grep { /^(HTTPS|SSL)/ } keys %ENV;
@@ -127,7 +129,6 @@ sub contact {
 
     if ( $results->has_missing or $results->has_invalid ) {
 
-# 	warn("results, " . join(',', keys %{$results->{invalid}}) . ' missing;' . join(',', keys %{$results->{missing} } ));
         my $url = _gen_redirect( $results, $q );
 
         return $self->redirect($url);
@@ -135,11 +136,12 @@ sub contact {
 
     # create salesforce inquiry
     my $r;
-    eval {
-        my $sf = _sf_login();
+    my $sf;
+    eval {$sf = _sf_login();};
+    die $@ if $@;
 
         # the required args
-        my %sf_args = (
+    my %sf_args = (
             type => 'Inquiry__c',
             Name => join( ' ',
                 $q->param('first_name'), $q->param('last_name'),
@@ -166,8 +168,10 @@ sub contact {
         if ( length( $q->param('guests') ) == 1 ) {
             $sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
         }
-	#warn("args are " . Dumper(\%sf_args));
-        $r = $sf->create(%sf_args);
+
+        $r = eval { $sf->create(%sf_args)};
+	die $@ if $@;
+
         my $result = $r->envelope->{Body}->{createResponse}->{result};
 
         # warn('result is ' . $result->{success});
@@ -179,10 +183,6 @@ sub contact {
                   )
             );
         }
-
-    };
-
-    die $@ if $@;
 
     my $uri = $ENV{'HTTP_REFERER'};
     $uri =~ s/cto\=1/cto\=success/;
@@ -305,7 +305,6 @@ sub check_booking {
     if ( $res->valueof('//queryResponse/result')->{size} != 0 )
     {    # found a conflicting booking
 
-        warn("booking conflict! ") if DEBUG;
 
         return;
     }
@@ -320,15 +319,8 @@ sub _find_or_create_contact {
       join( ' ', $contact_args->{'FirstName'}, $contact_args->{'LastName'} );
     my $contact_id = _find_contact( $sf, $name );
 
-    if (DEBUG) {
-        open( FH, '>', '/tmp/contact_args' ) or die $!;
-        print FH Dumper($contact_args);
-        close(FH) or die $!;
-    }
 
     if ($contact_id) {
-
-        # warn("found a contact id $contact_id, updating it") if DEBUG;
 
         # update the contact
         my $res = $sf->update(
@@ -340,15 +332,9 @@ sub _find_or_create_contact {
         );
 
         my $result = $res->envelope->{Body}->{updateResponse}->{result};
-        if (DEBUG) {
-            open( FH, '>', '/tmp/contact_update' ) or die $!;
-            print FH Dumper($result);
-            close(FH) or die $!;
-        }
         die "error updating contact id $contact_id\n"
           unless ( $result->{success} eq 'true' );
 
-        # warn("updated contact id $contact_id ok") if DEBUG;
         return $contact_id;
     }
 
@@ -372,17 +358,9 @@ sub _find_or_create_contact {
     );
     $result = $r->envelope->{Body}->{createResponse}->{result};
 
-    if (DEBUG) {
-        open( FH, '>', '/tmp/create_new_contact.txt' ) or die $!;
-        print FH Dumper($result);
-        close(FH);
-    }
 
     die "error creating contact name $name\n"
       unless ( ( $result->{success} eq 'true' ) && ( defined $result->{id} ) );
-
-    warn( "created new contact for name $name, new id " . $result->{id} )
-      if DEBUG;
 
     # return the newly created id
     return $result->{id};
@@ -395,32 +373,23 @@ sub _find_contact {
 SELECT Id from Contact where Name = '$name'
 SQL
 
-    # warn("looking for contact name $name\n") if DEBUG;
     my $r = $sf->query( query => $sql, limit => '1' )
       or die "SF query failed!: $sql";
 
     # things get ugly here
     my $result = $r->envelope->{Body}->{queryResponse}->{result};
 
-    if (DEBUG) {
-        open( FH, '>', '/tmp/find_contact_results.txt' ) or die $!;
-        print FH Dumper($result);
-        close(FH) or die $!;
-    }
-
     # size > 0 indicates records returned
     my $size = $result->{size};
     my $contact_id;
     if ( defined $size && ( $size == 1 ) ) {
 
-        # warn("Found some records for contact name $name") if DEBUG;
 
         # uh huh, just get the first id
         $contact_id = $result->{records}->{Id}->[0];
         return $contact_id;
     }
     else {
-        warn("Could not find contact name $name") if DEBUG;
         return;
     }
 }
@@ -470,8 +439,6 @@ sub _payment {
             checkout_date   => valid_date(),
             billing_address => valid_street(),
             card_type       => cc_type(),
-
-            #    card_number     => cc_number( { fields => ['card_type'] } ),
         }
     );
     my $results = Data::FormValidator->check( $q, \%profile );
@@ -496,18 +463,13 @@ sub _payment {
     my $rental_subtotal = $num_nights * $nightly_rate;
     $local_taxes =~ s/\%$//;
     my $total_rental_amount = $rental_subtotal * ( 1 + $local_taxes / 100 );
+    $total_rental_amount = Number::Format::round($total_rental_amount, 2);
 
     # recalc second payment
     $second_payment = $total_rental_amount + $deposit - $first_payment;
 
     if ( $results->has_missing or $results->has_invalid ) {
 
-        warn(
-            "missing are "
-              . join( ',',
-                keys %{ $results->{missing} },
-                keys %{ $results->{invalid} } )
-        ) if DEBUG;
         my $url = _gen_redirect( $results, $q,
 "&bktcc=1&first_payment=$first_payment&second_payment=$second_payment&booking_id=$booking_id&num_nights=$num_nights&local_taxes=$local_taxes&cleaning_fee=$cleaning_fee&nightly_rate=$nightly_rate&second_charge_date=$second_charge_date&deposit=$deposit&rental_subtotal=$rental_subtotal&total_rental_amount=$total_rental_amount"
         );
@@ -518,56 +480,10 @@ sub _payment {
     ###########################################
     # make the paypal payment
 
-    warn( "making paypal call for booking id " . $q->param("booking_id") )
-      if DEBUG;
     my $billto_name =
       join( ' ', $q->param('first_name'), $q->param('last_name') );
 
-    my %billing_args = (
-        MailingStreet  => $q->param('billing_address'),
-        MailingCity    => $q->param('billing_city'),
-        MailingCountry => $q->param('billing_country'),
-        MailingState   => $q->param('billing_state'),
-    );
-
-    if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
-        $billing_args{MailingPostalCode} = $q->param('billing_zip') . '-0000';
-    }
-    else {
-        $billing_args{MailingPostalCode} = $q->param('billing_zip');
-    }
-
     my $Paypal = Business::PayPal::NVP->new(%Paypal);
-
-    my %paypal_args = (
-        PaymentAction     => 'Sale',
-        OrderTotal        => $q->param('first_payment') || 'oops',
-        TaxTotal          => '0.00',
-        ShippingTotal     => '0.00',
-        ItemTotal         => '0.00',
-        HandlingTotal     => '0.00',
-        CreditCardType    => ucfirst( $q->param('card_type') ) || 'oops',
-        CreditCardNumber  => $q->param('card_number') || 'oops',
-        ExpMonth          => $q->param('exp_month') || 'oops',
-        ExpYear           => $q->param('exp_year') || 'oops',
-        CVV2              => $q->param('cvc') || 'oops',
-        FirstName         => $q->param('first_name') || 'oops',
-        LastName          => $q->param('last_name') || 'oops',
-        Street1           => $q->param('billing_address') || 'oops',
-        CityName          => $q->param('billing_city') || 'oops',
-        StateOrProvince   => $q->param('billing_state') || 'oops',
-        PostalCode        => $q->param('billing_zip') || 'oops',
-        Payer             => $q->param('email') || 'oops',
-        Country           => $q->param('billing_country') || 'oops',
-        CurrencyID        => 'USD',
-        IPAddress         => $ENV{'REMOTE_ADDR'} || 'oops',
-        MerchantSessionID => int( rand(100_000) ),
-    );
-
-    #$DB::single = 1;
-
-    # recurring args
-
 
     my $thirty = DateTime->now->add( days => 30 );
     my $thirty_before_checkin =
@@ -580,72 +496,12 @@ sub _payment {
         $first_payment += $second_payment;
     }
 
-
-    %paypal_args = (
-        SubscriberName   => $billto_name,
-        ProfileStartDate => $thirty->mdy,
-        ProfileReference => $booking_id,
-
-        #        TrialBillingPeriod      => 'Day',
-        #        TrialBillingFrequency   => 30,
-        #        TrialTotalBillingCycles => 1,
-        #        TrialAmount             => $q->param('first_payment'),
-
-        BillingPeriod      => 'Month',
-        BilllingFrequency  => '1',
-        TotalBillingCycles => '2',
-        AMT                => $second_payment,
-
-        Payer                => $q->param('email'),
-        PayerName            => $billto_name,
-        PayerStreet1         => $q->param('billing_address'),
-        PayerStreet2         => '',
-        PayerCityname        => $q->param('billing_city'),
-        PayerStateOrProvince => $q->param('billing_state'),
-        PayerCountry         => $q->param('billing_country'),
-        PayerPostalCode      => $q->param('billing_zip'),
-        PayerPhone           => $q->param('phone'),
-
-        CreditCardType   => ucfirst( $q->param('card_type') ),
-        CreditCardNumber => $q->param('card_number'),
-        ExpMonth         => $q->param('exp_month'),
-        ExpYear          => $q->param('exp_year'),
-        CVV2             => $q->param('cvc'),
-    );
-
-    if (DEBUG) {
-        open( FH, '>/tmp/payment_args' ) or die $!;
-        print FH Dumper( \%paypal_args );
-        close(FH) or die $!;
-    }
     local $IO::Socket::SSL::VERSION = undef;
-
-    my %ucargs;
-    foreach my $key ( keys %paypal_args ) {
-        $ucargs{ uc($key) } = $paypal_args{$key};
-
-    }
-    $DB::single = 1;
 
     # do the first payment
     my $return = $ENV{'HTTP_REFERER'} || 'http://www.hvh.com/';
     my $cancel = 'http://www.hvh.com/';
 
-   my %ex_args = (
-        InvoiceID       => $booking_id,
-        Name            => $billto_name,
-        Street1         => $q->param('billing_address'),
-        CityName        => $q->param('billing_city'),
-        StateOrProvince => $q->param('billing_state'),
-        PostalCode      => $q->param('billing_zip'),
-        Country         => $q->param('billing_country'),
-        BillingType     => 'MerchantInitiatedBilling',
-        AMT             => $first_payment,
-        ReturnURL       => $return,
-        CancelURL       => $cancel,
-    );
-
-     warn( "express checkout args: " . Dumper( \%ex_args ) ) if DEBUG;
 
     my %pay_args = (
 	PAYMENTACTION => 'sale',
@@ -669,7 +525,7 @@ sub _payment {
     );
 
 	
-     warn( "pay args: " . Dumper( \%pay_args ) );
+    warn( "pay args: " . Dumper( \%pay_args ) );
 
     my %pay_res = $Paypal->DoDirectPayment( %pay_args );
 
@@ -685,8 +541,6 @@ sub _payment {
 
         return $self->redirect($url);
     }
-
-    warn( "first payment returned token " . $pay_res{TOKEN} ) if DEBUG;
 
     my $sf = eval { _sf_login() };
     die $@ if $@;
@@ -704,7 +558,7 @@ sub _payment {
                 Booking_Stage__c          => 'Booked - First Payment',
                 Credit_Card_Last_4__c  => substr( $card, length($card) - 4 ),
                 Credit_Card_Exp_Date__c   => $exp,
-                X1st_Payment__c           => $first_payment,  # this is not an error
+                X1st_Payment__c           => $first_payment,
                 First_Payment_Received__c => $date,
                 Date__c                   => $date,
                 Second_Payment_Due_Date__c => $second_charge_date,
@@ -767,8 +621,6 @@ sub _reserve {
         return $self->redirect($url);
     }
 
-    # warn("booking date available") if DEBUG;
-
     # look for a contact first
     my %contact_args = (
         Email           => $q->param('email'),
@@ -782,13 +634,11 @@ sub _reserve {
 
     my $date = DateTime->now->mdy('/');
     # now make a booking
-    my ( $r, %sf_args );
-    eval {
-        %sf_args = (
+    my %sf_args = (
 
             type                   => 'Booking__c',
             Name                   => $name,
-            Date__c                => $date,
+            Date__c                => _dbdate($date),
             Property_name__c       => $q->param('prop_id'),
             Check_in_Date__c       => _dbdate( $q->param('checkin_date') ),
             Check_out_Date__c      => _dbdate( $q->param('checkout_date') ),
@@ -796,33 +646,23 @@ sub _reserve {
             Contact__c             => $contact_id,
             Booking_Description__c => $q->param('comments'),
             Payment_Method__c      => 'PayPal',
-        );
+    );
 
-        # hack for salesforce bug
-        if ( length( $q->param('guests') ) == 1 ) {
-            $sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
-        }
+    # hack for salesforce bug
+    if ( length( $q->param('guests') ) == 1 ) {
+    	$sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
+    }
 
-        $r = $sf->create(%sf_args);
-    };
-    die $@ if $@ or !$r;
+    my $r;
+    eval {$r = $sf->create(%sf_args);};
+    die $@ if $@;
 
     my $result = $r->envelope->{Body}->{createResponse}->{result};
 
-    if (DEBUG) {
-        open( FH, '>/tmp/create_booking' ) or die $!;
-        print FH Dumper($result);
-        close(FH) or die $!;
-    }
-
-    die "error creating booking\n"
+    die "error creating booking: \n" . Dumper($result)
       unless ( ( $result->{success} eq 'true' ) && ( defined $result->{id} ) );
 
     my $booking_id = $result->{id};
-
-    # ok the booking was made ok
-    # warn("booking created id $booking_id, sf api call to get payment amounts")
-    #  if DEBUG;
 
     ######################
     # get the booking details
@@ -831,12 +671,6 @@ sub _reserve {
 
     my $res = $sf->query( query => $query );
     $result = $res->envelope->{Body}->{queryResponse}->{result};
-
-    if (DEBUG) {
-        open( FH, '>/tmp/select_booking' ) or die $!;
-        print FH Dumper($result);
-        close(FH) or die $!;
-    }
 
     unless ( defined $result->{done} && $result->{done} eq 'true' ) {
         die("query to select booking id $booking_id failed\n");
@@ -861,6 +695,8 @@ sub _reserve {
     $local_taxes =~ s/\%$//;
     my $total_rental_amount = $rental_subtotal * ( 1 + $local_taxes / 100 );
 
+    $total_rental_amount = Number::Format::round($total_rental_amount, 2);
+
     # recalc second payment
     $second_payment = $total_rental_amount + $deposit - $first_payment;
 
@@ -872,119 +708,6 @@ sub _reserve {
     return $self->redirect($url);
 }
 
-sub hold {
-    my $self = shift;
-
-    my $q = $self->query;
-
-    my @required = qw( prop_id first_name last_name email
-      phone checkin_date checkout_date address city state country zip guests);
-
-    my %profile = (
-        required           => \@required,
-        optional           => [qw( comments )],
-        constraint_methods => {
-            email         => email(),
-            first_name    => valid_first(),
-            last_name     => valid_last(),
-            checkin_date  => valid_date(),
-            checkout_date => valid_date(),
-        }
-    );
-    my $results = Data::FormValidator->check( $q, \%profile );
-
-    if ( $results->has_missing or $results->has_invalid ) {
-        my $url = _gen_redirect( $results, $q );
-
-        return $self->redirect($url);
-    }
-
-    my $sf = _sf_login();
-    my ( $is_available, $checkin_date, $checkout_date ) = check_booking(
-        $sf,
-        $q->param('checkin_date'),
-        $q->param('checkout_date')
-    );
-
-    unless ($is_available) {
-        my $url = _gen_redirect( $results, $q, '&booked=1' );
-        return $self->redirect($url);
-    }
-
-    my $name = join( ' ',
-        $q->param('first_name'),
-        $q->param('last_name'),
-    );
-
-    # look for a contact first
-    my %contact_args = (
-        Email           => $q->param('email'),
-        FirstName       => $q->param('first_name'),
-        LastName        => $q->param('last_name'),
-        MailingStreet   => $q->param('address'),
-        MailingCity     => $q->param('city'),
-        MailingCountry  => $q->param('country'),
-        MailingState    => $q->param('state'),
-        Phone           => $q->param('phone'),
-        Contact_Type__c => 'Renter',
-    );
-
-    if ( $q->param('billing_zip') =~ m/^\d+$/ ) {
-        $contact_args{MailingPostalCode} = $q->param('billing_zip') . '-0000';
-    }
-    else {
-        $contact_args{MailingPostalCode} = $q->param('billing_zip');
-    }
-    my $contact_id = _find_or_create_contact( $sf, \%contact_args );
-
-    # now make a booking
-    my $date = DateTime->now->mdy('/');
-    my ( $r, %sf_args );
-    eval {
-        %sf_args = (
-
-            type                   => 'Booking__c',
-            Name                   => $name,
-            Property_name__c       => $q->param('prop_id'),
-            Check_in_Date__c       => _dbdate( $q->param('checkin_date') ),
-            Check_out_Date__c      => _dbdate( $q->param('checkout_date') ),
-            Booking_Stage__c       => '48 Hour Hold',
-            Contact__c             => $contact_id,
-            Booking_Description__c => $q->param('comments'),
-            Payment_Method__c      => '',
-            Date__c                   => _dbdate($date),
-        );
-
-        # hack for salesforce bug
-        if ( length( $q->param('guests') ) == 1 ) {
-            $sf_args{Number_of_Guests__c} = '0' . $q->param('guests');
-        }
-
-        $r = $sf->create(%sf_args);
-    };
-    die $@ if $@ or !$r;
-
-    my $result = $r->envelope->{Body}->{createResponse}->{result};
-
-    if (DEBUG) {
-        open( FH, '>/tmp/create_booking' ) or die $!;
-        print FH Dumper($result);
-        close(FH) or die $!;
-    }
-
-    die "error creating booking\n"
-      unless ( ( $result->{success} eq 'true' ) && ( defined $result->{id} ) );
-
-    my $booking_id = $result->{id};
-
-    # ok the booking was made ok
-    # warn("booking created id $booking_id, sf api call to get payment amounts")
-    #  if DEBUG;
-
-    my $uri = $ENV{'HTTP_REFERER'};
-    $uri =~ s/fhh\=1/fhh\=success/;
-    $self->redirect($uri);
-}
 
 sub _add_optional_args {
     my ( $q, $Inquiry, $sf_args ) = @_;

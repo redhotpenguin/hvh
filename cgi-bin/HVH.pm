@@ -62,7 +62,7 @@ sub _dtdate {
 }
 
 sub _dbdate {
-    my $date = shift;
+    my ($class, $date) = @_;
 
     #	warn("Date is $date");
     my ( $month, $day, $year ) = split( /\//, $date );
@@ -83,7 +83,7 @@ sub _dbdate {
 }
 
 sub check_booking {
-    my ( $sf, $checkin_date, $checkout_date, $prop_id ) = @_;
+    my ( $self, $sf, $checkin_date, $checkout_date, $prop_id ) = @_;
 
     my $dt_ci = _dtdate($checkin_date);
     my $dt_co = _dtdate($checkout_date);
@@ -102,8 +102,8 @@ sub check_booking {
 
     }
 
-    $checkin_date  = _dbdate($checkin_date);
-    $checkout_date = _dbdate($checkout_date);
+    $checkin_date  = $self->_dbdate($checkin_date);
+    $checkout_date = $self->_dbdate($checkout_date);
 
     # warn("checkin date $checkin_date, co $checkout_date");
 
@@ -142,12 +142,12 @@ sub check_booking {
     return ( 1, $checkin_date, $checkout_date );
 }
 
-sub _find_or_create_contact {
-    my ( $sf, $contact_args ) = @_;
+sub find_or_create_contact {
+    my ( $class, $sf, $contact_args ) = @_;
 
     my $name =
       join( ' ', $contact_args->{'FirstName'}, $contact_args->{'LastName'} );
-    my $contact_id = _find_contact( $sf, $name );
+    my $contact_id = $class->find_contact( $sf, $name );
 
 
     if ($contact_id) {
@@ -195,8 +195,8 @@ sub _find_or_create_contact {
     return $result->{id};
 }
 
-sub _find_contact {
-    my ( $sf, $name ) = @_;
+sub find_contact {
+    my ( $class, $sf, $name ) = @_;
 
     my $sql = <<SQL;
 SELECT Id from Contact where Name = '$name'
@@ -308,6 +308,20 @@ sub valid_street {
 
         return $val;
       }
+}
+
+sub results_to_errors {
+    my ( $self, $results ) = @_;
+    my %errors;
+
+    if ( $results->has_missing ) {
+        %{ $errors{missing} } = map { $_ => 1 } $results->missing;
+    }
+    if ( $results->has_invalid ) {
+        %{ $errors{invalid} } = map { $_ => 1 } $results->invalid;
+    }
+
+    return \%errors;
 }
 
 1;

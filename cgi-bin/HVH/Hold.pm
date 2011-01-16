@@ -223,15 +223,7 @@ sub _find_or_create_contact {
       join( ' ', $contact_args->{'FirstName'}, $contact_args->{'LastName'} );
     my $contact_id = _find_contact( $sf, $name );
 
-    if (DEBUG) {
-        open( FH, '>', '/tmp/contact_args' ) or die $!;
-        print FH Dumper($contact_args);
-        close(FH) or die $!;
-    }
-
     if ($contact_id) {
-
-        # warn("found a contact id $contact_id, updating it") if DEBUG;
 
         # update the contact
         my $res = $sf->update(
@@ -243,11 +235,6 @@ sub _find_or_create_contact {
         );
 
         my $result = $res->envelope->{Body}->{updateResponse}->{result};
-        if (DEBUG) {
-            open( FH, '>', '/tmp/contact_update' ) or die $!;
-            print FH Dumper($result);
-            close(FH) or die $!;
-        }
         die "error updating contact id $contact_id\n"
           unless ( $result->{success} eq 'true' );
 
@@ -274,12 +261,6 @@ sub _find_or_create_contact {
         AccountId => $account_id,
     );
     $result = $r->envelope->{Body}->{createResponse}->{result};
-
-    if (DEBUG) {
-        open( FH, '>', '/tmp/create_new_contact.txt' ) or die $!;
-        print FH Dumper($result);
-        close(FH);
-    }
 
     die "error creating contact name $name\n"
       unless ( ( $result->{success} eq 'true' ) && ( defined $result->{id} ) );
@@ -533,7 +514,7 @@ sub results_to_errors {
 
 sub process {
     my $self = shift;
-    my @required = qw( prop_id first_name last_name email
+    my @required = qw( prop_id first_name last_name email guests
       phone checkin_date checkout_date country zip);
 
     my %profile = (

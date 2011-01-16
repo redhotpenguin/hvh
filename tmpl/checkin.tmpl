@@ -1,4 +1,6 @@
-
+[% IF errors.booked %]
+<tr><td class="entry_desc"><font color="red">The dates you have selected have already been reserved.</font></td></tr>
+[% END %]
                     <TR>
         <TD class="entry_desc">[% IF errors.missing.checkin_date or errors.invalid.checkin_date %]<font color="red">[% END %]*Check-in Date:[% IF errors.missing.checkin_date or errors.invalid.checkin_date %]</font>[% END %]<SPAN class="dateInput"></SPAN></TD>
        <TD class="entry_desc"><INPUT id="checkin_date" name="checkin_date" maxlength="10" size="10" type="text" value="[% query.param('checkin_date') %]"> ( MM/DD/YYYY )<BR></TD>

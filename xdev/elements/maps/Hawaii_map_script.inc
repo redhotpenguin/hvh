@@ -24,6 +24,9 @@
       var Hawaiimap_marker_3 = new GMarker(new GLatLng(22.2236111, -159.4852778) , icon_palm);
       GEvent.addListener(Hawaiimap_marker_3, "click", function () {  Hawaiimap_marker_3.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a0650000002wSRPAA2"><span style="font-size: 12px">Rainbow Terrace</span></a><br /><span style="font-size: 12px">Princeville, Kauai</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
       Hawaiimap.addOverlay(Hawaiimap_marker_3);
+      var Hawaiimap_marker_4 = new GMarker(new GLatLng(22.2119444, -159.4122222) , icon_palm);
+      GEvent.addListener(Hawaiimap_marker_4, "click", function () {  Hawaiimap_marker_4.openInfoWindowHtml('<div style="width:180px;height:40px;"><a href="/xdev/listing.php?prop_id=a065000000A6hU8AAJ"><span style="font-size: 12px">Kauai Bird Song Cottage</span></a><br /><span style="font-size: 12px">Kilauea, Kauai</span><br /><span style="font-size: 12px">Signature Home</span></div>'); });
+      Hawaiimap.addOverlay(Hawaiimap_marker_4);
     }
 
     //]]>

@@ -3,7 +3,7 @@
 
     if (GBrowserIsCompatible()) {
       var Caribbeanmap = new GMap2(document.getElementById("Caribbean"));
-      Caribbeanmap.setCenter(new GLatLng(18.3414144, -64.9178158));
+      Caribbeanmap.setCenter(new GLatLng(18.3380965, -64.8940946));
       Caribbeanmap.setZoom(9);
       Caribbeanmap.setMapType(G_NORMAL_MAP);
       Caribbeanmap.addControl(new GSmallMapControl());

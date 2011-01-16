@@ -9,6 +9,13 @@ include "elements/maps/North_America_head.inc";
 $my_page = basename($_SERVER['REQUEST_URI']);
 if (strpos($my_page, "?") !== false) $my_page = reset(explode("?", $my_page));
 
+
+if ($no_left) {
+$no_left = $no_left;
+} else {
+$no_left = '';
+}
+
 ?>
 
 <script>
@@ -30,7 +37,7 @@ h += 96;
 // -->
 </script> 
 </head>
-
+<? // echo "$listing_page"; ?>
 <body rightmargin='0' leftmargin='0' topmargin='0' bottommargin='0' marginheight='0' marginwidth='0' bgcolor="#e2e2e1">
 <script type="text/javascript" src="js/wz_tooltip.js"></script>
 <script type="text/javascript" src="js/tip_balloon.js"></script>
@@ -57,7 +64,8 @@ h += 96;
 				($my_page != 'solutions_intuit.php') &&
 				($my_page != 'solutions_paypal.php') && 
 				($my_page != 'listing.php') &&
-				($my_page != 'solutions.php')
+				($my_page != 'solutions.php') && 
+				($no_left != 'no_left')
 			)  { ?>
 
 			<tr><Td><?php include "banners/$banner"; ?></td></tr>
@@ -82,7 +90,8 @@ h += 96;
 				($my_page != 'solutions_intuit.php') &&
 				($my_page != 'solutions_paypal.php') && 
 				($my_page != 'listing.php') &&
-				($my_page != 'solutions.php')
+				($my_page != 'solutions.php') && 
+				($no_left != 'no_left') 
 			)  { ?>
 
 		<td width=250 valign=top bgcolor="#ffffff">
